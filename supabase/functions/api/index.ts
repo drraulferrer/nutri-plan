@@ -13,7 +13,13 @@ const ALLOWED_ORIGIN = Deno.env.get('ALLOWED_ORIGIN') ?? 'https://drraulferrer.g
 
 export const app = new Hono<Env>().basePath('/api');
 
-app.use('*', cors({ origin: [ALLOWED_ORIGIN, 'http://localhost:5173'], allowHeaders: ['Authorization', 'Content-Type', 'X-Client-Version'] }));
+app.use(
+  '*',
+  cors({
+    origin: [ALLOWED_ORIGIN, 'http://localhost:5173'],
+    allowHeaders: ['Authorization', 'Content-Type', 'X-Client-Version'],
+  }),
+);
 
 const fail = (code: string, message: string, status: 401 | 403 | 404 | 422 | 429 | 500) =>
   Response.json({ ok: false, error: { code, message } }, { status });
@@ -26,7 +32,10 @@ app.use('/me/*', async (c, next) => {
     c.set('user', await verifyInitData(raw, BOT_TOKEN));
   } catch (e) {
     const code = e instanceof AuthError && e.code === 'expired' ? 'expired' : 'unauthorized';
-    const message = code === 'expired' ? 'Sesión caducada · vuelve a abrir Nutri Plan' : 'Abre Nutri Plan desde Telegram';
+    const message =
+      code === 'expired'
+        ? 'Sesión caducada · vuelve a abrir Nutri Plan'
+        : 'Abre Nutri Plan desde Telegram';
     return fail(code, message, 401);
   }
   await next();
@@ -37,7 +46,13 @@ app.get('/health', (c) => c.json({ ok: true, data: { service: 'nutri-plan-api', 
 /** Comprobación de identidad; las rutas de docs/06 se añaden en la Fase 2. */
 app.post('/me/session', (c) => {
   const user = c.get('user');
-  return c.json({ ok: true, data: { telegram_user_id: user.telegramUserId.toString(), start_param: user.startParam ?? null } });
+  return c.json({
+    ok: true,
+    data: {
+      telegram_user_id: user.telegramUserId.toString(),
+      start_param: user.startParam ?? null,
+    },
+  });
 });
 
 app.notFound(() => fail('not_found', 'Ruta no encontrada', 404));

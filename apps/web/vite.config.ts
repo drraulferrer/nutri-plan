@@ -6,6 +6,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   base: '/nutri-plan/',
   plugins: [react()],
+  server: { port: 5173, strictPort: true },
   build: { target: 'es2022', sourcemap: false },
   test: { environment: 'jsdom', include: ['src/**/*.test.ts', 'src/**/*.test.tsx'] },
 });

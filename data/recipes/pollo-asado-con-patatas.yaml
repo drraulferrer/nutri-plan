@@ -1,0 +1,32 @@
+slug: pollo-asado-con-patatas
+name: Pollo asado con patatas
+description: Muslos al horno con patata, cebolla y limón. Sobra pollo para una ensalada.
+servings_base: 2
+time_min: 60
+active_time_min: 15
+meal_types: [comida]
+tags: [batch, revisar]
+styles: [mediterraneo, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: medio
+protein_group: pollo
+batch_reuse: true
+pairs_with: [ensalada-de-pollo-asado]
+ingredients:
+  - { ingredient: pollo-muslos, quantity: 600, unit: g }
+  - { ingredient: patata, quantity: 600, unit: g }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: limon, quantity: 1, unit: ud }
+  - { ingredient: ajo, quantity: 3, unit: diente }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+  - { ingredient: pimienta, quantity: 1, unit: pizca }
+steps:
+  - Precalienta el horno a 200 °C. Corta las patatas y la cebolla en gajos.
+  - Coloca todo en una bandeja con el ajo, el limón en cuartos, el aceite, la sal y la pimienta.
+  - Hornea 45 minutos, dando la vuelta al pollo a mitad.
+substitutions:
+  - { ingredient: pollo-muslos, with: pollo, note: pechuga, reduce el horno a 30 minutos }
+tip: Deshuesa el pollo sobrante para la ensalada del día siguiente.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

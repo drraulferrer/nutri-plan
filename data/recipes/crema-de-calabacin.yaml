@@ -1,0 +1,28 @@
+slug: crema-de-calabacin
+name: Crema de calabacín
+description: Crema suave de calabacín y cebolla, lista en 20 minutos.
+servings_base: 2
+time_min: 20
+meal_types: [cena]
+tags: [rapida, economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: calabacin, quantity: 2, unit: ud }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: patata, quantity: 150, unit: g }
+  - { ingredient: caldo-verduras, quantity: 500, unit: ml }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: queso-fresco, quantity: 60, unit: g, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe la cebolla 3 minutos; añade el calabacín y la patata en trozos.
+  - Cubre con el caldo y cuece 12 minutos.
+  - Tritura, sazona y sirve (con queso fresco en dados si quieres).
+substitutions:
+  - { ingredient: calabacin, with: puerro }
+  - { ingredient: caldo-verduras, with: leche, note: mitad caldo y mitad leche para más cremosidad }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

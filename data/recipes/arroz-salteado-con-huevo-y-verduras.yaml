@@ -1,0 +1,27 @@
+slug: arroz-salteado-con-huevo-y-verduras
+name: Arroz salteado con huevo y verduras
+description: Aprovecha arroz cocido sobrante con huevo, guisantes y zanahoria.
+servings_base: 2
+time_min: 15
+meal_types: [cena]
+tags: [rapida, aprovechamiento, economica, revisar]
+styles: [mediterraneo, vegetariano, sin_gluten, sin_lactosa]
+allergens: [huevos]
+cost_level: bajo
+protein_group: huevo
+ingredients:
+  - { ingredient: arroz, quantity: 150, unit: g, note: cocido de otro día }
+  - { ingredient: huevos, quantity: 2, unit: ud }
+  - { ingredient: guisantes, quantity: 100, unit: g }
+  - { ingredient: zanahoria, quantity: 1, unit: ud }
+  - { ingredient: salsa-soja, quantity: 1, unit: cda, optional: true }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Saltea la zanahoria en dados pequeños y los guisantes 4 minutos.
+  - Añade el arroz y saltea a fuego fuerte 3 minutos.
+  - Haz un hueco, cuaja los huevos batidos y mezcla. Sazona o añade salsa de soja.
+substitutions:
+  - { ingredient: guisantes, with: pimiento-rojo }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

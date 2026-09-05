@@ -1,0 +1,24 @@
+slug: tostada-con-tomate-y-aceite
+name: Tostada con tomate y aceite
+description: Desayuno de siempre, en cinco minutos.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno]
+tags: [rapida, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_lactosa]
+allergens: [gluten]
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: pan, quantity: 2, unit: rebanada }
+  - { ingredient: tomate, quantity: 1, unit: ud }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Tuesta el pan.
+  - Ralla o corta el tomate y repártelo sobre las tostadas.
+  - Termina con el aceite y una pizca de sal.
+substitutions:
+  - { ingredient: tomate, with: aguacate, note: machacado con unas gotas de limón }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

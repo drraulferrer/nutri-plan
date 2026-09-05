@@ -1,0 +1,25 @@
+slug: tostas-de-queso-fresco-y-tomate
+name: Tostas de queso fresco y tomate
+description: Pan tostado con queso fresco, tomate y orégano.
+servings_base: 2
+time_min: 10
+meal_types: [cena, tentempie]
+tags: [rapida, sin_cocinar, revisar]
+styles: [mediterraneo, vegetariano]
+allergens: [gluten, lacteos]
+cost_level: bajo
+protein_group: lacteo
+ingredients:
+  - { ingredient: pan, quantity: 4, unit: rebanada }
+  - { ingredient: queso-fresco, quantity: 150, unit: g }
+  - { ingredient: tomate, quantity: 2, unit: ud }
+  - { ingredient: oregano, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+steps:
+  - Tuesta el pan.
+  - Reparte el queso fresco en lonchas y el tomate en rodajas.
+  - Termina con aceite y orégano.
+substitutions:
+  - { ingredient: queso-fresco, with: aguacate, note: versión sin lácteos }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

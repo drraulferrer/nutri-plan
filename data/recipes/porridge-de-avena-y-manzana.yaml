@@ -1,0 +1,26 @@
+slug: porridge-de-avena-y-manzana
+name: Porridge de avena y manzana
+description: Avena cocida con leche y manzana rallada, templado y saciante.
+servings_base: 2
+time_min: 10
+meal_types: [desayuno]
+tags: [economica, revisar]
+styles: [mediterraneo, vegetariano]
+allergens: [gluten, lacteos]
+cost_level: bajo
+protein_group: lacteo
+ingredients:
+  - { ingredient: avena-copos, quantity: 80, unit: g }
+  - { ingredient: leche, quantity: 400, unit: ml }
+  - { ingredient: manzana, quantity: 1, unit: ud }
+  - { ingredient: canela, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: nueces, quantity: 20, unit: g, optional: true }
+steps:
+  - Calienta la leche con la avena a fuego medio, removiendo, 5 minutos hasta que espese.
+  - Ralla la manzana y añádela al final con la canela.
+  - Sirve con las nueces troceadas si quieres.
+substitutions:
+  - { ingredient: leche, with: bebida-avena, note: versión sin lácteos }
+  - { ingredient: manzana, with: platano, note: en rodajas }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

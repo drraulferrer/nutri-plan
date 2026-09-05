@@ -1,0 +1,26 @@
+slug: revuelto-de-champinones
+name: Revuelto de champiñones
+description: Champiñones salteados con ajo y huevo cuajado suave.
+servings_base: 2
+time_min: 15
+meal_types: [cena]
+tags: [rapida, revisar]
+styles: [mediterraneo, vegetariano, sin_gluten, sin_lactosa]
+allergens: [huevos]
+cost_level: bajo
+protein_group: huevo
+ingredients:
+  - { ingredient: huevos, quantity: 4, unit: ud }
+  - { ingredient: champinones, quantity: 250, unit: g }
+  - { ingredient: ajo, quantity: 1, unit: diente }
+  - { ingredient: perejil, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Saltea los champiñones laminados con el ajo 6 minutos hasta que doren.
+  - Añade los huevos batidos con sal y remueve a fuego suave hasta cuajar.
+  - Termina con perejil.
+substitutions:
+  - { ingredient: champinones, with: espinacas }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

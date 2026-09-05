@@ -1,0 +1,28 @@
+slug: garbanzos-con-espinacas
+name: Garbanzos con espinacas
+description: Salteado de garbanzos de bote con espinacas, ajo y pimentón.
+servings_base: 2
+time_min: 20
+meal_types: [comida, cena]
+tags: [rapida, economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: legumbre
+ingredients:
+  - { ingredient: garbanzos-cocidos, quantity: 400, unit: g }
+  - { ingredient: espinacas, quantity: 300, unit: g }
+  - { ingredient: ajo, quantity: 2, unit: diente }
+  - { ingredient: pimenton-dulce, quantity: 1, unit: cdta }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: comino, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Dora el ajo laminado en el aceite; añade el pimentón y aparta del fuego 10 segundos.
+  - Añade las espinacas y saltea hasta que reduzcan.
+  - Incorpora los garbanzos escurridos, sazona y cocina 5 minutos.
+substitutions:
+  - { ingredient: espinacas, with: acelgas }
+  - { ingredient: garbanzos-cocidos, with: alubias-cocidas }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

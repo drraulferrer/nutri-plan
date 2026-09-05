@@ -3,12 +3,16 @@ import type { TelegramWebApp, ThemeParams } from './types';
 
 export type StartScreen = 'menu' | 'lista' | 'cocinar' | 'inicio';
 
-/** Devuelve el SDK real si la app corre dentro de Telegram; si no, la simulación. */
+/**
+ * Devuelve el SDK real si la app corre dentro de Telegram; si no, la simulación.
+ * En un navegador normal el script de Telegram también define `window.Telegram.WebApp`, pero
+ * sin `initData` y en "versión 6.0" (sin CloudStorage ni BackButton): por eso se ignora.
+ */
 export function getWebApp(): { app: TelegramWebApp; isReal: boolean } {
   const real = typeof window !== 'undefined' ? window.Telegram?.WebApp : undefined;
   if (real && real.initData) return { app: real, isReal: true };
   const prefersDark = typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-  return { app: real ?? createMockWebApp(Boolean(prefersDark)), isReal: false };
+  return { app: createMockWebApp(Boolean(prefersDark)), isReal: false };
 }
 
 /** Aplica themeParams como variables CSS de reserva y la clase de esquema (docs/03 §3). */

@@ -1,0 +1,29 @@
+slug: cuscus-con-verduras
+name: Cuscús con verduras
+description: Cuscús hidratado con verduras salteadas y comino.
+servings_base: 2
+time_min: 25
+meal_types: [comida]
+tags: [economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_lactosa]
+allergens: [gluten]
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: cuscus, quantity: 160, unit: g }
+  - { ingredient: calabacin, quantity: 1, unit: ud }
+  - { ingredient: zanahoria, quantity: 1, unit: ud }
+  - { ingredient: pimiento-rojo, quantity: 1, unit: ud }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: garbanzos-cocidos, quantity: 200, unit: g, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: comino, quantity: 1, unit: pizca }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Hidrata el cuscús con el mismo volumen de agua caliente y sal; tapa 5 minutos y suelta con un tenedor.
+  - Saltea las verduras en dados 10 minutos con el aceite y el comino.
+  - Mezcla con el cuscús (y los garbanzos si los usas).
+substitutions:
+  - { ingredient: cuscus, with: arroz, note: cocido, versión sin gluten }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

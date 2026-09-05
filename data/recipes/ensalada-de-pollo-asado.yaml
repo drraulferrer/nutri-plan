@@ -1,0 +1,26 @@
+slug: ensalada-de-pollo-asado
+name: Ensalada de pollo asado
+description: Aprovecha el pollo asado sobrante con lechuga, tomate y maíz.
+servings_base: 2
+time_min: 10
+meal_types: [comida, cena]
+tags: [rapida, aprovechamiento, sin_cocinar, revisar]
+styles: [mediterraneo, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: pollo
+ingredients:
+  - { ingredient: pollo-muslos, quantity: 200, unit: g, note: asado, deshuesado }
+  - { ingredient: lechuga, quantity: 1, unit: ud }
+  - { ingredient: tomate, quantity: 2, unit: ud }
+  - { ingredient: maiz, quantity: 1, unit: lata, optional: true }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: vinagre, quantity: 1, unit: cda }
+steps:
+  - Desmenuza el pollo asado sobrante.
+  - Trocea la lechuga y el tomate; añade el maíz escurrido.
+  - Mezcla con el pollo y aliña.
+substitutions:
+  - { ingredient: pollo-muslos, with: atun, note: en conserva }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

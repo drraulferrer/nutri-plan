@@ -62,7 +62,10 @@ Deno.test('sin campo user → no_user', async () => {
 });
 
 Deno.test('sin hash → missing_hash', async () => {
-  const err = await assertRejects(() => verifyInitData('user=%7B%7D&auth_date=1', TOKEN, opts), AuthError);
+  const err = await assertRejects(
+    () => verifyInitData('user=%7B%7D&auth_date=1', TOKEN, opts),
+    AuthError,
+  );
   assertEquals(err.code, 'missing_hash');
 });
 

@@ -1,0 +1,32 @@
+slug: bolonesa-de-carne-picada
+name: Boloñesa casera
+description: Salsa de carne picada y tomate a fuego lento. Rinde para dos comidas.
+servings_base: 2
+time_min: 40
+active_time_min: 15
+meal_types: [comida]
+tags: [batch, revisar]
+styles: [mediterraneo, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: medio
+protein_group: carne_roja
+batch_reuse: true
+pairs_with: [pasta-con-bolonesa]
+ingredients:
+  - { ingredient: carne-picada, quantity: 400, unit: g }
+  - { ingredient: tomate-triturado, quantity: 400, unit: g }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: zanahoria, quantity: 1, unit: ud }
+  - { ingredient: ajo, quantity: 2, unit: diente }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: oregano, quantity: 1, unit: pizca }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe la cebolla, la zanahoria y el ajo picados 6 minutos.
+  - Añade la carne y dórala deshaciendo los grumos.
+  - Incorpora el tomate y el orégano; cocina 25 minutos a fuego suave. Sirve con arroz o pasta.
+substitutions:
+  - { ingredient: carne-picada, with: lentejas-pardinas, note: cocidas, versión vegana }
+tip: Guarda la mitad para la pasta con boloñesa de otro día.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

@@ -52,3 +52,26 @@
 - { slug: vinagre, name: Vinagre, aliases: [vinagre de vino], category: despensa, default_unit: ml, is_staple: true, is_perishable: false }
 - { slug: oregano, name: Orégano, category: despensa, default_unit: g, is_staple: true, is_perishable: false }
 - { slug: comino, name: Comino, category: despensa, default_unit: g, is_staple: true, is_perishable: false }
+
+# ── Añadidos para el recetario borrador (revisar) ─────────────────────
+- { slug: pimiento-rojo, name: Pimiento rojo, aliases: [pimiento morrón], category: verduras_fruta, default_unit: ud, grams_per_unit: 150 }
+- { slug: brocoli, name: Brócoli, aliases: [brécol], category: verduras_fruta, default_unit: g, package_size: 500, package_label: pieza de 500 g }
+- { slug: judias-verdes, name: Judías verdes, aliases: [judías, vainas], category: verduras_fruta, default_unit: g, package_size: 400, package_label: bandeja de 400 g }
+- { slug: champinones, name: Champiñones, aliases: [setas], category: verduras_fruta, default_unit: g, package_size: 250, package_label: bandeja de 250 g }
+- { slug: pepino, name: Pepino, category: verduras_fruta, default_unit: ud, grams_per_unit: 300, indivisible: true }
+- { slug: guisantes, name: Guisantes congelados, aliases: [guisantes], category: congelados, default_unit: g, package_size: 400, package_label: bolsa de 400 g, is_perishable: false }
+- { slug: salmon, name: Salmón, aliases: [lomos de salmón], category: proteinas, default_unit: g, package_size: 300, package_label: bandeja de 300 g, allergens: [pescado] }
+- { slug: carne-picada, name: Carne picada, aliases: [picada, carne picada de ternera], category: proteinas, default_unit: g, package_size: 400, package_label: bandeja de 400 g }
+- { slug: pollo-muslos, name: Muslos de pollo, aliases: [muslos, contramuslos], category: proteinas, default_unit: g, package_size: 600, package_label: bandeja de 600 g }
+- { slug: alubias-cocidas, name: Alubias cocidas, aliases: [alubias, judías blancas], category: despensa, default_unit: g, package_size: 400, package_label: bote de 400 g, is_perishable: false }
+- { slug: maiz, name: Maíz en conserva, aliases: [maíz], category: despensa, default_unit: g, package_size: 150, package_label: lata de 150 g, is_perishable: false }
+- { slug: aceitunas, name: Aceitunas, category: despensa, default_unit: g, package_size: 150, package_label: bote de 150 g, is_perishable: false }
+- { slug: caldo-verduras, name: Caldo de verduras, aliases: [caldo], category: despensa, default_unit: ml, package_size: 1000, package_label: brick de 1 l, is_perishable: false }
+- { slug: queso-rallado, name: Queso rallado, aliases: [queso para gratinar], category: lacteos, default_unit: g, package_size: 150, package_label: bolsa de 150 g, allergens: [lacteos] }
+- { slug: queso-fresco, name: Queso fresco, aliases: [queso de Burgos], category: lacteos, default_unit: g, package_size: 250, package_label: tarrina de 250 g, allergens: [lacteos] }
+- { slug: bebida-avena, name: Bebida de avena, aliases: [leche de avena], category: lacteos, default_unit: ml, package_size: 1000, package_label: brick de 1 l, allergens: [gluten] }
+- { slug: cuscus, name: Cuscús, aliases: [couscous], category: despensa, default_unit: g, package_size: 500, package_label: paquete de 500 g, is_perishable: false, allergens: [gluten] }
+- { slug: tortillas-trigo, name: Tortillas de trigo, aliases: [tortillas para fajitas], category: despensa, default_unit: ud, package_size: 8, package_label: paquete de 8, indivisible: true, is_perishable: false, allergens: [gluten] }
+- { slug: salsa-soja, name: Salsa de soja, aliases: [soja], category: despensa, default_unit: ml, package_size: 150, package_label: botella de 150 ml, is_perishable: false, allergens: [soja, gluten] }
+- { slug: curry, name: Curry en polvo, category: despensa, default_unit: g, is_staple: true, is_perishable: false }
+- { slug: perejil, name: Perejil, category: despensa, default_unit: g, is_staple: true, is_perishable: false }

@@ -12,6 +12,9 @@ export function loadCatalogFromDisk() {
   const recipes = readdirSync(recipesDir)
     .filter((f) => f.endsWith('.yaml') || f.endsWith('.yml'))
     .sort()
-    .map((file) => ({ file, data: parse(readFileSync(join(recipesDir, file), 'utf8')) as unknown }));
+    .map((file) => ({
+      file,
+      data: parse(readFileSync(join(recipesDir, file), 'utf8')) as unknown,
+    }));
   return buildCatalog(ingredients, recipes);
 }

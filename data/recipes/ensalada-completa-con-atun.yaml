@@ -1,0 +1,28 @@
+slug: ensalada-completa-con-atun
+name: Ensalada completa con atún
+description: Lechuga, tomate, huevo cocido y atún.
+servings_base: 2
+time_min: 15
+meal_types: [cena]
+tags: [rapida, revisar]
+styles: [mediterraneo, sin_gluten, sin_lactosa]
+allergens: [huevos, pescado]
+cost_level: bajo
+protein_group: pescado
+ingredients:
+  - { ingredient: lechuga, quantity: 1, unit: ud }
+  - { ingredient: tomate, quantity: 2, unit: ud }
+  - { ingredient: huevos, quantity: 2, unit: ud }
+  - { ingredient: atun, quantity: 2, unit: lata }
+  - { ingredient: maiz, quantity: 1, unit: lata, optional: true }
+  - { ingredient: cebolla, quantity: 0.5, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: vinagre, quantity: 1, unit: cda }
+steps:
+  - Cuece los huevos 10 minutos.
+  - Lava y trocea la lechuga y el tomate.
+  - Monta con el atún, el huevo en cuartos y aliña.
+substitutions:
+  - { ingredient: atun, with: garbanzos-cocidos, note: versión vegetariana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

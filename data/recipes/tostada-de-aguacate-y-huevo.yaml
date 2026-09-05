@@ -1,0 +1,26 @@
+slug: tostada-de-aguacate-y-huevo
+name: Tostada de aguacate y huevo
+description: Aguacate machacado y huevo a la plancha sobre pan tostado.
+servings_base: 2
+time_min: 10
+meal_types: [desayuno]
+tags: [rapida, revisar]
+styles: [mediterraneo, vegetariano, sin_lactosa]
+allergens: [gluten, huevos]
+cost_level: medio
+protein_group: huevo
+ingredients:
+  - { ingredient: pan, quantity: 2, unit: rebanada }
+  - { ingredient: aguacate, quantity: 1, unit: ud }
+  - { ingredient: huevos, quantity: 2, unit: ud }
+  - { ingredient: limon, quantity: 0.5, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cdta }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Tuesta el pan. Machaca el aguacate con sal y unas gotas de limón.
+  - Haz los huevos a la plancha con el aceite.
+  - Monta la tostada con el aguacate y el huevo encima.
+substitutions:
+  - { ingredient: huevos, with: queso-fresco, note: en lonchas, versión sin huevo }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

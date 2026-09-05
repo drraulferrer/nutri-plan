@@ -1,0 +1,31 @@
+slug: pisto-con-huevo
+name: Pisto con huevo
+description: Pisto de verduras a fuego lento con huevo a la plancha. Sobra para otro día.
+servings_base: 2
+time_min: 35
+active_time_min: 15
+meal_types: [comida, cena]
+tags: [batch, economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, sin_gluten, sin_lactosa]
+allergens: [huevos]
+cost_level: bajo
+protein_group: huevo
+batch_reuse: true
+ingredients:
+  - { ingredient: calabacin, quantity: 1, unit: ud }
+  - { ingredient: pimiento-rojo, quantity: 1, unit: ud }
+  - { ingredient: pimiento-verde, quantity: 1, unit: ud }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: tomate-triturado, quantity: 300, unit: g }
+  - { ingredient: huevos, quantity: 2, unit: ud }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe la cebolla y los pimientos en dados 8 minutos.
+  - Añade el calabacín y cocina 5 minutos; incorpora el tomate y deja 15 minutos a fuego suave.
+  - Sirve con un huevo a la plancha por persona.
+substitutions:
+  - { ingredient: huevos, with: garbanzos-cocidos, note: añadidos al pisto, versión vegana }
+tip: "Haz doble de pisto: aguanta 4 días en la nevera y sirve para tostas o pasta."
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

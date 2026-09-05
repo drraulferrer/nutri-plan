@@ -1,0 +1,29 @@
+slug: crema-de-verduras
+name: Crema de verduras
+description: Puerro, zanahoria, calabacín y patata triturados con caldo. Para varias cenas.
+servings_base: 2
+time_min: 35
+active_time_min: 15
+meal_types: [cena]
+tags: [batch, economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: ninguno
+batch_reuse: true
+ingredients:
+  - { ingredient: puerro, quantity: 1, unit: ud }
+  - { ingredient: zanahoria, quantity: 2, unit: ud }
+  - { ingredient: calabacin, quantity: 1, unit: ud }
+  - { ingredient: patata, quantity: 200, unit: g }
+  - { ingredient: caldo-verduras, quantity: 750, unit: ml }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe el puerro 3 minutos; añade el resto de verduras troceadas.
+  - Cubre con el caldo y cuece 20 minutos.
+  - Tritura y sazona. Acompaña con pan o huevo cocido para completar.
+substitutions:
+  - { ingredient: calabacin, with: brocoli }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

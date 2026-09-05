@@ -1,0 +1,28 @@
+slug: macarrones-con-tomate-y-queso
+name: Macarrones con tomate y queso
+description: Pasta con salsa de tomate casera y queso rallado.
+servings_base: 2
+time_min: 25
+meal_types: [comida]
+tags: [economica, revisar]
+styles: [mediterraneo, vegetariano]
+allergens: [gluten, lacteos]
+cost_level: bajo
+protein_group: lacteo
+ingredients:
+  - { ingredient: pasta, quantity: 200, unit: g }
+  - { ingredient: tomate-triturado, quantity: 300, unit: g }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: ajo, quantity: 1, unit: diente }
+  - { ingredient: queso-rallado, quantity: 60, unit: g }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: oregano, quantity: 1, unit: pizca }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe la cebolla y el ajo picados 5 minutos; añade el tomate, el orégano y la sal y cocina 10 minutos.
+  - Cuece la pasta y mézclala con la salsa.
+  - Sirve con el queso rallado por encima.
+substitutions:
+  - { ingredient: queso-rallado, with: nueces, note: picadas, versión sin lácteos }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

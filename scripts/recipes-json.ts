@@ -12,4 +12,6 @@ const outDir = join(import.meta.dirname, '..', 'apps', 'web', 'public');
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, 'recipes.json'), JSON.stringify([...catalog.recipes.values()]));
 writeFileSync(join(outDir, 'ingredients.json'), JSON.stringify([...catalog.ingredients.values()]));
-console.log(`✓ ${catalog.recipes.size} recetas y ${catalog.ingredients.size} ingredientes → apps/web/public/`);
+console.log(
+  `✓ ${catalog.recipes.size} recetas y ${catalog.ingredients.size} ingredientes → apps/web/public/`,
+);

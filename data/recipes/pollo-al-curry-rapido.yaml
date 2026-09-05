@@ -1,0 +1,28 @@
+slug: pollo-al-curry-rapido
+name: Pollo al curry rápido
+description: Pollo con cebolla, curry y yogur, con arroz.
+servings_base: 2
+time_min: 25
+meal_types: [comida]
+tags: [revisar]
+styles: [mediterraneo, sin_gluten]
+allergens: [lacteos]
+cost_level: medio
+protein_group: pollo
+ingredients:
+  - { ingredient: pollo, quantity: 300, unit: g }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: yogur-natural, quantity: 1, unit: ud }
+  - { ingredient: curry, quantity: 1, unit: cda }
+  - { ingredient: arroz, quantity: 160, unit: g }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Cuece el arroz.
+  - Sofríe la cebolla 5 minutos; añade el pollo en dados y dóralo.
+  - Espolvorea el curry, añade el yogur y cocina 5 minutos a fuego suave.
+substitutions:
+  - { ingredient: yogur-natural, with: yogur-soja, note: versión sin lácteos }
+  - { ingredient: pollo, with: garbanzos-cocidos, note: versión vegetariana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

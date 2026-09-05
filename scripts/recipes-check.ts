@@ -19,7 +19,8 @@ const rows = MEAL_TYPES.map((meal) => {
     comida: meal,
     total: of.length,
     '≤20 min': of.filter((r) => r.time_min <= 20).length,
-    vegetariano: of.filter((r) => r.styles.includes('vegetariano') || r.styles.includes('vegano')).length,
+    vegetariano: of.filter((r) => r.styles.includes('vegetariano') || r.styles.includes('vegano'))
+      .length,
     vegano: of.filter((r) => r.styles.includes('vegano')).length,
     sin_gluten: of.filter((r) => r.styles.includes('sin_gluten')).length,
     sin_lactosa: of.filter((r) => r.styles.includes('sin_lactosa')).length,
@@ -30,5 +31,7 @@ console.table(rows);
 
 const TARGET = 55;
 if (recipes.length < TARGET) {
-  console.log(`\nRecetario en construcción: ${recipes.length}/${TARGET}. Objetivo por bloques en docs/07.`);
+  console.log(
+    `\nRecetario en construcción: ${recipes.length}/${TARGET}. Objetivo por bloques en docs/07.`,
+  );
 }

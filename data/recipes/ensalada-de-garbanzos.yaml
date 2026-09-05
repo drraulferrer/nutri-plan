@@ -1,0 +1,29 @@
+slug: ensalada-de-garbanzos
+name: Ensalada de garbanzos
+description: Fresca, sin cocinar, con tomate, pepino y cebolla.
+servings_base: 2
+time_min: 15
+meal_types: [comida, cena]
+tags: [rapida, sin_cocinar, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: legumbre
+ingredients:
+  - { ingredient: garbanzos-cocidos, quantity: 400, unit: g }
+  - { ingredient: tomate, quantity: 2, unit: ud }
+  - { ingredient: pepino, quantity: 1, unit: ud }
+  - { ingredient: cebolla, quantity: 0.5, unit: ud }
+  - { ingredient: aceitunas, quantity: 40, unit: g, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: vinagre, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Escurre y enjuaga los garbanzos.
+  - Pica el tomate, el pepino y la cebolla en dados.
+  - Mezcla todo con el aceite, el vinagre y la sal. Mejor tras 10 minutos de reposo.
+substitutions:
+  - { ingredient: garbanzos-cocidos, with: lentejas-pardinas, note: cocidas }
+  - { ingredient: pepino, with: pimiento-verde }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

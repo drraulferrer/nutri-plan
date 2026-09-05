@@ -1,0 +1,29 @@
+slug: fajitas-de-pollo
+name: Fajitas de pollo
+description: Tortillas de trigo rellenas de pollo y pimientos salteados.
+servings_base: 2
+time_min: 25
+meal_types: [comida, cena]
+tags: [revisar]
+styles: [mediterraneo, sin_lactosa]
+allergens: [gluten]
+cost_level: medio
+protein_group: pollo
+ingredients:
+  - { ingredient: tortillas-trigo, quantity: 4, unit: ud }
+  - { ingredient: pollo, quantity: 300, unit: g }
+  - { ingredient: pimiento-rojo, quantity: 1, unit: ud }
+  - { ingredient: pimiento-verde, quantity: 1, unit: ud }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: aguacate, quantity: 1, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: pimenton-dulce, quantity: 1, unit: cdta }
+  - { ingredient: comino, quantity: 1, unit: pizca }
+steps:
+  - Saltea el pollo en tiras con el pimentón y el comino 5 minutos.
+  - Añade los pimientos y la cebolla en tiras; saltea 8 minutos más.
+  - Calienta las tortillas y rellénalas (con aguacate si quieres).
+substitutions:
+  - { ingredient: pollo, with: tofu, note: versión vegana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

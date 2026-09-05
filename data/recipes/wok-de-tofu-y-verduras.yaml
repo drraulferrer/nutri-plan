@@ -1,0 +1,28 @@
+slug: wok-de-tofu-y-verduras
+name: Wok de tofu y verduras
+description: Tofu dorado con brócoli, zanahoria y pimiento al estilo salteado.
+servings_base: 2
+time_min: 20
+meal_types: [comida, cena]
+tags: [rapida, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_lactosa]
+allergens: [soja, gluten]
+cost_level: medio
+protein_group: tofu
+ingredients:
+  - { ingredient: tofu, quantity: 250, unit: g }
+  - { ingredient: brocoli, quantity: 300, unit: g }
+  - { ingredient: zanahoria, quantity: 1, unit: ud }
+  - { ingredient: pimiento-rojo, quantity: 1, unit: ud }
+  - { ingredient: salsa-soja, quantity: 2, unit: cda }
+  - { ingredient: ajo, quantity: 1, unit: diente }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+steps:
+  - Escurre y seca el tofu; córtalo en dados y dóralo 5 minutos.
+  - Añade el ajo y las verduras en trozos pequeños; saltea 8 minutos a fuego fuerte.
+  - Termina con la salsa de soja. Acompaña con arroz si quieres.
+substitutions:
+  - { ingredient: tofu, with: pollo, note: en tiras }
+  - { ingredient: brocoli, with: judias-verdes }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

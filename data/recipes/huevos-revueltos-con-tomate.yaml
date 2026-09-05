@@ -1,0 +1,25 @@
+slug: huevos-revueltos-con-tomate
+name: Huevos revueltos con tomate
+description: Revuelto cremoso con tomate y pan tostado.
+servings_base: 2
+time_min: 10
+meal_types: [desayuno, cena]
+tags: [rapida, revisar]
+styles: [mediterraneo, vegetariano]
+allergens: [huevos, gluten]
+cost_level: bajo
+protein_group: huevo
+ingredients:
+  - { ingredient: huevos, quantity: 4, unit: ud }
+  - { ingredient: tomate, quantity: 1, unit: ud }
+  - { ingredient: pan, quantity: 2, unit: rebanada }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Pica el tomate en dados y saltéalo 2 minutos con el aceite.
+  - Añade los huevos batidos con sal y remueve a fuego suave hasta que cuajen, sin secarlos.
+  - Sirve sobre el pan tostado.
+substitutions:
+  - { ingredient: pan, with: tortillas-trigo, note: calentadas en la sartén }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

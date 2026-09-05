@@ -1,0 +1,28 @@
+slug: sopa-de-fideos-con-pollo
+name: Sopa de fideos con pollo
+description: Sopa reconfortante con pollo, zanahoria y puerro.
+servings_base: 2
+time_min: 30
+meal_types: [cena]
+tags: [una_olla, revisar]
+styles: [mediterraneo, sin_lactosa]
+allergens: [gluten]
+cost_level: bajo
+protein_group: pollo
+ingredients:
+  - { ingredient: pollo, quantity: 200, unit: g }
+  - { ingredient: pasta, quantity: 100, unit: g, note: fideos }
+  - { ingredient: zanahoria, quantity: 1, unit: ud }
+  - { ingredient: puerro, quantity: 1, unit: ud }
+  - { ingredient: caldo-verduras, quantity: 750, unit: ml }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe el puerro y la zanahoria picados 4 minutos.
+  - Añade el pollo en dados y el caldo; cuece 15 minutos.
+  - Incorpora los fideos y cuece el tiempo del paquete.
+substitutions:
+  - { ingredient: pasta, with: arroz, note: versión sin gluten }
+  - { ingredient: pollo, with: garbanzos-cocidos, note: versión vegetariana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

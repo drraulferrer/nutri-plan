@@ -1,0 +1,24 @@
+slug: pasta-con-bolonesa
+name: Pasta con boloñesa
+description: Pasta con la boloñesa sobrante del otro día.
+servings_base: 2
+time_min: 15
+meal_types: [comida, cena]
+tags: [rapida, aprovechamiento, revisar]
+styles: [mediterraneo, sin_lactosa]
+allergens: [gluten]
+cost_level: medio
+protein_group: carne_roja
+ingredients:
+  - { ingredient: pasta, quantity: 200, unit: g }
+  - { ingredient: carne-picada, quantity: 200, unit: g, note: en forma de boloñesa sobrante }
+  - { ingredient: tomate-triturado, quantity: 200, unit: g, note: parte de la boloñesa }
+  - { ingredient: queso-rallado, quantity: 30, unit: g, optional: true }
+steps:
+  - Cuece la pasta.
+  - Calienta la boloñesa sobrante.
+  - Mezcla y sirve con queso rallado si quieres.
+substitutions:
+  - { ingredient: pasta, with: arroz, note: versión sin gluten }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

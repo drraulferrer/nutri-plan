@@ -1,0 +1,29 @@
+slug: salteado-de-pollo-con-verduras-y-arroz
+name: Salteado de pollo con verduras
+description: Pollo en tiras con calabacín, pimiento y zanahoria, sobre arroz.
+servings_base: 2
+time_min: 30
+meal_types: [comida, cena]
+tags: [revisar]
+styles: [mediterraneo, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: medio
+protein_group: pollo
+ingredients:
+  - { ingredient: arroz, quantity: 180, unit: g }
+  - { ingredient: pollo, quantity: 300, unit: g }
+  - { ingredient: calabacin, quantity: 1, unit: ud }
+  - { ingredient: pimiento-rojo, quantity: 1, unit: ud }
+  - { ingredient: zanahoria, quantity: 1, unit: ud }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: salsa-soja, quantity: 1, unit: cda, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Cuece el arroz.
+  - Saltea el pollo en tiras a fuego fuerte 4 minutos y reserva.
+  - Saltea las verduras en bastones 6 minutos; junta con el pollo y sazona (o salsa de soja).
+  - Sirve sobre el arroz.
+substitutions:
+  - { ingredient: pollo, with: tofu, note: en dados, versión vegana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

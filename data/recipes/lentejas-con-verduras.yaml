@@ -36,6 +36,7 @@ substitutions:
   - { ingredient: lentejas-pardinas, with: garbanzos-cocidos, note: usa 400 g cocidos y reduce la cocción a 15 minutos }
   - { ingredient: pimiento-verde, with: calabacin }
 
+pairs_with: [ensalada-de-lentejas]
 tip: Haz ración doble y congela la mitad en porciones. Con lo que sobre puedes preparar una ensalada de lentejas al día siguiente.
 author: Raúl Ferrer
 license: CC-BY-NC-SA-4.0

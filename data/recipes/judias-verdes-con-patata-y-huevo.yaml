@@ -1,0 +1,27 @@
+slug: judias-verdes-con-patata-y-huevo
+name: Judías verdes con patata y huevo
+description: Verdura hervida con patata, refrito de ajo y huevo cocido.
+servings_base: 2
+time_min: 30
+meal_types: [comida, cena]
+tags: [economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, sin_gluten, sin_lactosa]
+allergens: [huevos]
+cost_level: bajo
+protein_group: huevo
+ingredients:
+  - { ingredient: judias-verdes, quantity: 400, unit: g }
+  - { ingredient: patata, quantity: 400, unit: g }
+  - { ingredient: huevos, quantity: 2, unit: ud }
+  - { ingredient: ajo, quantity: 1, unit: diente }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: pimenton-dulce, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Cuece las judías troceadas y la patata en dados 15 minutos; cuece los huevos aparte 10 minutos.
+  - Haz un refrito con el aceite, el ajo laminado y el pimentón.
+  - Escurre, riega con el refrito y sirve con el huevo troceado.
+substitutions:
+  - { ingredient: judias-verdes, with: brocoli }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

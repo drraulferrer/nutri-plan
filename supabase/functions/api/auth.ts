@@ -5,7 +5,9 @@
  */
 
 export class AuthError extends Error {
-  constructor(public readonly code: 'missing_hash' | 'bad_hash' | 'expired' | 'no_user' | 'malformed') {
+  constructor(
+    public readonly code: 'missing_hash' | 'bad_hash' | 'expired' | 'no_user' | 'malformed',
+  ) {
     super(code);
     this.name = 'AuthError';
   }
@@ -24,7 +26,13 @@ export const DEFAULT_MAX_AGE_SEC = 24 * 60 * 60;
 const encoder = new TextEncoder();
 
 async function hmacSha256(key: BufferSource, message: BufferSource): Promise<ArrayBuffer> {
-  const cryptoKey = await crypto.subtle.importKey('raw', key, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    key,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
   return crypto.subtle.sign('HMAC', cryptoKey, message);
 }
 
@@ -70,7 +78,8 @@ export async function verifyInitData(
   const authDate = Number(params.get('auth_date'));
   const nowSec = (options.now ?? Date.now)() / 1000;
   const maxAge = options.maxAgeSec ?? DEFAULT_MAX_AGE_SEC;
-  if (!Number.isFinite(authDate) || authDate <= 0 || nowSec - authDate > maxAge) throw new AuthError('expired');
+  if (!Number.isFinite(authDate) || authDate <= 0 || nowSec - authDate > maxAge)
+    throw new AuthError('expired');
 
   let user: { id?: number; language_code?: string } | null = null;
   try {

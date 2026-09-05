@@ -1,0 +1,33 @@
+slug: guiso-de-alubias-con-verduras
+name: Guiso de alubias con verduras
+description: Alubias de bote guisadas con zanahoria, puerro y patata. Para dos días.
+servings_base: 2
+time_min: 45
+active_time_min: 15
+meal_types: [comida, cena]
+tags: [batch, economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: legumbre
+batch_reuse: true
+ingredients:
+  - { ingredient: alubias-cocidas, quantity: 500, unit: g }
+  - { ingredient: zanahoria, quantity: 2, unit: ud }
+  - { ingredient: puerro, quantity: 1, unit: ud }
+  - { ingredient: patata, quantity: 200, unit: g }
+  - { ingredient: tomate-triturado, quantity: 200, unit: g }
+  - { ingredient: ajo, quantity: 2, unit: diente }
+  - { ingredient: pimenton-dulce, quantity: 1, unit: cdta }
+  - { ingredient: laurel, quantity: 1, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe el puerro, la zanahoria y el ajo picados 6 minutos; añade el pimentón.
+  - Incorpora el tomate, la patata en dados, el laurel y 500 ml de agua; cuece 20 minutos.
+  - Añade las alubias escurridas y cocina 10 minutos más. Sazona.
+substitutions:
+  - { ingredient: alubias-cocidas, with: garbanzos-cocidos }
+tip: Congela la mitad en porciones; mejora de un día para otro.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

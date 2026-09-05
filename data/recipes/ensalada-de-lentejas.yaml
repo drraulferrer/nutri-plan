@@ -1,0 +1,27 @@
+slug: ensalada-de-lentejas
+name: Ensalada de lentejas
+description: Lentejas cocidas del guiso con tomate, cebolla y vinagreta.
+servings_base: 2
+time_min: 10
+meal_types: [comida, cena]
+tags: [rapida, aprovechamiento, sin_cocinar, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: legumbre
+ingredients:
+  - { ingredient: lentejas-pardinas, quantity: 150, unit: g, note: cocidas del guiso }
+  - { ingredient: tomate, quantity: 2, unit: ud }
+  - { ingredient: cebolla, quantity: 0.5, unit: ud }
+  - { ingredient: pimiento-verde, quantity: 0.5, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: vinagre, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Escurre las lentejas cocidas que sobraron del guiso.
+  - Pica el tomate, la cebolla y el pimiento.
+  - Mezcla y aliña con aceite, vinagre y sal.
+substitutions:
+  - { ingredient: lentejas-pardinas, with: garbanzos-cocidos }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

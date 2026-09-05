@@ -1,0 +1,26 @@
+slug: salmon-a-la-plancha-con-brocoli
+name: Salmón a la plancha con brócoli
+description: Lomo de salmón dorado con brócoli al vapor y limón.
+servings_base: 2
+time_min: 20
+meal_types: [comida, cena]
+tags: [rapida, revisar]
+styles: [mediterraneo, sin_gluten, sin_lactosa]
+allergens: [pescado]
+cost_level: alto
+protein_group: pescado
+ingredients:
+  - { ingredient: salmon, quantity: 300, unit: g }
+  - { ingredient: brocoli, quantity: 300, unit: g }
+  - { ingredient: limon, quantity: 0.5, unit: ud }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Cuece el brócoli al vapor o en agua 6 minutos.
+  - Haz el salmón a la plancha 3 minutos por cada lado con el aceite.
+  - Sirve con el brócoli y un chorrito de limón.
+substitutions:
+  - { ingredient: salmon, with: merluza, note: descongelada }
+  - { ingredient: brocoli, with: judias-verdes }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

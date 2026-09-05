@@ -1,0 +1,28 @@
+slug: pasta-con-atun-y-tomate
+name: Pasta con atún y tomate
+description: "Clásico de despensa: pasta, atún y salsa de tomate rápida."
+servings_base: 2
+time_min: 20
+meal_types: [comida]
+tags: [rapida, economica, revisar]
+styles: [mediterraneo, sin_lactosa]
+allergens: [gluten, pescado]
+cost_level: bajo
+protein_group: pescado
+ingredients:
+  - { ingredient: pasta, quantity: 200, unit: g }
+  - { ingredient: atun, quantity: 2, unit: lata }
+  - { ingredient: tomate-triturado, quantity: 200, unit: g }
+  - { ingredient: cebolla, quantity: 0.5, unit: ud }
+  - { ingredient: ajo, quantity: 1, unit: diente }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: oregano, quantity: 1, unit: pizca, optional: true }
+steps:
+  - Cuece la pasta según el paquete.
+  - Sofríe la cebolla y el ajo picados 3 minutos; añade el tomate y cocina 5 minutos.
+  - Incorpora el atún escurrido, mezcla con la pasta y termina con orégano.
+substitutions:
+  - { ingredient: atun, with: garbanzos-cocidos, note: versión vegana }
+  - { ingredient: pasta, with: arroz, note: versión sin gluten }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0
