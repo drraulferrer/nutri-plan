@@ -14,3 +14,6 @@ supabase/.branches/
 # Generado en build a partir de data/
 apps/web/public/recipes.json
 apps/web/public/ingredients.json
+supabase/seed/catalog.sql
+
+# supabase/functions/_shared/core SÍ se versiona (copia de packages/core; CI comprueba que no diverge)

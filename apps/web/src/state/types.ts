@@ -11,6 +11,7 @@ export interface AppState {
   listPeople: number | null;
   pantry: string[];
   favorites: string[];
+  sync: SyncStatus;
 }
 
 export interface Persisted {
@@ -22,8 +23,12 @@ export interface Persisted {
   favorites: string[];
 }
 
+export type SyncStatus = 'local' | 'syncing' | 'synced' | 'pending' | 'offline';
+
 export type Action =
   | { type: 'loaded'; catalog: Catalog; persisted: Partial<Persisted> }
+  | { type: 'state/replace'; persisted: Partial<Persisted> }
+  | { type: 'sync/status'; status: SyncStatus }
   | { type: 'load-failed'; message: string }
   | { type: 'prefs/save'; prefs: Preferences }
   | { type: 'menu/generate'; seed: string; weekStart: string }

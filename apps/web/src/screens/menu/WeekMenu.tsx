@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   DAY_SHORT,
   SAFETY_LABELS,
-  defaultWeekStart,
   detectSafetyFlags,
   diffShoppingLists,
   m4ImproveMenu,
@@ -26,7 +25,7 @@ import { SlotCard } from './SlotCard';
 type SheetState = { kind: 'none' } | { kind: 'slot'; slot: MenuSlot } | { kind: 'change'; slot: MenuSlot } | { kind: 'ask'; slot: MenuSlot } | { kind: 'day'; day: number } | { kind: 'week' };
 
 export function WeekMenu() {
-  const { state, dispatch, app, botUsername } = useApp();
+  const { state, dispatch, app, botUsername, generateMenu } = useApp();
   const nav = useNav();
   const nutri = useMemo(() => createNutriBridge(app, botUsername), [app, botUsername]);
   const { prefs, menu, catalog, favorites, list } = state;
@@ -47,11 +46,10 @@ export function WeekMenu() {
   const generate = () => {
     setGenerating(true);
     app.HapticFeedback.impactOccurred('medium');
-    window.setTimeout(() => {
-      dispatch({ type: 'menu/generate', seed: newSeed(), weekStart: defaultWeekStart(new Date()) });
+    void generateMenu().finally(() => {
       setGenerating(false);
       app.HapticFeedback.notificationOccurred('success');
-    }, 350);
+    });
   };
 
   const improve = () => {

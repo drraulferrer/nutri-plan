@@ -1,6 +1,9 @@
 {
-  "tasks": {
-    "test": "deno test --allow-env"
+  "imports": {
+    "zod": "npm:zod@3.25.76",
+    "hono": "npm:hono@4.9.9",
+    "hono/cors": "npm:hono@4.9.9/cors",
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.57.4"
   },
   "compilerOptions": {
     "strict": true

@@ -92,6 +92,21 @@ describe('reducer', () => {
     expect(reducer(s1, { type: 'favorites/toggle', slug: 'a' }).favorites).toEqual([]);
   });
 
+  it('state/replace sustituye el estado por el del servidor y recalcula la lista si falta', () => {
+    const s0 = withMenu();
+    const remoteMenu = { ...s0.menu!, seed: 'servidor' };
+    const s1 = reducer(s0, { type: 'state/replace', persisted: { prefs, menu: remoteMenu, list: null, pantry: ['arroz'], favorites: [] } });
+    expect(s1.menu?.seed).toBe('servidor');
+    expect(s1.pantry).toEqual(['arroz']);
+    expect(s1.list?.items.length).toBeGreaterThan(0);
+  });
+
+  it('sync/status solo cambia cuando difiere', () => {
+    const s0 = loaded();
+    expect(reducer(s0, { type: 'sync/status', status: 'local' })).toBe(s0);
+    expect(reducer(s0, { type: 'sync/status', status: 'synced' }).sync).toBe('synced');
+  });
+
   it('reset borra todo menos el catálogo', () => {
     const s = reducer(withMenu(), { type: 'reset' });
     expect(s.prefs).toBeNull();

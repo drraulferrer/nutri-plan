@@ -1,3 +1,4 @@
+// GENERADO por scripts/sync-core.ts desde packages/core/src — no editar aquí.
 import type { Catalog, Ingredient, Recipe } from './types.ts';
 import { IngredientSchema, RecipeSchema } from './schemas.ts';
 

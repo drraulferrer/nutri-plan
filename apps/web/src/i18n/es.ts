@@ -162,6 +162,13 @@ export const es = {
       sin_cocinar: 'sin cocinar',
     } as Record<string, string>,
   },
+  sync: {
+    local: 'Guardado solo en este dispositivo',
+    syncing: 'Sincronizando…',
+    synced: 'Sincronizado con tu cuenta',
+    pending: 'Cambios pendientes de sincronizar',
+    offline: 'Sin conexión · se sincronizará al volver la red',
+  } as Record<string, string>,
   common: {
     back: 'Atrás',
     cancel: 'Cancelar',

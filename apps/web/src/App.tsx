@@ -25,7 +25,7 @@ export function App() {
   }, [app]);
 
   return (
-    <AppProvider app={app} isReal={isReal} botUsername={BOT_USERNAME}>
+    <AppProvider app={app} isReal={isReal} botUsername={BOT_USERNAME} apiBaseUrl={import.meta.env.VITE_API_BASE_URL || undefined}>
       <NavProvider app={app} start={startScreenFrom(app.initDataUnsafe.start_param)}>
         <BottomBarProvider app={app} isReal={isReal}>
           <Shell />

@@ -1,3 +1,4 @@
+// GENERADO por scripts/sync-core.ts desde packages/core/src — no editar aquí.
 import { z } from 'zod';
 
 export const MEAL_TYPES = ['desayuno', 'comida', 'cena', 'tentempie'] as const;

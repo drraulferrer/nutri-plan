@@ -129,6 +129,15 @@ p {
   color: var(--tg-theme-hint-color);
   font-weight: 400;
 }
+.sync-status {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+.sync-status[data-sync='offline'],
+.sync-status[data-sync='pending'] {
+  color: var(--tg-theme-destructive-text-color);
+}
 .group-title {
   font-size: 13px;
   font-weight: 600;

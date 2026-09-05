@@ -8,6 +8,7 @@ import {
   stapleItems,
   type ShoppingItem,
 } from '@nutri-plan/core';
+import { Banner } from '../components/Banner';
 import { EmptyState } from '../components/EmptyState';
 import { Stepper } from '../components/Stepper';
 import { Toast } from '../components/Toast';
@@ -107,6 +108,8 @@ export function ShoppingList() {
         </div>
         <Stepper compact label={es.list.people} value={list.people} min={1} max={8} onChange={(p) => dispatch({ type: 'list/set-people', people: p })} format={(n) => `👥 ${n}`} />
       </header>
+
+      {state.sync === 'offline' && <Banner tone="info">{es.common.offline}</Banner>}
 
       <div className="progress" role="progressbar" aria-valuemin={0} aria-valuemax={progress.total} aria-valuenow={progress.done} aria-label={es.list.progress(progress.done, progress.total)}>
         <span className="progress-text">{progress.total > 0 && progress.done === progress.total ? es.list.allDone : es.list.progress(progress.done, progress.total)}</span>

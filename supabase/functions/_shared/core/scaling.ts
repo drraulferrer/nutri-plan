@@ -1,3 +1,4 @@
+// GENERADO por scripts/sync-core.ts desde packages/core/src — no editar aquí.
 import type { Catalog, Recipe, RecipeIngredient } from './types.ts';
 import { roundForDisplay } from './units.ts';
 

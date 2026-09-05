@@ -1,3 +1,4 @@
+// GENERADO por scripts/sync-core.ts desde packages/core/src — no editar aquí.
 import type { DietStyle, MealType, Recipe } from './types.ts';
 
 export interface MatchFilters {

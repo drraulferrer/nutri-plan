@@ -29,7 +29,7 @@ export function Home() {
         <button type="button" className="btn btn-primary inline" onClick={() => nav.push({ name: 'prefs', firstRun: true })}>
           {es.home.start}
         </button>
-        <Footnote onOpenChat={nutri.openChat} />
+        <Footnote onOpenChat={nutri.openChat} sync={state.sync} />
       </main>
     );
   }
@@ -79,18 +79,24 @@ export function Home() {
           </button>
         ))}
       </nav>
-      <Footnote onOpenChat={nutri.openChat} />
+      <Footnote onOpenChat={nutri.openChat} sync={state.sync} />
     </main>
   );
 }
 
-function Footnote({ onOpenChat }: { onOpenChat: () => void }) {
+const SYNC_ICON: Record<string, string> = { local: '📱', syncing: '⏳', synced: '☁️', pending: '⏳', offline: '📡' };
+
+function Footnote({ onOpenChat, sync }: { onOpenChat: () => void; sync: string }) {
   return (
     <p className="footnote">
       {es.app.tagline}{' '}
       <button type="button" className="link" onClick={onOpenChat}>
         {es.app.openChat}
       </button>
+      <br />
+      <span className="sync-status" data-sync={sync}>
+        {SYNC_ICON[sync]} {es.sync[sync]}
+      </span>
     </p>
   );
 }

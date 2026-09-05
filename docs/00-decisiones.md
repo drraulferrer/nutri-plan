@@ -39,6 +39,8 @@ porque cambiarlas después cuesta más.
 | T-12 | Offline | La **lista de compra debe funcionar sin conexión** (supermercado). Cache local + cola de cambios que se sincroniza al volver la red. | Cerrada |
 | T-13 | Analítica | Solo contadores agregados por pantalla (`events` sin contenido). Nada de terceros. | Cerrada |
 | T-14 | Retención de datos | Borrado automático de perfiles inactivos > 12 meses. Botón "Borrar mis datos" en Preferencias. | Cerrada |
+| T-15 | Estado del usuario en la base de datos | **Documentos JSONB**: `menus.data` y `shopping_lists.data` guardan el mismo objeto que calcula `core`; despensa, favoritos e ingredientes que no gustan referencian **slugs**. El catálogo mantiene tablas normalizadas más el documento completo. Motivo: una sola lógica (core) en navegador y servidor sin capa de mapeo. Normalizar el menú por filas queda para cuando haga falta analítica por receta. | Cerrada |
+| T-16 | Sincronización | Al abrir, el servidor manda si tiene datos y el dispositivo sube si el servidor está vacío. Después, cada cambio se sube con retardo (0,8 s) y reintento; última escritura gana. Sin sesión válida la app funciona en modo local. | Cerrada |
 
 ## Preguntas abiertas para el propietario del bot
 

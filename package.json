@@ -5,18 +5,27 @@
   "version": "0.1.0",
   "description": "Nutri Plan · Mini App de Telegram para @Nutri_RF_Bot: menú semanal, lista de compra y recetas con lo que tienes",
   "license": "MIT",
-  "engines": { "node": ">=22" },
-  "workspaces": ["packages/*", "apps/*"],
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
     "dev": "npm run dev -w apps/web",
-    "build": "npm run recipes:json && npm run build -w packages/core && npm run build -w apps/web",
+    "build": "npm run recipes:json && npm run core:sync && npm run build -w packages/core && npm run build -w apps/web",
     "test": "npm run recipes:json && npm run test -w packages/core && npm run test -w apps/web",
     "test:coverage": "npm run test:coverage -w packages/core",
     "typecheck": "npm run recipes:json && npm run typecheck -w packages/core && npm run typecheck -w apps/web",
     "lint": "eslint .",
     "format": "prettier --write .",
     "recipes:check": "tsx scripts/recipes-check.ts",
-    "recipes:json": "tsx scripts/recipes-json.ts"
+    "recipes:json": "tsx scripts/recipes-json.ts",
+    "core:sync": "tsx scripts/sync-core.ts",
+    "catalog:sql": "tsx scripts/catalog-sql.ts",
+    "api:test": "npm run core:sync && npx --yes deno@2 test --config supabase/functions/api/deno.json --allow-env --allow-read supabase/functions/api",
+    "api:check": "npx --yes deno@2 check --config supabase/functions/api/deno.json supabase/functions/api/index.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.0",

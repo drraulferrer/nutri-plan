@@ -1,3 +1,4 @@
+// GENERADO por scripts/sync-core.ts desde packages/core/src — no editar aquí.
 import type { Catalog, DietStyle, MealType, Preferences, Recipe } from './types.ts';
 
 /** Estilos que actúan como filtro duro. `mediterraneo` y `flexitariano` no filtran. */

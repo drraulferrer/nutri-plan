@@ -3,6 +3,14 @@
 PostgreSQL (Supabase). Principio: **guardar lo mínimo**. Ningún campo de peso, calorías,
 objetivos ni salud.
 
+> **Revisión Fase 2 (2026-09-05).** El esquema aplicado (`supabase/migrations/0001_init.sql`)
+> sigue este documento con dos simplificaciones (decisión T-15, doc 00): el menú y la lista se
+> guardan como **documentos JSONB** (`menus.data`, `shopping_lists.data`) con la forma exacta de
+> `core`, y despensa, favoritos e ingredientes que no gustan usan **slugs** en lugar de UUID. Las
+> tablas `menu_slots` y `shopping_items` descritas más abajo no existen todavía; se crearán si
+> hace falta analítica por receta. El catálogo sí está normalizado (`recipes`, `ingredients`,
+> `recipe_ingredients`, clave `slug`) y además guarda el documento completo en `data`.
+
 ## Diagrama
 
 ```

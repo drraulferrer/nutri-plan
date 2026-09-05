@@ -1,3 +1,4 @@
+// GENERADO por scripts/sync-core.ts desde packages/core/src — no editar aquí.
 import type { CanonicalUnit, Ingredient, Unit } from './types.ts';
 
 const VOLUME_ML: Partial<Record<Unit, number>> = { l: 1000, ml: 1, cda: 15, cdta: 5, taza: 240 };

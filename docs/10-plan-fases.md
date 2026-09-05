@@ -20,14 +20,14 @@ Cuatro fases incrementales. Cada una termina con algo usable por personas reales
 sentido con el motor de reglas en el navegador.
 
 Entregables:
-- [ ] Envoltorio del SDK con modo simulado; tema claro/oscuro; BackButton, BottomButton,
+- [x] Envoltorio del SDK con modo simulado; tema claro/oscuro; BackButton, BottomButton,
       SecondaryButton, HapticFeedback.
-- [ ] Pantallas A–F con datos del recetario (JSON generado en build).
-- [ ] `core/planner`, `core/scaling`, `core/shopping`, `core/matcher`, `core/safety` con tests.
-- [ ] Preferencias en CloudStorage (con fallback a localStorage en navegador); menú y lista en
+- [x] Pantallas A–F con datos del recetario (JSON generado en build).
+- [x] `core/planner`, `core/scaling`, `core/shopping`, `core/matcher`, `core/safety` con tests.
+- [x] Preferencias en CloudStorage (con fallback a localStorage en navegador); menú y lista en
       localStorage.
-- [ ] Puente al chat (`openTelegramLink` con plantillas M1–M6) y compartir/copiar (L1).
-- [ ] Despliegue a GitHub Pages; URL configurada en BotFather como Main Mini App y Menu Button.
+- [x] Puente al chat (`openTelegramLink` con plantillas M1–M6) y compartir/copiar (L1).
+- [x] Despliegue a GitHub Pages; URL configurada en BotFather como Main Mini App y Menu Button.
 
 DoD:
 - Flujo F1 completo en < 2 min por una persona ajena al proyecto, en Android e iOS.
@@ -42,12 +42,11 @@ DoD:
 cobertura.
 
 Entregables:
-- [ ] Proyecto Supabase; migraciones del doc 05; RLS; seed del recetario completo (55).
-- [ ] Edge Function `api` con `verifyInitData`, límites de peticiones, rutas del doc 06 (salvo
-      `/bot/*`), CORS.
-- [ ] `RemoteDataSource` + `CachedDataSource` (offline con cola de sincronización).
-- [ ] Historial de menús (4 semanas), favoritos, despensa.
-- [ ] `DELETE /me` y botón "Borrar mis datos".
+- [x] Migraciones (doc 05 revisado, T-15); RLS; seed del catálogo (`npm run catalog:sql`). Proyecto Supabase: pendiente de hueco en la capa gratuita (2 proyectos activos).
+- [x] Edge Function `api` con `verifyInitData`, límites de peticiones, rutas del doc 06, CORS. 17 tests en Deno.
+- [x] Cliente de API + sincronización con caché local y reintento (doc 06 §Sincronización).
+- [x] Favoritos y despensa sincronizados. Historial de menús: la tabla lo conserva (`is_current`), la pantalla llega después.
+- [x] `DELETE /me` y botón "Borrar mis datos".
 - [ ] Panel SQL con métricas agregadas de uso.
 
 DoD:

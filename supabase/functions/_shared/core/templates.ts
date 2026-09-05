@@ -1,3 +1,4 @@
+// GENERADO por scripts/sync-core.ts desde packages/core/src — no editar aquí.
 import type { MealType, Menu, Preferences, Recipe, ShoppingList } from './types.ts';
 import { CATEGORY_LABELS, activeItems, groupByCategory, stapleItems } from './shopping.ts';
 import { SAFETY_LABELS, type SafetyFlag } from './safety.ts';

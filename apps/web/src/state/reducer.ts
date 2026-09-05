@@ -5,7 +5,7 @@ import {
   type Menu,
   type PlannerInput,
 } from '@nutri-plan/core';
-import type { Action, AppState } from './types';
+import type { Action, AppState, Persisted } from './types';
 
 export const initialState: AppState = {
   loaded: false,
@@ -17,7 +17,20 @@ export const initialState: AppState = {
   listPeople: null,
   pantry: [],
   favorites: [],
+  sync: 'local',
 };
+
+function applyPersisted(state: AppState, p: Partial<Persisted>): AppState {
+  return withList({
+    ...state,
+    prefs: p.prefs ?? null,
+    menu: p.menu ?? null,
+    list: p.list ?? null,
+    listPeople: p.listPeople ?? null,
+    pantry: p.pantry ?? [],
+    favorites: p.favorites ?? [],
+  });
+}
 
 /** Recalcula la lista a partir del menú conservando las marcas existentes. */
 export function withList(state: AppState, fresh = false): AppState {
@@ -58,23 +71,15 @@ function updateSlot(
 
 export function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case 'loaded': {
-      const p = action.persisted;
-      return withList({
-        ...state,
-        loaded: true,
-        loadError: null,
-        catalog: action.catalog,
-        prefs: p.prefs ?? null,
-        menu: p.menu ?? null,
-        list: p.list ?? null,
-        listPeople: p.listPeople ?? null,
-        pantry: p.pantry ?? [],
-        favorites: p.favorites ?? [],
-      });
-    }
+    case 'loaded':
+      return applyPersisted({ ...state, loaded: true, loadError: null, catalog: action.catalog }, action.persisted);
     case 'load-failed':
       return { ...state, loaded: true, loadError: action.message };
+    /** Estado que llega del servidor (sesión o menú generado allí). */
+    case 'state/replace':
+      return applyPersisted(state, action.persisted);
+    case 'sync/status':
+      return state.sync === action.status ? state : { ...state, sync: action.status };
 
     case 'prefs/save': {
       const next = { ...state, prefs: action.prefs };
@@ -146,7 +151,7 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, pantry: [...new Set(action.slugs)] };
 
     case 'reset':
-      return { ...initialState, loaded: true, catalog: state.catalog };
+      return { ...initialState, loaded: true, catalog: state.catalog, sync: state.sync };
 
     default:
       return state;
