@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+
+# Secretos: nunca en el repositorio
+.env
+.env.*
+!.env.example
+supabase/.temp/
+supabase/.branches/
+
+# Generado en build a partir de data/
+apps/web/public/recipes.json
+apps/web/public/ingredients.json

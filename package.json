@@ -1,0 +1,31 @@
+{
+  "name": "nutri-plan",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Nutri Plan · Mini App de Telegram para @Nutri_RF_Bot: menú semanal, lista de compra y recetas con lo que tienes",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "dev": "npm run dev -w apps/web",
+    "build": "npm run recipes:json && npm run build -w packages/core && npm run build -w apps/web",
+    "test": "npm run test -w packages/core && npm run test -w apps/web",
+    "test:coverage": "npm run test:coverage -w packages/core",
+    "typecheck": "npm run typecheck -w packages/core && npm run typecheck -w apps/web",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "recipes:check": "tsx scripts/recipes-check.ts",
+    "recipes:json": "tsx scripts/recipes-json.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "@types/node": "^22.15.0",
+    "eslint": "^9.30.0",
+    "prettier": "^3.6.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.38.0",
+    "yaml": "^2.8.0"
+  }
+}

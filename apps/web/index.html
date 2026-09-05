@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://telegram.org; connect-src 'self' https://*.supabase.co; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors https://web.telegram.org https://*.telegram.org;"
+    />
+    <title>Nutri Plan</title>
+    <!-- SDK oficial de Telegram Mini Apps; debe cargarse antes que la app (docs/03 §1) -->
+    <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

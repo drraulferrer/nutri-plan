@@ -1,0 +1,54 @@
+# Catálogo de ingredientes (docs/07). Un ingrediente por entrada; `slug` único.
+# default_unit: unidad canónica en la que se compra y se suma (g | ml | ud).
+# package_size/package_label: envase habitual para redondear la lista de compra.
+# grams_per_unit: permite sumar recetas que usan 'ud' con otras que usan 'g'.
+
+# ── Verduras y fruta ──────────────────────────────────────────────────
+- { slug: tomate, name: Tomate, aliases: [tomates], category: verduras_fruta, default_unit: ud, grams_per_unit: 150 }
+- { slug: tomate-triturado, name: Tomate triturado, aliases: [tomate natural triturado], category: despensa, default_unit: g, package_size: 400, package_label: lata de 400 g, is_perishable: false }
+- { slug: cebolla, name: Cebolla, aliases: [cebollas], category: verduras_fruta, default_unit: ud, grams_per_unit: 150 }
+- { slug: puerro, name: Puerro, aliases: [puerros], category: verduras_fruta, default_unit: ud, grams_per_unit: 100 }
+- { slug: zanahoria, name: Zanahoria, aliases: [zanahorias], category: verduras_fruta, default_unit: ud, grams_per_unit: 80 }
+- { slug: pimiento-verde, name: Pimiento verde, aliases: [pimiento], category: verduras_fruta, default_unit: ud, grams_per_unit: 120 }
+- { slug: calabacin, name: Calabacín, aliases: [zucchini, calabacines], category: verduras_fruta, default_unit: ud, grams_per_unit: 250 }
+- { slug: espinacas, name: Espinacas, aliases: [espinaca, spinach], category: verduras_fruta, default_unit: g, package_size: 300, package_label: bolsa de 300 g }
+- { slug: acelgas, name: Acelgas, aliases: [acelga], category: verduras_fruta, default_unit: g, package_size: 500, package_label: manojo de 500 g }
+- { slug: platano, name: Plátano, aliases: [plátanos, banana], category: verduras_fruta, default_unit: ud, indivisible: true }
+- { slug: manzana, name: Manzana, aliases: [manzanas], category: verduras_fruta, default_unit: ud, indivisible: true }
+- { slug: limon, name: Limón, aliases: [limones], category: verduras_fruta, default_unit: ud, indivisible: true }
+- { slug: patata, name: Patata, aliases: [patatas, papa], category: verduras_fruta, default_unit: g, package_size: 1000, package_label: bolsa de 1 kg }
+- { slug: lechuga, name: Lechuga, aliases: [ensalada], category: verduras_fruta, default_unit: ud, indivisible: true }
+- { slug: aguacate, name: Aguacate, aliases: [aguacates, palta], category: verduras_fruta, default_unit: ud, indivisible: true }
+- { slug: ajo, name: Ajo, aliases: [ajos, diente de ajo], category: despensa, default_unit: ud, grams_per_unit: 5, is_staple: true, is_perishable: false }
+
+# ── Proteínas ─────────────────────────────────────────────────────────
+- { slug: huevos, name: Huevos, aliases: [huevo], category: proteinas, default_unit: ud, package_size: 6, package_label: media docena, indivisible: true, allergens: [huevos] }
+- { slug: pollo, name: Pechuga de pollo, aliases: [pollo, pechuga], category: proteinas, default_unit: g, package_size: 500, package_label: bandeja de 500 g }
+- { slug: atun, name: Atún en conserva, aliases: [atún, lata de atún], category: proteinas, default_unit: g, package_size: 80, package_label: lata de 80 g, is_perishable: false, allergens: [pescado] }
+- { slug: merluza, name: Merluza, aliases: [filetes de merluza], category: congelados, default_unit: g, package_size: 400, package_label: bolsa de 400 g, allergens: [pescado] }
+- { slug: lentejas-pardinas, name: Lentejas pardinas, aliases: [lentejas], category: despensa, default_unit: g, package_size: 500, package_label: paquete de 500 g, is_perishable: false }
+- { slug: garbanzos-cocidos, name: Garbanzos cocidos, aliases: [garbanzos, bote de garbanzos], category: despensa, default_unit: g, package_size: 400, package_label: bote de 400 g, is_perishable: false }
+- { slug: tofu, name: Tofu, aliases: [tofu firme], category: proteinas, default_unit: g, package_size: 250, package_label: bloque de 250 g, allergens: [soja] }
+
+# ── Lácteos y alternativas ────────────────────────────────────────────
+- { slug: yogur-natural, name: Yogur natural, aliases: [yogur, yogures], category: lacteos, default_unit: ud, package_size: 4, package_label: pack de 4, indivisible: true, allergens: [lacteos] }
+- { slug: yogur-soja, name: Yogur de soja, aliases: [yogur vegetal], category: lacteos, default_unit: ud, package_size: 4, package_label: pack de 4, indivisible: true, allergens: [soja] }
+- { slug: leche, name: Leche, aliases: [leche entera, leche semidesnatada], category: lacteos, default_unit: ml, package_size: 1000, package_label: brick de 1 l, allergens: [lacteos] }
+- { slug: queso-curado, name: Queso curado, aliases: [queso], category: lacteos, default_unit: g, package_size: 250, package_label: cuña de 250 g, allergens: [lacteos] }
+
+# ── Despensa ──────────────────────────────────────────────────────────
+- { slug: arroz, name: Arroz, aliases: [arroz redondo, arroz largo], category: despensa, default_unit: g, package_size: 1000, package_label: paquete de 1 kg, is_perishable: false }
+- { slug: pasta, name: Pasta, aliases: [macarrones, espaguetis], category: despensa, default_unit: g, package_size: 500, package_label: paquete de 500 g, is_perishable: false, allergens: [gluten] }
+- { slug: pan, name: Pan, aliases: [pan de barra, rebanadas de pan], category: otros, default_unit: ud, allergens: [gluten] }
+- { slug: avena-copos, name: Copos de avena, aliases: [avena], category: despensa, default_unit: g, package_size: 500, package_label: paquete de 500 g, is_perishable: false, allergens: [gluten] }
+- { slug: copos-maiz-sin-gluten, name: Copos de maíz sin gluten, aliases: [copos de maíz], category: despensa, default_unit: g, package_size: 375, package_label: caja de 375 g, is_perishable: false }
+- { slug: nueces, name: Nueces, aliases: [nueces peladas], category: despensa, default_unit: g, package_size: 200, package_label: bolsa de 200 g, is_perishable: false, allergens: [frutos_cascara] }
+- { slug: aceite-oliva, name: Aceite de oliva virgen extra, aliases: [aceite, aove, aceite de oliva], category: despensa, default_unit: ml, package_size: 1000, package_label: botella de 1 l, is_staple: true, is_perishable: false }
+- { slug: sal, name: Sal, category: despensa, default_unit: g, is_staple: true, is_perishable: false }
+- { slug: pimienta, name: Pimienta negra, aliases: [pimienta], category: despensa, default_unit: g, is_staple: true, is_perishable: false }
+- { slug: pimenton-dulce, name: Pimentón dulce, aliases: [pimentón], category: despensa, default_unit: g, is_staple: true, is_perishable: false }
+- { slug: laurel, name: Laurel, aliases: [hoja de laurel], category: despensa, default_unit: ud, is_staple: true, is_perishable: false }
+- { slug: canela, name: Canela, aliases: [canela en polvo], category: despensa, default_unit: g, is_staple: true, is_perishable: false }
+- { slug: vinagre, name: Vinagre, aliases: [vinagre de vino], category: despensa, default_unit: ml, is_staple: true, is_perishable: false }
+- { slug: oregano, name: Orégano, category: despensa, default_unit: g, is_staple: true, is_perishable: false }
+- { slug: comino, name: Comino, category: despensa, default_unit: g, is_staple: true, is_perishable: false }

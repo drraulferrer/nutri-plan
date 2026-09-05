@@ -1,0 +1,32 @@
+slug: yogur-con-fruta-y-avena
+name: Yogur con fruta y avena
+description: Desayuno sin cocinar, listo en cinco minutos.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno, tentempie]
+tags: [rapida, sin_cocinar]
+styles: [mediterraneo, vegetariano]
+allergens: [lacteos, gluten]
+cost_level: bajo
+protein_group: lacteo
+batch_reuse: false
+
+ingredients:
+  - { ingredient: yogur-natural, quantity: 2, unit: ud }
+  - { ingredient: avena-copos, quantity: 60, unit: g }
+  - { ingredient: platano, quantity: 1, unit: ud }
+  - { ingredient: nueces, quantity: 20, unit: g, optional: true }
+  - { ingredient: canela, quantity: 1, unit: pizca, optional: true }
+
+steps:
+  - Reparte el yogur en dos boles.
+  - Añade la avena y el plátano en rodajas.
+  - Termina con las nueces troceadas y la canela, si quieres.
+
+substitutions:
+  - { ingredient: yogur-natural, with: yogur-soja, note: versión sin lácteos }
+  - { ingredient: avena-copos, with: copos-maiz-sin-gluten, note: versión sin gluten }
+  - { ingredient: platano, with: manzana, note: o cualquier fruta de temporada }
+
+author: Raúl Ferrer
+license: CC-BY-NC-SA-4.0

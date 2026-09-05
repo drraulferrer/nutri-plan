@@ -1,0 +1,41 @@
+slug: lentejas-con-verduras
+name: Lentejas con verduras
+description: Guiso de lentejas pardinas con zanahoria, puerro y pimentón. Rinde para dos días.
+servings_base: 2
+time_min: 40
+active_time_min: 15
+meal_types: [comida, cena]
+tags: [batch, economica, una_olla, sin_horno]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: legumbre
+batch_reuse: true
+
+ingredients:
+  - { ingredient: lentejas-pardinas, quantity: 250, unit: g }
+  - { ingredient: zanahoria, quantity: 2, unit: ud }
+  - { ingredient: puerro, quantity: 1, unit: ud }
+  - { ingredient: pimiento-verde, quantity: 1, unit: ud }
+  - { ingredient: tomate-triturado, quantity: 200, unit: g }
+  - { ingredient: ajo, quantity: 2, unit: diente }
+  - { ingredient: pimenton-dulce, quantity: 1, unit: cdta }
+  - { ingredient: laurel, quantity: 1, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+
+steps:
+  - Pica la zanahoria, el puerro y el pimiento en dados pequeños.
+  - Sofríe las verduras con el aceite 5 minutos a fuego medio. Añade el ajo picado y el pimentón y remueve 30 segundos.
+  - Incorpora el tomate, las lentejas lavadas, el laurel y 750 ml de agua. Sal al gusto.
+  - Cocina a fuego suave 30 minutos con la olla tapada, hasta que las lentejas estén tiernas. Añade agua si se secan.
+  - Deja reposar 5 minutos antes de servir.
+
+substitutions:
+  - { ingredient: puerro, with: cebolla, note: misma cantidad }
+  - { ingredient: lentejas-pardinas, with: garbanzos-cocidos, note: usa 400 g cocidos y reduce la cocción a 15 minutos }
+  - { ingredient: pimiento-verde, with: calabacin }
+
+tip: Haz ración doble y congela la mitad en porciones. Con lo que sobre puedes preparar una ensalada de lentejas al día siguiente.
+author: Raúl Ferrer
+license: CC-BY-NC-SA-4.0

@@ -1,0 +1,32 @@
+slug: tortilla-de-espinacas
+name: Tortilla de espinacas
+description: Cena rápida de sartén con huevos y espinacas salteadas.
+servings_base: 2
+time_min: 15
+meal_types: [cena]
+tags: [rapida, sin_horno, economica]
+styles: [mediterraneo, vegetariano, sin_gluten, sin_lactosa]
+allergens: [huevos]
+cost_level: bajo
+protein_group: huevo
+batch_reuse: false
+
+ingredients:
+  - { ingredient: huevos, quantity: 4, unit: ud }
+  - { ingredient: espinacas, quantity: 200, unit: g }
+  - { ingredient: cebolla, quantity: 0.5, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+
+steps:
+  - Saltea las espinacas (y la cebolla picada, si la usas) con la mitad del aceite hasta que pierdan el agua, unos 4 minutos. Escurre.
+  - Bate los huevos con la sal y mezcla con las espinacas.
+  - Cuaja la tortilla en la sartén con el resto del aceite a fuego medio, 3 minutos por cada lado.
+
+substitutions:
+  - { ingredient: espinacas, with: calabacin, note: rallado y bien escurrido }
+  - { ingredient: espinacas, with: acelgas }
+
+tip: Sirve con tomate cortado y un chorrito de aceite.
+author: Raúl Ferrer
+license: CC-BY-NC-SA-4.0
