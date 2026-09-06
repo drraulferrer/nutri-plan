@@ -129,13 +129,37 @@ Deno.test(
   },
 );
 
-Deno.test('dos planes inválidos → fallback a reglas con aviso ia_fallback', async () => {
+Deno.test('dos planes inválidos pero legibles → reparado: se conservan los válidos y reglas rellena', async () => {
   const bad = validPlan();
-  bad.slots[3]!.recipe_slug = 'c1'; // repetida
-  const r = await generateWithAi(new FakePlanner([bad, { slots: 'nope' }]), input);
+  bad.slots[3]!.recipe_slug = 'c1'; // repetida (día 3 comida)
+  bad.notes = 'Nota de la IA';
+  const r = await generateWithAi(new FakePlanner([bad, bad]), input);
+  assertEquals(r.outcome, 'repaired');
+  assert(r.menu.warnings.some((w) => w.type === 'ia_repaired'));
+  assertEquals(r.menu.notes, 'Nota de la IA');
+  assertEquals(r.menu.slots.filter((s) => s.recipe_slug).length, 21);
+  const day0 = r.menu.slots.find((s) => s.day_index === 0 && s.meal === 'comida')!;
+  assertEquals(day0.recipe_slug, 'c1'); // la primera aparición se conserva
+  const day3 = r.menu.slots.find((s) => s.day_index === 3 && s.meal === 'comida')!;
+  assert(day3.recipe_slug !== 'c1' && day3.recipe_slug !== null); // la repetida se sustituye
+  assert(r.menu.slots.every((s) => !s.is_locked));
+});
+
+Deno.test('respuesta ilegible dos veces → fallback completo a reglas', async () => {
+  const r = await generateWithAi(new FakePlanner([{ slots: 'nope' }, 'x']), input);
   assertEquals(r.outcome, 'fallback');
   assert(r.menu.warnings.some((w) => w.type === 'ia_fallback'));
-  assertEquals(r.menu.slots.filter((s) => s.recipe_slug).length, 21);
+});
+
+Deno.test('tiempo agotado en la llamada → fallback sin reintento', async () => {
+  const slow: AiPlanner = {
+    model: 'slow',
+    plan: (_s, _u, signal) =>
+      new Promise((_, reject) => signal.addEventListener('abort', () => reject(new Error('The signal has been aborted')))),
+  };
+  const r = await generateWithAi(slow, { ...input, attemptTimeoutMs: 50 });
+  assertEquals(r.outcome, 'fallback');
+  assertEquals(r.errors[0], 'The signal has been aborted');
 });
 
 Deno.test('error de red → fallback', async () => {
@@ -144,14 +168,14 @@ Deno.test('error de red → fallback', async () => {
   assertEquals(r.errors[0], 'Claude API 529');
 });
 
-Deno.test('la IA nunca cuela una receta con alérgenos del usuario', async () => {
+Deno.test('la IA nunca cuela una receta con alérgenos del usuario (ni reparando)', async () => {
   const bad = validPlan();
   bad.slots[20]!.recipe_slug = 'con-huevo';
   const r = await generateWithAi(new FakePlanner([bad, bad]), {
     ...input,
     preferences: { ...PREFS, allergens: ['huevos'] },
   });
-  assertEquals(r.outcome, 'fallback');
+  assertEquals(r.outcome, 'repaired');
   assert(r.menu.slots.every((s) => s.recipe_slug !== 'con-huevo'));
 });
 

@@ -64,6 +64,7 @@ export const es = {
     generating: 'Preparando tu semana…',
     generatingAi: 'Nutri está pensando tu semana…',
     aiFallback: 'Esta vez no se pudo usar la IA; el menú se ha hecho con las reglas de siempre.',
+    aiRepaired: 'Nutri propuso la semana; algunos huecos se completaron con las reglas.',
     viewList: 'Ver lista de compra',
     improve: 'Mejora este menú',
     eatOut: 'Comer fuera',

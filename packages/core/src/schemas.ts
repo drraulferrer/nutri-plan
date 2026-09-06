@@ -150,7 +150,7 @@ export const MenuSlotSchema = z.object({
 export const PlannerWarningSchema = z.object({
   day_index: z.number().int().min(-1).max(6),
   meal: z.enum(MEAL_TYPES),
-  type: z.enum(['time', 'budget', 'variety', 'no_candidates', 'ia_fallback']),
+  type: z.enum(['time', 'budget', 'variety', 'no_candidates', 'ia_fallback', 'ia_repaired']),
   detail: z.string().max(120),
 });
 

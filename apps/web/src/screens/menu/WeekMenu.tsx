@@ -133,6 +133,7 @@ export function WeekMenu() {
       {fewRecipes && <Banner tone="info">{es.menu.fewRecipes}</Banner>}
       {menu.notes && <Banner tone="success">💬 {menu.notes}</Banner>}
       {menu.warnings.some((w) => w.type === 'ia_fallback') && <Banner tone="info">{es.menu.aiFallback}</Banner>}
+      {menu.warnings.some((w) => w.type === 'ia_repaired') && <Banner tone="info">{es.menu.aiRepaired}</Banner>}
       {delta && (
         <Banner tone="success" onClose={() => setDelta(null)}>
           {delta}

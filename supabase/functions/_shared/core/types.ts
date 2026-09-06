@@ -139,7 +139,7 @@ export interface MenuSlot {
   is_locked: boolean;
 }
 
-export type WarningType = 'time' | 'budget' | 'variety' | 'no_candidates' | 'ia_fallback';
+export type WarningType = 'time' | 'budget' | 'variety' | 'no_candidates' | 'ia_fallback' | 'ia_repaired';
 
 export interface PlannerWarning {
   day_index: number;

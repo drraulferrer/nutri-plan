@@ -1,7 +1,9 @@
 /**
  * Generación con IA (docs/08 "Fase 3"): Claude elige recetas del catálogo por slug; el resultado
- * se valida con `core` y, si falla dos veces, se usa el motor de reglas. La lista de compra la
- * calcula siempre `core`.
+ * se valida con `core`. Si el plan tiene fallos, se reintenta una vez con los errores; si sigue
+ * fallando, se REPARA (se conservan las elecciones válidas y el motor de reglas rellena el resto).
+ * Solo si no hay ningún plan legible se usa el motor de reglas por completo.
+ * La lista de compra la calcula siempre `core`.
  */
 import {
   AI_SYSTEM_PROMPT,
@@ -10,6 +12,7 @@ import {
   aiPlanToMenu,
   buildAiCandidates,
   buildAiUserPrompt,
+  repairAiPlan,
   validateAiPlan,
   type AiPlan,
 } from '../_shared/core/ai-plan.ts';
@@ -24,14 +27,10 @@ export interface AiUsage {
 export interface AiPlanner {
   readonly model: string;
   /** Devuelve el JSON crudo de la herramienta `plan_menu` y el uso de tokens. */
-  plan(
-    system: string,
-    user: string,
-    signal: AbortSignal,
-  ): Promise<{ raw: unknown; usage: AiUsage }>;
+  plan(system: string, user: string, signal: AbortSignal): Promise<{ raw: unknown; usage: AiUsage }>;
 }
 
-export type AiOutcome = 'ok' | 'retry_ok' | 'fallback' | 'error';
+export type AiOutcome = 'ok' | 'retry_ok' | 'repaired' | 'fallback' | 'error';
 
 export interface AiGenerateInput {
   preferences: Preferences;
@@ -41,7 +40,10 @@ export interface AiGenerateInput {
   favorites: readonly string[];
   pantry: readonly string[];
   recentRecipes: readonly string[];
-  timeoutMs?: number;
+  /** Tiempo máximo por llamada al modelo. */
+  attemptTimeoutMs?: number;
+  /** Número de llamadas al modelo (la segunda lleva los errores de la primera). */
+  attempts?: number;
 }
 
 export interface AiGenerateResult {
@@ -51,59 +53,21 @@ export interface AiGenerateResult {
   errors: string[];
 }
 
-const DEFAULT_TIMEOUT_MS = 12_000;
+const DEFAULT_ATTEMPT_TIMEOUT_MS = 25_000;
+const DEFAULT_ATTEMPTS = 2;
 
-/** Llama al modelo (con un reintento explicando los errores) y cae a reglas si no hay plan válido. */
-export async function generateWithAi(
-  planner: AiPlanner,
-  input: AiGenerateInput,
-): Promise<AiGenerateResult> {
-  const usage: AiUsage = { input_tokens: 0, output_tokens: 0 };
-  const candidates = buildAiCandidates(input.catalog, input.preferences);
+async function withTimeout<T>(ms: number, fn: (signal: AbortSignal) => Promise<T>): Promise<T> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), input.timeoutMs ?? DEFAULT_TIMEOUT_MS);
-  let errors: string[] = [];
+  const timer = setTimeout(() => controller.abort(), ms);
   try {
-    for (let attempt = 0; attempt < 2; attempt += 1) {
-      const user = buildAiUserPrompt({
-        preferences: input.preferences,
-        candidates,
-        favorites: input.favorites,
-        recentRecipes: input.recentRecipes,
-        previousErrors: errors,
-      });
-      const { raw, usage: u } = await planner.plan(AI_SYSTEM_PROMPT, user, controller.signal);
-      usage.input_tokens += u.input_tokens;
-      usage.output_tokens += u.output_tokens;
-      const parsed = AiPlanSchema.safeParse(raw);
-      if (!parsed.success) {
-        errors = parsed.error.issues.slice(0, 8).map((i) => `${i.path.join('.')}: ${i.message}`);
-        continue;
-      }
-      const plan: AiPlan = parsed.data;
-      errors = validateAiPlan(plan, input.preferences, input.catalog);
-      if (errors.length === 0) {
-        const menu = aiPlanToMenu({
-          plan,
-          preferences: input.preferences,
-          catalog: input.catalog,
-          weekStart: input.weekStart,
-          seed: input.seed,
-        });
-        return {
-          menu: { ...menu, warnings: slotWarnings(menu.slots, input.preferences, input.catalog) },
-          outcome: attempt === 0 ? 'ok' : 'retry_ok',
-          usage,
-          errors: [],
-        };
-      }
-    }
-  } catch (e) {
-    errors = [e instanceof Error ? e.message : String(e)];
+    return await fn(controller.signal);
   } finally {
     clearTimeout(timer);
   }
-  const fallback = planMenu({
+}
+
+function rulesInput(input: AiGenerateInput) {
+  return {
     preferences: input.preferences,
     catalog: input.catalog,
     weekStart: input.weekStart,
@@ -111,18 +75,98 @@ export async function generateWithAi(
     favorites: input.favorites,
     pantry: input.pantry,
     recentRecipes: input.recentRecipes,
+  };
+}
+
+/** Plan reparado + huecos vacíos rellenados por reglas, conservando las notas de la IA. */
+function repairedMenu(plan: AiPlan, input: AiGenerateInput, dropped: string[]): Menu {
+  const base = aiPlanToMenu({
+    plan,
+    preferences: input.preferences,
+    catalog: input.catalog,
+    weekStart: input.weekStart,
+    seed: input.seed,
   });
+  const locked = base.slots.filter((s) => s.recipe_slug);
+  const filled = planMenu({ ...rulesInput(input), lockedSlots: locked });
+  const detail = dropped.length
+    ? `descartado: ${dropped.slice(0, 3).join(', ')}`
+    : 'huecos completados por reglas';
+  return {
+    ...filled,
+    slots: filled.slots.map((s) => ({ ...s, is_locked: false })),
+    warnings: [
+      ...filled.warnings,
+      ...slotWarnings(locked, input.preferences, input.catalog),
+      { day_index: -1, meal: 'comida', type: 'ia_repaired', detail: detail.slice(0, 120) },
+    ],
+    ...(base.notes ? { notes: base.notes } : {}),
+  };
+}
+
+/** Llama al modelo, valida, reintenta, repara y, en último término, cae a reglas. */
+export async function generateWithAi(planner: AiPlanner, input: AiGenerateInput): Promise<AiGenerateResult> {
+  const usage: AiUsage = { input_tokens: 0, output_tokens: 0 };
+  const candidates = buildAiCandidates(input.catalog, input.preferences);
+  const attempts = input.attempts ?? DEFAULT_ATTEMPTS;
+  const timeout = input.attemptTimeoutMs ?? DEFAULT_ATTEMPT_TIMEOUT_MS;
+  let errors: string[] = [];
+  let lastPlan: AiPlan | null = null;
+
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    const user = buildAiUserPrompt({
+      preferences: input.preferences,
+      candidates,
+      favorites: input.favorites,
+      recentRecipes: input.recentRecipes,
+      previousErrors: errors,
+    });
+    let raw: unknown;
+    try {
+      const res = await withTimeout(timeout, (signal) => planner.plan(AI_SYSTEM_PROMPT, user, signal));
+      raw = res.raw;
+      usage.input_tokens += res.usage.input_tokens;
+      usage.output_tokens += res.usage.output_tokens;
+    } catch (e) {
+      errors = [e instanceof Error ? e.message : String(e)];
+      break; // sin respuesta: no tiene sentido reintentar con "errores"
+    }
+    const parsed = AiPlanSchema.safeParse(raw);
+    if (!parsed.success) {
+      errors = parsed.error.issues.slice(0, 8).map((i) => `${i.path.join('.')}: ${i.message}`);
+      continue;
+    }
+    lastPlan = parsed.data;
+    errors = validateAiPlan(lastPlan, input.preferences, input.catalog);
+    if (errors.length === 0) {
+      const menu = aiPlanToMenu({
+        plan: lastPlan,
+        preferences: input.preferences,
+        catalog: input.catalog,
+        weekStart: input.weekStart,
+        seed: input.seed,
+      });
+      return {
+        menu: { ...menu, warnings: slotWarnings(menu.slots, input.preferences, input.catalog) },
+        outcome: attempt === 0 ? 'ok' : 'retry_ok',
+        usage,
+        errors: [],
+      };
+    }
+  }
+
+  if (lastPlan) {
+    const { plan, dropped } = repairAiPlan(lastPlan, input.preferences, input.catalog);
+    return { menu: repairedMenu(plan, input, dropped), outcome: 'repaired', usage, errors };
+  }
+
+  const fallback = planMenu(rulesInput(input));
   return {
     menu: {
       ...fallback,
       warnings: [
         ...fallback.warnings,
-        {
-          day_index: -1,
-          meal: 'comida',
-          type: 'ia_fallback',
-          detail: errors[0]?.slice(0, 120) ?? 'sin plan válido',
-        },
+        { day_index: -1, meal: 'comida', type: 'ia_fallback', detail: errors[0]?.slice(0, 120) ?? 'sin plan válido' },
       ],
     },
     outcome: 'fallback',
@@ -145,11 +189,7 @@ export class ClaudePlanner implements AiPlanner {
     return new ClaudePlanner(key, Deno.env.get('ANTHROPIC_MODEL') || 'claude-sonnet-5');
   }
 
-  async plan(
-    system: string,
-    user: string,
-    signal: AbortSignal,
-  ): Promise<{ raw: unknown; usage: AiUsage }> {
+  async plan(system: string, user: string, signal: AbortSignal): Promise<{ raw: unknown; usage: AiUsage }> {
     const res = await this.fetchImpl('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       signal,
@@ -160,7 +200,7 @@ export class ClaudePlanner implements AiPlanner {
       },
       body: JSON.stringify({
         model: this.model,
-        max_tokens: 1500,
+        max_tokens: 2500,
         system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
         tools: [AI_TOOL_SCHEMA],
         tool_choice: { type: 'tool', name: AI_TOOL_SCHEMA.name },
@@ -176,10 +216,7 @@ export class ClaudePlanner implements AiPlanner {
     if (!tool) throw new Error('La respuesta no contiene el plan');
     return {
       raw: tool.input,
-      usage: {
-        input_tokens: body.usage?.input_tokens ?? 0,
-        output_tokens: body.usage?.output_tokens ?? 0,
-      },
+      usage: { input_tokens: body.usage?.input_tokens ?? 0, output_tokens: body.usage?.output_tokens ?? 0 },
     };
   }
 }

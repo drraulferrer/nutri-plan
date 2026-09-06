@@ -94,6 +94,41 @@ export function validateAiPlan(plan: AiPlan, prefs: Preferences, catalog: Catalo
   return errors;
 }
 
+/**
+ * Conserva las elecciones válidas de la IA y anula las que no lo son (receta desconocida,
+ * incompatible, de otro tipo de comida o repetida más veces de las permitidas). Nunca falla:
+ * los huecos que queden en null los rellena después el motor de reglas.
+ */
+export function repairAiPlan(plan: AiPlan, prefs: Preferences, catalog: Catalog): { plan: AiPlan; dropped: string[] } {
+  const dropped: string[] = [];
+  const uses = new Map<string, number>();
+  const chosen = new Map<string, string | null>();
+  for (const s of plan.slots) {
+    const key = `${s.day_index}-${s.meal}`;
+    if (chosen.has(key) || !s.recipe_slug) continue;
+    const recipe = catalog.recipes.get(s.recipe_slug);
+    const max = recipe?.batch_reuse ? 2 : 1;
+    const ok =
+      recipe !== undefined &&
+      passesHardConstraints(recipe, prefs) &&
+      recipe.meal_types.includes(s.meal) &&
+      (uses.get(s.recipe_slug) ?? 0) < max;
+    if (ok) {
+      chosen.set(key, s.recipe_slug);
+      uses.set(s.recipe_slug, (uses.get(s.recipe_slug) ?? 0) + 1);
+    } else {
+      dropped.push(`${key}:${s.recipe_slug}`);
+    }
+  }
+  const slots: AiPlan['slots'] = [];
+  for (const meal of mealsFor(prefs)) {
+    for (let day = 0; day < prefs.days; day += 1) {
+      slots.push({ day_index: day, meal, recipe_slug: chosen.get(`${day}-${meal}`) ?? null });
+    }
+  }
+  return { plan: { slots, ...(plan.notes ? { notes: plan.notes } : {}) }, dropped };
+}
+
 function alternativesFor(slot: { meal: MealType; recipe_slug: string | null }, candidates: readonly Recipe[], used: ReadonlySet<string>, seed: string): string[] {
   const chosen = slot.recipe_slug ? candidates.find((r) => r.slug === slot.recipe_slug) : undefined;
   return candidatesFor(candidates, slot.meal)
@@ -167,9 +202,12 @@ export interface AiPromptInput {
 
 export function buildAiUserPrompt({ preferences, candidates, favorites, recentRecipes, previousErrors }: AiPromptInput): string {
   const meals = mealsFor(preferences);
+  const perMeal = Object.fromEntries(meals.map((m) => [m, candidates.filter((c) => c.meals.includes(m)).length]));
   const request = {
     dias: preferences.days,
     huecos_por_dia: meals,
+    candidatos_por_comida: perMeal,
+    aviso: 'Si para una comida hay menos candidatos que días, deja recipe_slug en null en los huecos sobrantes; nunca repitas una receta salvo batch=true (máximo 2 veces).',
     personas: preferences.people,
     tiempo_max_min: preferences.cook_time === '60+' ? 240 : Number(preferences.cook_time),
     presupuesto: preferences.budget,

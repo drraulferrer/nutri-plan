@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { AI_SYSTEM_PROMPT, AiPlanSchema, aiPlanToMenu, buildAiCandidates, buildAiUserPrompt, validateAiPlan, type AiPlan } from '../src/ai-plan';
+import { AI_SYSTEM_PROMPT, AiPlanSchema, aiPlanToMenu, buildAiCandidates, buildAiUserPrompt, repairAiPlan, validateAiPlan, type AiPlan } from '../src/ai-plan';
 import { slotWarnings } from '../src/planner';
 import { CATALOG, prefs } from './fixtures';
 
@@ -83,5 +83,36 @@ describe('prompts', () => {
     expect(text).toContain('falta el hueco 0-cena');
     expect(AI_SYSTEM_PROMPT).toContain('NO adaptes el menú');
     expect(AiPlanSchema.safeParse({ slots: [] }).success).toBe(false);
+  });
+});
+
+describe('repairAiPlan', () => {
+  it('anula lo inválido, conserva lo válido y completa los huecos que faltan', () => {
+    const p = prefs({ allergens: ['huevos'], days: 5 });
+    const plan: AiPlan = {
+      slots: [
+        { day_index: 0, meal: 'comida', recipe_slug: 'arroz-pollo' },
+        { day_index: 1, meal: 'comida', recipe_slug: 'arroz-pollo' }, // repetida
+        { day_index: 2, meal: 'comida', recipe_slug: 'tortilla-patata' }, // huevos
+        { day_index: 3, meal: 'comida', recipe_slug: 'no-existe' },
+        { day_index: 4, meal: 'comida', recipe_slug: 'tostada-tomate' }, // desayuno
+        { day_index: 0, meal: 'cena', recipe_slug: 'lentejas-verduras' },
+        { day_index: 1, meal: 'cena', recipe_slug: 'lentejas-verduras' }, // batch: permitida 2 veces
+      ],
+      notes: 'ok',
+    };
+    const { plan: fixed, dropped } = repairAiPlan(plan, p, CATALOG);
+    expect(fixed.slots).toHaveLength(15);
+    expect(fixed.slots.find((s) => s.day_index === 0 && s.meal === 'comida')!.recipe_slug).toBe('arroz-pollo');
+    expect(fixed.slots.find((s) => s.day_index === 1 && s.meal === 'comida')!.recipe_slug).toBeNull();
+    expect(fixed.slots.find((s) => s.day_index === 1 && s.meal === 'cena')!.recipe_slug).toBe('lentejas-verduras');
+    expect(dropped).toEqual(['1-comida:arroz-pollo', '2-comida:tortilla-patata', '3-comida:no-existe', '4-comida:tostada-tomate']);
+    expect(validateAiPlan(fixed, p, CATALOG)).toEqual([]);
+    expect(fixed.notes).toBe('ok');
+  });
+  it('el prompt informa de los candidatos por comida', () => {
+    const text = buildAiUserPrompt({ preferences: prefs({ days: 7 }), candidates: buildAiCandidates(CATALOG, prefs()), favorites: [], recentRecipes: [] });
+    expect(text).toContain('"candidatos_por_comida"');
+    expect(text).toContain('deja recipe_slug en null');
   });
 });
