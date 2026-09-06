@@ -72,24 +72,35 @@ export function ShoppingList() {
       return slot?.recipe_slug ? catalog.recipes.get(slot.recipe_slug)?.name : undefined;
     }).filter(Boolean))].join(', ');
 
+  // El nombre ocupa el ancho de la fila y la cantidad va debajo: en 375 px los nombres largos
+  // ("Aceite de oliva virgen extra") caben en dos líneas sin recortarse.
   const row = (item: ShoppingItem, inHaveIt = false) => (
     <li key={item.ingredient} className={item.checked ? 'item checked' : 'item'}>
-      <label className="item-main">
-        <input type="checkbox" checked={item.checked} onChange={() => toggleChecked(item)} aria-label={item.name} />
-        <span className="item-name">{item.name}</span>
-      </label>
-      <button type="button" className="item-qty" onClick={() => setExpanded(expanded === item.ingredient ? null : item.ingredient)} aria-expanded={expanded === item.ingredient}>
-        {item.buy_label}
+      <input
+        type="checkbox"
+        id={`item-${item.ingredient}`}
+        className="item-check"
+        checked={item.checked}
+        onChange={() => toggleChecked(item)}
+      />
+      <div className="item-text">
+        <label className="item-name" htmlFor={`item-${item.ingredient}`}>
+          {item.name}
+        </label>
+        <button type="button" className="item-qty" onClick={() => setExpanded(expanded === item.ingredient ? null : item.ingredient)} aria-expanded={expanded === item.ingredient}>
+          {item.buy_label}
+        </button>
+      </div>
+      {/* Icono en vez de texto: en 375 px el botón se comía el ancho del nombre. */}
+      <button
+        type="button"
+        className="item-action"
+        title={inHaveIt ? es.list.backToList : es.list.haveItAction}
+        aria-label={`${inHaveIt ? es.list.backToList : es.list.haveItAction}: ${item.name}`}
+        onClick={() => setHaveIt(item, !inHaveIt)}
+      >
+        {inHaveIt ? '↩' : '🏠'}
       </button>
-      {inHaveIt ? (
-        <button type="button" className="item-action" onClick={() => setHaveIt(item, false)}>
-          {es.list.backToList}
-        </button>
-      ) : (
-        <button type="button" className="item-action" onClick={() => setHaveIt(item, true)} aria-label={`${es.list.haveItAction}: ${item.name}`}>
-          {es.list.haveItAction}
-        </button>
-      )}
       {expanded === item.ingredient && (
         <p className="item-detail">
           {es.list.needed(formatQuantity(item.needed_qty, item.unit))}

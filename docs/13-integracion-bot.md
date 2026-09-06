@@ -28,6 +28,7 @@ Base: `https://<ref>.supabase.co/functions/v1/api`.
 | `GET /bot/context/:telegram_user_id/slots/:day/:meal` | — | `{ slot, recipe, alternatives: [{slug, name, time_min, protein_group}] }` | Resolver la referencia `[NP menu:<ref> slot:<day>-<meal>]` de la plantilla M1. |
 | `POST /bot/context/:telegram_user_id/slots/:day/:meal` | `{ "recipe_slug": "…" \| null }` | `{ slot, shopping_list_delta: { added, removed, changed } }` | Aplicar el cambio acordado. `null` = comer fuera. Rechaza (422) recetas fuera del catálogo, de otro tipo de comida o que choquen con alergias, estilo o ingredientes que no gustan. |
 | `GET /bot/recipes/:slug` | — | `Recipe` completa | Explicar, adaptar o sustituir ingredientes. |
+| `PUT /bot/context/:telegram_user_id/pantry` | `{ "items": ["6 huevos", "2 tomates"], "mode": "merge" \| "replace" }` | `{ pantry: [{slug,name}], recognized: [{slug,name,from}], unknown: string[] }` | **Foto de la nevera**: Nutri identifica los alimentos en la imagen y los sube aquí en texto libre; el servidor los reconoce contra el catálogo (plurales, sinónimos, cantidades) y guarda solo slugs conocidos. Lo no reconocido vuelve en `unknown` para que Nutri lo comente. |
 
 `day` va de 0 (lunes) a 6; `meal` es `desayuno`, `comida`, `cena` o `tentempie`.
 
@@ -42,6 +43,7 @@ OpenAI/Hermes y trivial de adaptar a otros). Resumen:
 | `nutri_plan_get_slot` | El mensaje incluye `[NP menu:… slot:d-m]` o el usuario habla de una comida concreta ("la cena del jueves"). |
 | `nutri_plan_set_slot` | El usuario ha aceptado una alternativa concreta. Siempre proponer primero, cambiar después. |
 | `nutri_plan_get_recipe` | El usuario pregunta por una receta o dice que le falta un ingrediente (`[NP receta:slug]`). |
+| `nutri_plan_set_pantry` | El usuario manda una foto de la nevera o enumera lo que tiene en casa. |
 
 Instrucción sugerida para el sistema del agente:
 
@@ -52,6 +54,19 @@ Instrucción sugerida para el sistema del agente:
 > restricciones) y aplica el cambio con `nutri_plan_set_slot` solo cuando el usuario elija. Nunca
 > inventes recetas que no estén en el catálogo cuando vayas a cambiar el menú. Confirma al final
 > qué cambió en la lista de compra usando `shopping_list_delta`.
+
+## Flujo de la foto de la nevera
+
+1. El usuario manda la foto a Nutri en el chat. Nutri la describe y enumera lo que ve.
+2. Nutri llama a `nutri_plan_set_pantry` con esa lista (`mode: "merge"`).
+3. Nutri confirma en el chat lo reconocido y lo que no, y ofrece el enlace
+   `https://t.me/Nutri_RF_Bot?startapp=despensa`, que abre la Mini App en la despensa.
+4. Al planificar la semana, el servidor pasa la despensa al motor (campo `ya_tiene_en_casa` del
+   prompt), que prioriza gastar primero lo que ya hay en casa.
+
+Si el bot aún no tiene estas herramientas, el usuario puede copiar la lista del chat y pegarla en
+la app: **Cocinar con lo que tengo → Pegar lista de Nutri**. El análisis es el mismo código
+(`packages/core/src/pantry-text.ts`), así que el resultado es idéntico.
 
 ## Conversación de prueba (definición de hecho, doc 10)
 

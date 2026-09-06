@@ -167,9 +167,17 @@ comidas del día y las quita de la lista).
 - Sin menú → "Primero genera tu menú" + botón.
 - Sin conexión → funciona íntegra desde caché; cambios en cola.
 
-## E · Cocinar con lo que tengo
+## E · Cocinar con lo que tengo (mi despensa)
 
-**Objetivo:** tres ideas útiles en menos de 30 segundos.
+**Objetivo:** tres ideas útiles en menos de 30 segundos, y mantener al día lo que hay en casa.
+
+Los chips de esta pantalla **son la despensa**: se guardan, se sincronizan y se tienen en cuenta al
+planificar la semana (el planificador prioriza gastar lo que ya hay). Hay dos formas de llenarla:
+escribiendo con autocompletado, o con **"Pegar lista de Nutri"**, que analiza el texto que devuelve
+el bot al mirar la foto de la nevera. El análisis ocurre en el dispositivo y solo se guardan
+ingredientes del catálogo; lo no reconocido se muestra pero no se guarda (doc 12).
+
+El enlace `t.me/Nutri_RF_Bot?startapp=despensa` abre esta pantalla con esa hoja ya abierta.
 
 ```
 ┌──────────────────────────────┐

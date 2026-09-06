@@ -38,6 +38,7 @@ describe('startScreenFrom', () => {
     expect(startScreenFrom('lista')).toBe('lista');
     expect(startScreenFrom('menu')).toBe('menu');
     expect(startScreenFrom('cocinar')).toBe('cocinar');
+    expect(startScreenFrom('despensa')).toBe('despensa');
     expect(startScreenFrom('otra-cosa')).toBe('inicio');
     expect(startScreenFrom(undefined)).toBe('inicio');
   });

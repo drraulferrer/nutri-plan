@@ -186,7 +186,7 @@ Tu tarea: elegir, para cada hueco de la semana, una receta del catálogo de cand
 3. Cada receta solo en los tipos de comida que admite (campo meals).
 4. Rellena todos los huecos pedidos; usa null solo si no queda ningún candidato válido.
 
-Prioridades (en este orden): tiempo disponible del usuario, presupuesto, reutilizar ingredientes perecederos entre recetas cercanas para reducir desperdicio, variar la proteína principal (no repetir protein el mismo día ni más de dos veces por tipo de comida), favoritos del usuario.
+Prioridades (en este orden): tiempo disponible del usuario, presupuesto, gastar primero lo que ya tiene en casa (campo ya_tiene_en_casa) para que no se estropee, reutilizar ingredientes perecederos entre recetas cercanas para reducir desperdicio, variar la proteína principal (no repetir protein el mismo día ni más de dos veces por tipo de comida), favoritos del usuario.
 
 Si las notas del usuario mencionan una situación de salud (embarazo, diabetes, enfermedad renal, trastorno alimentario u otra), NO adaptes el menú a ella ni la menciones: planifica un menú general y trata las notas solo en lo organizativo (días que no cocina, comidas fuera).
 
@@ -197,10 +197,12 @@ export interface AiPromptInput {
   candidates: AiCandidate[];
   favorites: readonly string[];
   recentRecipes: readonly string[];
+  /** Ingredientes que el usuario dice tener en casa (despensa). */
+  pantry?: readonly string[];
   previousErrors?: readonly string[];
 }
 
-export function buildAiUserPrompt({ preferences, candidates, favorites, recentRecipes, previousErrors }: AiPromptInput): string {
+export function buildAiUserPrompt({ preferences, candidates, favorites, recentRecipes, pantry = [], previousErrors }: AiPromptInput): string {
   const meals = mealsFor(preferences);
   const perMeal = Object.fromEntries(meals.map((m) => [m, candidates.filter((c) => c.meals.includes(m)).length]));
   const request = {
@@ -213,6 +215,7 @@ export function buildAiUserPrompt({ preferences, candidates, favorites, recentRe
     presupuesto: preferences.budget,
     estilos: preferences.styles,
     favoritos: favorites,
+    ya_tiene_en_casa: pantry,
     evitar_repetir_de_la_semana_pasada: recentRecipes,
     notas_del_usuario: preferences.other_restrictions ?? '',
   };

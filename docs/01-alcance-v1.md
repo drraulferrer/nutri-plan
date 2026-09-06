@@ -73,7 +73,10 @@ Formato: `RF-xx` · prioridad **M** (imprescindible en v1) / **S** (deseable en 
 | RF-33 | Botón "Preguntar a Nutri" con la receta y los ingredientes que faltan prerrellenados. | M |
 | RF-34 | Botón "Me falta un ingrediente": mensaje al chat con el ingrediente concreto y la receta. | M |
 | RF-35 | Añadir la receta al menú de la semana en un hueco elegido. | S |
-| RF-36 | Los ingredientes introducidos se guardan como **despensa** del usuario para la próxima vez. | S |
+| RF-36 | Los ingredientes introducidos se guardan como **despensa** del usuario para la próxima vez. | M |
+| RF-37 | El usuario puede **pegar la lista que Nutri obtiene de una foto de su nevera**; la app la analiza contra el catálogo (plurales, sinónimos, cantidades) y añade a la despensa lo reconocido, mostrando aparte lo que no. | M |
+| RF-38 | La despensa se tiene en cuenta al **planificar la semana**: el motor prioriza recetas que gasten lo que ya hay en casa. | M |
+| RF-39 | El bot puede escribir la despensa directamente tras analizar la foto (`PUT /bot/context/:tg/pantry`, doc 13). | C |
 
 ### Puente con Nutri
 

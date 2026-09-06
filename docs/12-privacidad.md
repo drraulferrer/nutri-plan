@@ -11,6 +11,7 @@
 | Texto libre de restricciones | Adaptar organización | Consentimiento (el usuario decide escribirlo). Se avisa bajo el campo: "No escribas aquí datos de salud; para eso habla con Nutri" | Idem |
 | `safety_flags` | Mostrar aviso de derivación y no adaptar el menú | Interés legítimo de seguridad | Se borran al vaciar el texto libre |
 | Menús, lista, despensa, favoritos | El servicio en sí | Ejecución | 4 semanas de menús; resto hasta borrado |
+| Lista de la nevera pegada desde el chat | Llenar la despensa | Ejecución | **No se guarda el texto.** Se analiza en el dispositivo (o, si lo sube el bot, en la función) y solo se conservan los `slug` de ingredientes del catálogo. Lo no reconocido se muestra y se descarta. Las fotos nunca llegan a Nutri Plan: se quedan en el chat con Nutri |
 | `events` (pantalla, acción) | Mejorar la app | Interés legítimo; sin contenido | 90 días detalle, agregados indefinidos |
 
 **No se guarda:** nombre, apellidos, usuario de Telegram, foto, teléfono, peso, altura, calorías,

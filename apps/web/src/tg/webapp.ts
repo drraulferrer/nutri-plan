@@ -1,7 +1,7 @@
 import { createMockWebApp } from './mock';
 import type { TelegramWebApp, ThemeParams } from './types';
 
-export type StartScreen = 'menu' | 'lista' | 'cocinar' | 'inicio';
+export type StartScreen = 'menu' | 'lista' | 'cocinar' | 'despensa' | 'inicio';
 
 /**
  * Devuelve el SDK real si la app corre dentro de Telegram; si no, la simulación.
@@ -40,6 +40,7 @@ export function startScreenFrom(startParam: string | undefined): StartScreen {
     case 'menu':
     case 'lista':
     case 'cocinar':
+    case 'despensa':
       return startParam;
     default:
       return 'inicio';

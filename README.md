@@ -12,6 +12,7 @@ etiqueta `revisar` pendientes de revisión por el autor.
 | **Menú semanal** | 5 o 7 días, desayuno · comida · cena (tentempié opcional). Alternativas por plato. Regenerar comida, día o semana. |
 | **Lista de compra** | Generada desde el menú, agrupada por categorías, escalada al número de personas, casillas "ya lo tengo", compartir/copiar. |
 | **Cocinar con lo que tengo** | Indicas ingredientes y recibes 3 recetas con lo que falta, tiempo y raciones. |
+| **Mi despensa** | Pega la lista que Nutri saca de la foto de tu nevera: se reconoce contra el recetario y se usa al planificar la semana. |
 | **Puente con Nutri** | Botones que llevan el contexto al chat del bot para que Nutri ajuste, sustituya o mejore. |
 
 Fuera de la v1: peso, calorías, objetivos, pagos, datos clínicos.

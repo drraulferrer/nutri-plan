@@ -6,6 +6,11 @@ describe('navegación', () => {
     expect(initialStack('lista').map((s) => s.name)).toEqual(['inicio', 'lista']);
     expect(initialStack('inicio').map((s) => s.name)).toEqual(['inicio']);
   });
+  it('despensa abre Cocinar con la hoja de pegar lista', () => {
+    const stack = initialStack('despensa');
+    expect(stack.map((s) => s.name)).toEqual(['inicio', 'cocinar']);
+    expect(stack[1]).toEqual({ name: 'cocinar', paste: true });
+  });
   it('pop nunca vacía la pila', () => {
     expect(navReducer([{ name: 'inicio' }], { type: 'pop' })).toEqual([{ name: 'inicio' }]);
     expect(navReducer([{ name: 'inicio' }, { name: 'menu' }], { type: 'pop' })).toEqual([{ name: 'inicio' }]);

@@ -161,6 +161,24 @@ Deno.test('leer y cambiar un hueco; alérgenos y comida incorrecta se rechazan',
   assertEquals(eatOut.json.data.slot.recipe_slug, null);
 });
 
+Deno.test('la despensa se sube desde el chat en texto libre', async () => {
+  const { bot } = await setup();
+  const res = await bot('PUT', '/bot/context/77/pantry', {
+    items: ['6 huevos', '2 tomates', 'Medio pepino', 'salsa teriyaki'],
+  });
+  assertEquals(res.status, 200);
+  assertEquals(res.json.data.recognized.map((r: { slug: string }) => r.slug), ['huevos', 'tomate', 'pepino']);
+  assertEquals(res.json.data.unknown, ['salsa teriyaki']);
+  // 'arroz' ya estaba en la despensa: merge conserva lo anterior.
+  assertEquals(res.json.data.pantry.map((p: { slug: string }) => p.slug), ['arroz', 'huevos', 'tomate', 'pepino']);
+
+  const replaced = await bot('PUT', '/bot/context/77/pantry', { items: ['tomate'], mode: 'replace' });
+  assertEquals(replaced.json.data.pantry.map((p: { slug: string }) => p.slug), ['tomate']);
+
+  assertEquals((await bot('PUT', '/bot/context/77/pantry', { items: 'no' })).status, 422);
+  assertEquals((await bot('PUT', '/bot/context/999/pantry', { items: ['huevos'] })).status, 404);
+});
+
 Deno.test('receta por slug', async () => {
   const { bot } = await setup();
   assertEquals((await bot('GET', '/bot/recipes/c1')).json.data.name, 'Receta c1');

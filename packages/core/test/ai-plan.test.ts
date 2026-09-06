@@ -115,4 +115,9 @@ describe('repairAiPlan', () => {
     expect(text).toContain('"candidatos_por_comida"');
     expect(text).toContain('deja recipe_slug en null');
   });
+  it('el prompt incluye la despensa y el sistema pide gastarla primero', () => {
+    const text = buildAiUserPrompt({ preferences: prefs(), candidates: buildAiCandidates(CATALOG, prefs()), favorites: [], recentRecipes: [], pantry: ['espinacas', 'huevos'] });
+    expect(text).toContain('"ya_tiene_en_casa":["espinacas","huevos"]');
+    expect(AI_SYSTEM_PROMPT).toContain('gastar primero lo que ya tiene en casa');
+  });
 });

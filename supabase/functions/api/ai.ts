@@ -119,6 +119,7 @@ export async function generateWithAi(planner: AiPlanner, input: AiGenerateInput)
       candidates,
       favorites: input.favorites,
       recentRecipes: input.recentRecipes,
+      pantry: input.pantry,
       previousErrors: errors,
     });
     let raw: unknown;

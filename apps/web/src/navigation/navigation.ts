@@ -6,7 +6,7 @@ export type Screen =
   | { name: 'prefs'; firstRun?: boolean }
   | { name: 'menu' }
   | { name: 'lista' }
-  | { name: 'cocinar' }
+  | { name: 'cocinar'; paste?: boolean }
   | {
       name: 'receta';
       slug: string;
@@ -41,6 +41,8 @@ export function initialStack(start: StartScreen): Screen[] {
       return [home, { name: 'lista' }];
     case 'cocinar':
       return [home, { name: 'cocinar' }];
+    case 'despensa':
+      return [home, { name: 'cocinar', paste: true }];
     default:
       return [home];
   }

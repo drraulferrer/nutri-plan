@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { DAY_NAMES } from '../_shared/core/templates.ts';
 import { MEAL_TYPES } from '../_shared/core/schemas.ts';
 import { passesHardConstraints } from '../_shared/core/restrictions.ts';
+import { mergePantry, parsePantryText } from '../_shared/core/pantry-text.ts';
 import { activeItems, buildShoppingList, diffShoppingLists } from '../_shared/core/shopping.ts';
 import type { Catalog, MealType, Menu } from '../_shared/core/types.ts';
 import { timingSafeEqual } from './auth.ts';
@@ -15,6 +16,11 @@ import type { Store, UserState } from './store.ts';
 
 const TelegramId = z.string().regex(/^\d{1,20}$/);
 const SlotBody = z.object({ recipe_slug: z.string().min(2).max(60).nullable() });
+const PantryBody = z.object({
+  /** Ingredientes en texto libre, tal y como Nutri los extrae de la foto de la nevera. */
+  items: z.array(z.string().min(1).max(120)).max(120),
+  mode: z.enum(['merge', 'replace']).default('merge'),
+});
 
 function summarizeMenu(menu: Menu, catalog: Catalog) {
   const name = (slug: string | null) => (slug ? (catalog.recipes.get(slug)?.name ?? slug) : null);
@@ -149,6 +155,23 @@ export function registerBotRoutes(app: Hono<Vars>, store: Store, env: { botSecre
       return ok({
         slot: next.menu?.slots.find((s) => s.day_index === day && s.meal === meal) ?? null,
         shopping_list_delta: delta,
+      });
+    }),
+  );
+
+  // Despensa: Nutri analiza la foto de la nevera en el chat y sube aquí la lista (docs/13).
+  app.put('/bot/context/:tg/pantry', (c) =>
+    withUser(c.req.param('tg'), async (profileId, state, catalog) => {
+      const body = PantryBody.safeParse(await c.req.json().catch(() => null));
+      if (!body.success) return fail('validation', 'Cuerpo no válido');
+      const { matched, unknown } = parsePantryText(body.data.items.join('\n'), catalog);
+      const slugs = matched.map((m) => m.slug);
+      const pantry = body.data.mode === 'replace' ? slugs : mergePantry(state.pantry, slugs);
+      const next = await store.putState(profileId, { pantry });
+      return ok({
+        pantry: next.pantry.map((slug) => ({ slug, name: catalog.ingredients.get(slug)?.name ?? slug })),
+        recognized: matched.map((m) => ({ slug: m.slug, name: m.name, from: m.raw })),
+        unknown,
       });
     }),
   );

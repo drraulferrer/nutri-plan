@@ -60,7 +60,12 @@ export function Home() {
       subtitle: (menu && catalog && todaySummary(menu, catalog)) || es.home.planHint,
       onClick: () => nav.push({ name: 'menu' }),
     },
-    { icon: '🍳', title: es.home.cook, subtitle: es.home.cookHint, onClick: () => nav.push({ name: 'cocinar' }) },
+    {
+      icon: '🍳',
+      title: es.home.cook,
+      subtitle: state.pantry.length > 0 ? es.pantry.count(state.pantry.length) : es.home.cookHint,
+      onClick: () => nav.push({ name: 'cocinar' }),
+    },
     {
       icon: '🛒',
       title: es.home.list,

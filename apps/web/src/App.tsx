@@ -82,7 +82,7 @@ function Router() {
     case 'lista':
       return <ShoppingList />;
     case 'cocinar':
-      return <Cook />;
+      return <Cook openPaste={current.paste ?? false} />;
     case 'receta':
       return <Recipe key={current.slug} {...current} />;
   }
