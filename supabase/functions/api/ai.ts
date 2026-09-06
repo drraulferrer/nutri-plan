@@ -161,7 +161,6 @@ export class ClaudePlanner implements AiPlanner {
       body: JSON.stringify({
         model: this.model,
         max_tokens: 1500,
-        temperature: 0.3,
         system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
         tools: [AI_TOOL_SCHEMA],
         tool_choice: { type: 'tool', name: AI_TOOL_SCHEMA.name },
