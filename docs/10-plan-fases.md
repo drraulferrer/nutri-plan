@@ -68,6 +68,7 @@ Entregables:
 - [x] Reglas de seguridad en el prompt (no adaptar a situaciones de salud) y en UI.
 - [x] Interruptor en Preferencias "Menús con ayuda de Nutri (IA)", activado por defecto.
 - [x] Registro de tokens y resultado por menú en `ai_usage`.
+- [x] **Verificado en producción (2026-09-06):** menú generado por Claude (`retry_ok`, 8 664 tokens de entrada y 2 095 de salida, unos 17 s) con nota de organización; los huecos sin candidatos (desayunos y tentempiés con 7 días) quedan vacíos hasta ampliar el recetario.
 
 DoD:
 - 20 menús generados con 10 perfiles distintos (incluyendo alergias combinadas y texto libre
