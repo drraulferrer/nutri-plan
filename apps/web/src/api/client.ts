@@ -42,7 +42,7 @@ export interface ApiClient {
   session(): Promise<SessionResponse>;
   getState(): Promise<RemoteState>;
   putState(patch: StatePatch): Promise<RemoteState>;
-  generateMenu(body: { week_start?: string; seed?: string }): Promise<RemoteState>;
+  generateMenu(body: { week_start?: string; seed?: string; source?: 'reglas' | 'ia' }): Promise<RemoteState>;
   deleteMe(): Promise<void>;
   event(screen: string, action: string): Promise<void>;
 }

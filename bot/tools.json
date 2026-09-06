@@ -1,0 +1,65 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "nutri_plan_get_context",
+      "description": "Lee el estado actual del usuario en Nutri Plan: preferencias de cocina, menú semanal (por día y comida), resumen de la lista de compra, despensa y favoritos. Úsala antes de responder a cualquier mensaje sobre su menú, su lista o lo que tiene en casa.",
+      "parameters": {
+        "type": "object",
+        "required": ["telegram_user_id"],
+        "properties": {
+          "telegram_user_id": { "type": "string", "description": "Identificador numérico de Telegram del usuario que escribe." }
+        }
+      },
+      "http": { "method": "GET", "url": "{{API_BASE}}/bot/context/{telegram_user_id}", "headers": { "X-Bot-Secret": "{{BOT_SHARED_SECRET}}" } }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "nutri_plan_get_slot",
+      "description": "Lee una comida concreta del menú (receta actual y alternativas). Usa la referencia [NP menu:… slot:d-m] del mensaje si existe: d es el día (0 lunes … 6 domingo) y m la comida.",
+      "parameters": {
+        "type": "object",
+        "required": ["telegram_user_id", "day_index", "meal"],
+        "properties": {
+          "telegram_user_id": { "type": "string" },
+          "day_index": { "type": "integer", "minimum": 0, "maximum": 6 },
+          "meal": { "type": "string", "enum": ["desayuno", "comida", "cena", "tentempie"] }
+        }
+      },
+      "http": { "method": "GET", "url": "{{API_BASE}}/bot/context/{telegram_user_id}/slots/{day_index}/{meal}", "headers": { "X-Bot-Secret": "{{BOT_SHARED_SECRET}}" } }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "nutri_plan_set_slot",
+      "description": "Cambia una comida del menú por otra receta del catálogo (o por null para 'comer fuera') y actualiza la lista de compra. Llámala solo cuando el usuario haya aceptado una opción concreta. Devuelve el hueco actualizado y el delta de la lista.",
+      "parameters": {
+        "type": "object",
+        "required": ["telegram_user_id", "day_index", "meal", "recipe_slug"],
+        "properties": {
+          "telegram_user_id": { "type": "string" },
+          "day_index": { "type": "integer", "minimum": 0, "maximum": 6 },
+          "meal": { "type": "string", "enum": ["desayuno", "comida", "cena", "tentempie"] },
+          "recipe_slug": { "type": ["string", "null"], "description": "Slug de una receta del catálogo, o null para comer fuera." }
+        }
+      },
+      "http": { "method": "POST", "url": "{{API_BASE}}/bot/context/{telegram_user_id}/slots/{day_index}/{meal}", "headers": { "X-Bot-Secret": "{{BOT_SHARED_SECRET}}", "Content-Type": "application/json" }, "body": { "recipe_slug": "{recipe_slug}" } }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "nutri_plan_get_recipe",
+      "description": "Devuelve una receta completa del catálogo (ingredientes para 2 raciones, pasos, sustituciones, alérgenos). Usa el slug de la referencia [NP receta:slug] si existe.",
+      "parameters": {
+        "type": "object",
+        "required": ["slug"],
+        "properties": { "slug": { "type": "string" } }
+      },
+      "http": { "method": "GET", "url": "{{API_BASE}}/bot/recipes/{slug}", "headers": { "X-Bot-Secret": "{{BOT_SHARED_SECRET}}" } }
+    }
+  }
+]

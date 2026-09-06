@@ -10,3 +10,4 @@ export * from './planner.ts';
 export * from './safety.ts';
 export * from './templates.ts';
 export * from './catalog.ts';
+export * from './ai-plan.ts';

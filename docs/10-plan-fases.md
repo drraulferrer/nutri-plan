@@ -64,11 +64,10 @@ DoD:
 respaldo.
 
 Entregables:
-- [ ] `POST /menus/generate {source:'ia'}` según doc 08, con validación Zod, reintento y fallback.
-- [ ] Reglas de seguridad aplicadas en prompt y en UI.
-- [ ] Interruptor en Preferencias: "Menús con ayuda de Nutri (IA)" (activado por defecto si el
-      coste lo permite).
-- [ ] Registro de coste por menú generado.
+- [x] `POST /me/menus/generate {source:'ia'}` según doc 08: candidatos tras restricciones duras, salida estructurada (tool use), validación con `core`, un reintento con los errores y respaldo en reglas (`ai_fallback`).
+- [x] Reglas de seguridad en el prompt (no adaptar a situaciones de salud) y en UI.
+- [x] Interruptor en Preferencias "Menús con ayuda de Nutri (IA)", activado por defecto.
+- [x] Registro de tokens y resultado por menú en `ai_usage`.
 
 DoD:
 - 20 menús generados con 10 perfiles distintos (incluyendo alergias combinadas y texto libre
@@ -79,9 +78,9 @@ DoD:
 ## Fase 4 · Puente completo con Nutri (según plataforma del bot)
 
 Entregables:
-- [ ] Rutas `/bot/*` con `X-Bot-Secret`.
-- [ ] Herramientas del agente: `nutri_plan_get_context`, `nutri_plan_apply_change`.
-- [ ] El bot envía botones inline `web_app` para abrir la app en la pantalla adecuada.
+- [x] Rutas `/bot/*` con `X-Bot-Secret` (doc 13), 5 tests.
+- [x] Herramientas del agente en `bot/tools.json`: `nutri_plan_get_context`, `nutri_plan_get_slot`, `nutri_plan_set_slot`, `nutri_plan_get_recipe`. Falta conectarlas en la plataforma del bot.
+- [ ] El bot envía botones inline `web_app` para abrir la app en la pantalla adecuada (configuración del bot, fuera de este repo).
 - [ ] Opcional: `savePreparedInlineMessage` + `shareMessage` para compartir la lista como mensaje
       con formato.
 

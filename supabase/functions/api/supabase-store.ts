@@ -1,7 +1,15 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { detectSafetyFlags } from '../_shared/core/safety.ts';
 import type { Menu, Preferences, ShoppingList } from '../_shared/core/types.ts';
-import { EMPTY_STATE, type CatalogRows, type Profile, type StatePatch, type Store, type UserState } from './store.ts';
+import {
+  EMPTY_STATE,
+  type AiUsageRecord,
+  type CatalogRows,
+  type Profile,
+  type StatePatch,
+  type Store,
+  type UserState,
+} from './store.ts';
 
 interface PreferencesRow {
   people: number;
@@ -14,6 +22,7 @@ interface PreferencesRow {
   allergens_confirmed: boolean;
   disliked_ingredients: string[];
   other_restrictions: string | null;
+  use_ai: boolean;
   updated_at: string;
 }
 
@@ -29,6 +38,7 @@ function rowToPreferences(row: PreferencesRow): Preferences {
     allergens_confirmed: row.allergens_confirmed,
     disliked_ingredients: row.disliked_ingredients,
     ...(row.other_restrictions ? { other_restrictions: row.other_restrictions } : {}),
+    use_ai: row.use_ai,
   };
 }
 
@@ -51,7 +61,12 @@ export class SupabaseStore implements Store {
     const { data, error } = await this.db
       .from('profiles')
       .upsert(
-        { telegram_user_id: telegramUserId.toString(), language_code: languageCode ?? null, last_seen_at: new Date().toISOString(), deleted_at: null },
+        {
+          telegram_user_id: telegramUserId.toString(),
+          language_code: languageCode ?? null,
+          last_seen_at: new Date().toISOString(),
+          deleted_at: null,
+        },
         { onConflict: 'telegram_user_id' },
       )
       .select('id, created_at')
@@ -63,7 +78,14 @@ export class SupabaseStore implements Store {
   async getState(profileId: string): Promise<UserState> {
     const [prefs, menu, pantry, favorites] = await Promise.all([
       this.db.from('preferences').select('*').eq('profile_id', profileId).maybeSingle(),
-      this.db.from('menus').select('id, data, updated_at').eq('profile_id', profileId).eq('is_current', true).order('updated_at', { ascending: false }).limit(1).maybeSingle(),
+      this.db
+        .from('menus')
+        .select('id, data, updated_at')
+        .eq('profile_id', profileId)
+        .eq('is_current', true)
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
       this.db.from('pantry_items').select('ingredient_slug').eq('profile_id', profileId),
       this.db.from('favorites').select('recipe_slug').eq('profile_id', profileId),
     ]);
@@ -75,12 +97,18 @@ export class SupabaseStore implements Store {
     let shoppingList: ShoppingList | null = null;
     let listUpdated: string | null = null;
     if (menu.data) {
-      const list = await this.db.from('shopping_lists').select('data, updated_at').eq('menu_id', menu.data.id).maybeSingle();
+      const list = await this.db
+        .from('shopping_lists')
+        .select('data, updated_at')
+        .eq('menu_id', menu.data.id)
+        .maybeSingle();
       if (list.error) fail('getState.shopping_list', list.error);
       shoppingList = (list.data?.data as ShoppingList | undefined) ?? null;
       listUpdated = list.data?.updated_at ?? null;
     }
-    const stamps = [prefs.data?.updated_at, menu.data?.updated_at, listUpdated].filter((s): s is string => Boolean(s)).sort();
+    const stamps = [prefs.data?.updated_at, menu.data?.updated_at, listUpdated]
+      .filter((s): s is string => Boolean(s))
+      .sort();
     return {
       preferences: prefs.data ? rowToPreferences(prefs.data as PreferencesRow) : null,
       menu: (menu.data?.data as Menu | undefined) ?? null,
@@ -94,10 +122,13 @@ export class SupabaseStore implements Store {
   async putState(profileId: string, patch: StatePatch): Promise<UserState> {
     const now = new Date().toISOString();
     if (patch.preferences) await this.savePreferences(profileId, patch.preferences, now);
-    if (patch.menu !== undefined) await this.saveMenu(profileId, patch.menu, now);
-    if (patch.shopping_list !== undefined) await this.saveShoppingList(profileId, patch.shopping_list, now);
-    if (patch.pantry) await this.replaceSet('pantry_items', 'ingredient_slug', profileId, patch.pantry);
-    if (patch.favorites) await this.replaceSet('favorites', 'recipe_slug', profileId, patch.favorites);
+    if (patch.menu !== undefined) await this.saveMenu(profileId, patch.menu, now, patch.menu_source);
+    if (patch.shopping_list !== undefined)
+      await this.saveShoppingList(profileId, patch.shopping_list, now);
+    if (patch.pantry)
+      await this.replaceSet('pantry_items', 'ingredient_slug', profileId, patch.pantry);
+    if (patch.favorites)
+      await this.replaceSet('favorites', 'recipe_slug', profileId, patch.favorites);
     return this.getState(profileId);
   }
 
@@ -115,24 +146,66 @@ export class SupabaseStore implements Store {
       disliked_ingredients: p.disliked_ingredients,
       other_restrictions: p.other_restrictions ?? null,
       safety_flags: detectSafetyFlags(p.other_restrictions),
+      use_ai: p.use_ai ?? true,
       updated_at: now,
     });
     if (error) fail('savePreferences', error);
   }
 
-  private async saveMenu(profileId: string, menu: Menu | null, now: string): Promise<void> {
-    const retire = await this.db.from('menus').update({ is_current: false, updated_at: now }).eq('profile_id', profileId).eq('is_current', true);
+  async findProfile(telegramUserId: bigint): Promise<Profile | null> {
+    const { data, error } = await this.db
+      .from('profiles')
+      .select('id, created_at')
+      .eq('telegram_user_id', telegramUserId.toString())
+      .is('deleted_at', null)
+      .maybeSingle();
+    if (error) fail('findProfile', error);
+    return (data as Profile | null) ?? null;
+  }
+
+  async recordAiUsage(profileId: string, usage: AiUsageRecord): Promise<void> {
+    const { error } = await this.db.from('ai_usage').insert({ profile_id: profileId, ...usage });
+    if (error) fail('recordAiUsage', error);
+  }
+
+  private async saveMenu(profileId: string, menu: Menu | null, now: string, source?: 'reglas' | 'ia'): Promise<void> {
+    const retire = await this.db
+      .from('menus')
+      .update({ is_current: false, updated_at: now })
+      .eq('profile_id', profileId)
+      .eq('is_current', true);
     if (retire.error) fail('saveMenu.retire', retire.error);
     if (!menu) return;
-    const { error } = await this.db.from('menus').upsert(
-      { profile_id: profileId, week_start: menu.week_start, days: menu.days, people: menu.people, seed: menu.seed, data: menu, is_current: true, updated_at: now },
-      { onConflict: 'profile_id,week_start' },
-    );
+    const { error } = await this.db
+      .from('menus')
+      .upsert(
+        {
+          profile_id: profileId,
+          week_start: menu.week_start,
+          days: menu.days,
+          people: menu.people,
+          seed: menu.seed,
+          data: menu,
+          is_current: true,
+          updated_at: now,
+          ...(source ? { source } : {}),
+        },
+        { onConflict: 'profile_id,week_start' },
+      );
     if (error) fail('saveMenu', error);
   }
 
-  private async saveShoppingList(profileId: string, list: ShoppingList | null, now: string): Promise<void> {
-    const menu = await this.db.from('menus').select('id').eq('profile_id', profileId).eq('is_current', true).maybeSingle();
+  private async saveShoppingList(
+    profileId: string,
+    list: ShoppingList | null,
+    now: string,
+  ): Promise<void> {
+    const menu = await this.db
+      .from('menus')
+      .select('id')
+      .eq('profile_id', profileId)
+      .eq('is_current', true)
+      .maybeSingle();
     if (menu.error) fail('saveShoppingList.menu', menu.error);
     if (!menu.data) return;
     if (!list) {
@@ -140,11 +213,18 @@ export class SupabaseStore implements Store {
       if (del.error) fail('saveShoppingList.delete', del.error);
       return;
     }
-    const { error } = await this.db.from('shopping_lists').upsert({ menu_id: menu.data.id, people: list.people, data: list, updated_at: now });
+    const { error } = await this.db
+      .from('shopping_lists')
+      .upsert({ menu_id: menu.data.id, people: list.people, data: list, updated_at: now });
     if (error) fail('saveShoppingList', error);
   }
 
-  private async replaceSet(table: 'pantry_items' | 'favorites', column: string, profileId: string, slugs: string[]): Promise<void> {
+  private async replaceSet(
+    table: 'pantry_items' | 'favorites',
+    column: string,
+    profileId: string,
+    slugs: string[],
+  ): Promise<void> {
     const del = await this.db.from(table).delete().eq('profile_id', profileId);
     if (del.error) fail(`${table}.delete`, del.error);
     if (slugs.length === 0) return;
@@ -159,7 +239,9 @@ export class SupabaseStore implements Store {
   }
 
   async addEvent(profileId: string, screen: string, action: string): Promise<void> {
-    const { error } = await this.db.from('events').insert({ profile_id: profileId, screen, action });
+    const { error } = await this.db
+      .from('events')
+      .insert({ profile_id: profileId, screen, action });
     if (error) fail('addEvent', error);
   }
 
@@ -170,7 +252,10 @@ export class SupabaseStore implements Store {
     ]);
     if (recipes.error) fail('loadCatalog.recipes', recipes.error);
     if (ingredients.error) fail('loadCatalog.ingredients', ingredients.error);
-    return { recipes: (recipes.data ?? []).map((r) => r.data), ingredients: (ingredients.data ?? []).map((r) => r.data) };
+    return {
+      recipes: (recipes.data ?? []).map((r) => r.data),
+      ingredients: (ingredients.data ?? []).map((r) => r.data),
+    };
   }
 
   async bumpRateLimit(telegramUserId: bigint, bucket: string, windowStart: Date): Promise<number> {

@@ -40,6 +40,7 @@ create table preferences (
   disliked_ingredients  text[] not null default '{}',          -- slugs del catálogo
   other_restrictions    text check (char_length(other_restrictions) <= 200),
   safety_flags          text[] not null default '{}',
+  use_ai                boolean not null default true,
   updated_at            timestamptz not null default now()
 );
 
@@ -136,6 +137,17 @@ create table events (
   created_at  timestamptz not null default now()
 );
 
+-- Coste de la generación con IA (docs/10 Fase 3): solo contadores de tokens, sin contenido.
+create table ai_usage (
+  id             bigserial primary key,
+  profile_id     uuid references profiles(id) on delete set null,
+  model          text not null,
+  input_tokens   integer not null default 0,
+  output_tokens  integer not null default 0,
+  outcome        text not null,                                -- 'ok' | 'retry_ok' | 'fallback' | 'error'
+  created_at     timestamptz not null default now()
+);
+
 create table rate_limits (
   telegram_user_id  bigint not null,
   bucket            text not null,
@@ -163,6 +175,7 @@ alter table shopping_lists  enable row level security;
 alter table pantry_items    enable row level security;
 alter table favorites       enable row level security;
 alter table events          enable row level security;
+alter table ai_usage        enable row level security;
 alter table rate_limits     enable row level security;
 
 alter table ingredients        enable row level security;

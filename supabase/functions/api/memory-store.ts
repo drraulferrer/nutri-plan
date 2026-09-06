@@ -1,4 +1,11 @@
-import { EMPTY_STATE, type CatalogRows, type Profile, type StatePatch, type Store, type UserState } from './store.ts';
+import {
+  EMPTY_STATE,
+  type CatalogRows,
+  type Profile,
+  type StatePatch,
+  type Store,
+  type UserState,
+} from './store.ts';
 
 /** Implementación en memoria para tests y desarrollo local sin base de datos. */
 export class MemoryStore implements Store {
@@ -11,11 +18,30 @@ export class MemoryStore implements Store {
 
   upsertProfile(telegramUserId: bigint, _languageCode?: string): Promise<Profile> {
     for (const p of this.profiles.values()) {
-      if (p.telegramUserId === telegramUserId) return Promise.resolve({ id: p.id, created_at: p.created_at });
+      if (p.telegramUserId === telegramUserId)
+        return Promise.resolve({ id: p.id, created_at: p.created_at });
     }
-    const profile = { id: crypto.randomUUID(), created_at: new Date().toISOString(), telegramUserId };
+    const profile = {
+      id: crypto.randomUUID(),
+      created_at: new Date().toISOString(),
+      telegramUserId,
+    };
     this.profiles.set(profile.id, profile);
     return Promise.resolve({ id: profile.id, created_at: profile.created_at });
+  }
+
+  findProfile(telegramUserId: bigint): Promise<Profile | null> {
+    for (const p of this.profiles.values()) {
+      if (p.telegramUserId === telegramUserId)
+        return Promise.resolve({ id: p.id, created_at: p.created_at });
+    }
+    return Promise.resolve(null);
+  }
+
+  readonly aiUsage: { profileId: string; model: string; outcome: string }[] = [];
+  recordAiUsage(profileId: string, usage: { model: string; outcome: string }): Promise<void> {
+    this.aiUsage.push({ profileId, model: usage.model, outcome: usage.outcome });
+    return Promise.resolve();
   }
 
   getState(profileId: string): Promise<UserState> {
@@ -27,7 +53,8 @@ export class MemoryStore implements Store {
     const next: UserState = {
       preferences: patch.preferences ?? current.preferences,
       menu: patch.menu === undefined ? current.menu : patch.menu,
-      shopping_list: patch.shopping_list === undefined ? current.shopping_list : patch.shopping_list,
+      shopping_list:
+        patch.shopping_list === undefined ? current.shopping_list : patch.shopping_list,
       pantry: patch.pantry ?? current.pantry,
       favorites: patch.favorites ?? current.favorites,
       updated_at: new Date().toISOString(),

@@ -135,6 +135,7 @@ export const PreferencesSchema = z.object({
   allergens_confirmed: z.boolean().default(false),
   disliked_ingredients: z.array(slug).default([]),
   other_restrictions: z.string().max(200).optional(),
+  use_ai: z.boolean().optional(),
 });
 
 /** Documentos de estado que viajan entre app y servidor (docs/06). */
@@ -161,6 +162,7 @@ export const MenuSchema = z.object({
   seed: z.string().max(64),
   slots: z.array(MenuSlotSchema).max(28),
   warnings: z.array(PlannerWarningSchema).max(64),
+  notes: z.string().max(240).optional(),
 });
 
 export const ShoppingItemSchema = z.object({

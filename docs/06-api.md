@@ -68,12 +68,21 @@ type State = {
 4. Generar menú usa el servidor si hay sesión; si no, el planificador local. El resultado es el
    mismo porque el código es el mismo.
 
+## Generación con IA (Fase 3)
+
+`POST /me/menus/generate` acepta `source: 'reglas' | 'ia'`; por defecto `ia` salvo que el usuario
+haya desactivado `preferences.use_ai`. Con IA, el servidor pide a Claude (salida estructurada) que
+elija slugs del catálogo filtrado por las restricciones duras, valida el plan con `core`, reintenta
+una vez con los errores y, si sigue fallando o tarda más de 12 s, usa el motor de reglas y añade el
+aviso `ia_fallback`. El menú puede traer `notes` (una frase de organización). El uso de tokens se
+guarda en `ai_usage`. Sin `ANTHROPIC_API_KEY` el servidor usa siempre reglas.
+
+## Bot (Fase 4)
+
+Rutas `/bot/*` con cabecera `X-Bot-Secret`; contrato completo en el doc 13.
+
 ## Previsto (no implementado aún)
 
-- **Fase 3:** `POST /me/menus/generate { source: 'ia' }` con validación del JSON de la IA
-  contra `MenuSchema` y respaldo en reglas (doc 08).
-- **Fase 4:** `/bot/*` con `X-Bot-Secret`: `GET /bot/context/:telegram_user_id`,
-  `POST /bot/menus/current/slots/:day/:meal`, `GET /bot/recipes/:slug`.
 - Cola de cambios por ítem (`POST /shopping-list/sync`) si "última escritura gana" resulta
   insuficiente con varios dispositivos a la vez.
 

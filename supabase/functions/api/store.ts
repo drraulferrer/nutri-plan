@@ -16,6 +16,8 @@ export interface StatePatch {
   shopping_list?: ShoppingList | null;
   pantry?: string[];
   favorites?: string[];
+  /** Origen del menú guardado (columna `menus.source`). */
+  menu_source?: 'reglas' | 'ia';
 }
 
 export interface Profile {
@@ -28,9 +30,19 @@ export interface CatalogRows {
   ingredients: unknown[];
 }
 
+export interface AiUsageRecord {
+  model: string;
+  input_tokens: number;
+  output_tokens: number;
+  outcome: string;
+}
+
 /** Acceso a datos desacoplado de Supabase para poder probar las rutas en memoria. */
 export interface Store {
   upsertProfile(telegramUserId: bigint, languageCode?: string): Promise<Profile>;
+  /** Perfil existente sin crearlo (rutas del bot). */
+  findProfile(telegramUserId: bigint): Promise<Profile | null>;
+  recordAiUsage(profileId: string, usage: AiUsageRecord): Promise<void>;
   getState(profileId: string): Promise<UserState>;
   putState(profileId: string, patch: StatePatch): Promise<UserState>;
   deleteProfile(profileId: string): Promise<void>;

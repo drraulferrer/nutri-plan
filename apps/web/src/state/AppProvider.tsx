@@ -145,7 +145,8 @@ export function AppProvider({ app, isReal, botUsername, apiBaseUrl, children }: 
       try {
         // El servidor debe conocer las preferencias actuales antes de planificar.
         await api.putState(stateToPatch(stateRef.current));
-        const remote = await api.generateMenu({ week_start: weekStart, seed: newSeed() });
+        const source = stateRef.current.prefs?.use_ai === false ? 'reglas' : 'ia';
+        const remote = await api.generateMenu({ week_start: weekStart, seed: newSeed(), source });
         const persisted = remoteToPersisted(remote);
         remoteFingerprint.current = patchFingerprint(stateToPatch(reducer(stateRef.current, { type: 'state/replace', persisted })));
         dispatch({ type: 'state/replace', persisted });

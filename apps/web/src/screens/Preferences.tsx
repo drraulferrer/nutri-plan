@@ -108,6 +108,7 @@ export function Preferences({ firstRun = false }: { firstRun?: boolean }) {
           onChange={(v) => update('days', v as 5 | 7)}
         />
         <Toggle label={es.prefs.snacks} hint={es.prefs.snacksHint} checked={form.include_snacks} onChange={(v) => update('include_snacks', v)} />
+        <Toggle label={es.prefs.useAi} hint={es.prefs.useAiHint} checked={form.use_ai ?? true} onChange={(v) => update('use_ai', v)} />
         <Segmented label={es.prefs.cookTime} options={COOK_TIME_OPTIONS} value={form.cook_time} onChange={(v) => update('cook_time', v)} />
         <Segmented
           label={es.prefs.budget}

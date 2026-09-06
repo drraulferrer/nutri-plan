@@ -77,7 +77,8 @@ export function WeekMenu() {
           <h1>{es.menu.title}</h1>
         </header>
         {generating ? (
-          <div className="skeletons" aria-busy="true" aria-label={es.menu.generating}>
+          <div className="skeletons" aria-busy="true" aria-label={prefs.use_ai === false || state.sync === 'local' ? es.menu.generating : es.menu.generatingAi}>
+            <p className="hint">{prefs.use_ai === false || state.sync === 'local' ? es.menu.generating : es.menu.generatingAi}</p>
             <div className="skeleton" />
             <div className="skeleton" />
             <div className="skeleton" />
@@ -126,6 +127,8 @@ export function WeekMenu() {
 
       {safety[0] && <Banner tone="warning">{es.menu.safetyNote(SAFETY_LABELS[safety[0]])}</Banner>}
       {fewRecipes && <Banner tone="info">{es.menu.fewRecipes}</Banner>}
+      {menu.notes && <Banner tone="success">💬 {menu.notes}</Banner>}
+      {menu.warnings.some((w) => w.type === 'ia_fallback') && <Banner tone="info">{es.menu.aiFallback}</Banner>}
       {delta && (
         <Banner tone="success" onClose={() => setDelta(null)}>
           {delta}

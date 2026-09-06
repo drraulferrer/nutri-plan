@@ -125,6 +125,8 @@ export interface Preferences {
   allergens_confirmed: boolean;
   disliked_ingredients: string[];
   other_restrictions?: string;
+  /** Menús con ayuda de la IA cuando el servidor lo permite (Fase 3). */
+  use_ai?: boolean;
 }
 
 export interface MenuSlot {
@@ -152,6 +154,8 @@ export interface Menu {
   seed: string;
   slots: MenuSlot[];
   warnings: PlannerWarning[];
+  /** Frase de organización de la semana cuando el menú lo generó la IA (docs/08). */
+  notes?: string;
 }
 
 export interface ShoppingItem {

@@ -131,7 +131,7 @@ function alternativesFor(ranked: readonly Recipe[], chosen: Recipe): string[] {
     .map((r) => r.slug);
 }
 
-function softWarnings(recipe: Recipe, day: number, meal: MealType, prefs: Preferences): PlannerWarning[] {
+export function softWarnings(recipe: Recipe, day: number, meal: MealType, prefs: Preferences): PlannerWarning[] {
   const warnings: PlannerWarning[] = [];
   if (!fitsTime(recipe, day, meal, prefs)) {
     warnings.push({ day_index: day, meal, type: 'time', detail: `${recipe.time_min} min > ${prefs.cook_time}` });
@@ -282,4 +282,12 @@ export function defaultWeekStart(today: Date): string {
   const monday = new Date(d);
   monday.setUTCDate(d.getUTCDate() - weekday + (weekday >= 3 ? 7 : 0));
   return monday.toISOString().slice(0, 10);
+}
+
+/** Avisos blandos (tiempo, presupuesto) para huecos ya decididos, p. ej. por la IA. */
+export function slotWarnings(slots: readonly MenuSlot[], prefs: Preferences, catalog: Catalog): PlannerWarning[] {
+  return slots.flatMap((s) => {
+    const r = s.recipe_slug ? catalog.recipes.get(s.recipe_slug) : undefined;
+    return r ? softWarnings(r, s.day_index, s.meal, prefs) : [];
+  });
 }
