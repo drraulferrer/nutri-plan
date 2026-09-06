@@ -166,6 +166,10 @@ export const es = {
       sin_cocinar: 'sin cocinar',
     } as Record<string, string>,
   },
+  update: {
+    available: 'Hay una versión nueva de Nutri Plan',
+    action: 'Actualizar',
+  },
   sync: {
     local: 'Guardado solo en este dispositivo',
     syncing: 'Sincronizando…',

@@ -28,6 +28,7 @@ jobs:
         env:
           VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
           VITE_BOT_USERNAME: Nutri_RF_Bot
+      - run: echo "{\"version\":\"${GITHUB_SHA::7}\"}" > apps/web/dist/version.json
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/web/dist

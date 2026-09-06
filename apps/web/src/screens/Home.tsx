@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Banner } from '../components/Banner';
+import { fetchPublishedVersion, isOutdated } from '../state/version';
 import { es } from '../i18n/es';
 import { useNav } from '../navigation/NavProvider';
 import { useApp } from '../state/AppProvider';
@@ -17,11 +19,27 @@ export function Home() {
   const nav = useNav();
   const nutri = useMemo(() => createNutriBridge(app, botUsername), [app, botUsername]);
   const name = app.initDataUnsafe.user?.first_name ?? 'Invitado';
+  const [outdated, setOutdated] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    void fetchPublishedVersion().then((published) => {
+      if (!cancelled) setOutdated(isOutdated(__APP_VERSION__, published));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  const updateBanner = outdated ? (
+    <Banner tone="warning" action={{ label: es.update.action, onClick: () => window.location.reload() }}>
+      {es.update.available}
+    </Banner>
+  ) : null;
   const { prefs, menu, list, catalog } = state;
 
   if (!prefs) {
     return (
       <main className="screen">
+        {updateBanner}
         <header className="screen-header">
           <h1>{es.home.welcomeTitle}</h1>
           <p>{es.home.welcome}</p>
@@ -54,6 +72,7 @@ export function Home() {
 
   return (
     <main className="screen">
+      {updateBanner}
       <header className="screen-header">
         <h1>{es.home.greeting(name)}</h1>
         {menu && <p>{es.home.week(formatWeekLabel(menu.week_start, menu.days))}</p>}
