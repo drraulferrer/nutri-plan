@@ -38,6 +38,9 @@ type PlannerOutput = {
 - Variedad: mismo `protein_group` como máximo 2 veces en comidas y 2 en cenas por semana; no
   el mismo día en comida y cena.
 - Reutilización: preferir recetas que compartan ingredientes **perecederos** con las ya elegidas.
+- Desayuno y tentempié comparten repertorio: una receta puede ocupar un hueco de cada uno en días
+  distintos (RF-11). Sin esta regla, con siete días quedaban tentempiés vacíos en perfiles vegano
+  o sin gluten, porque las mismas recetas sirven para ambas comidas.
 
 ## Motor de reglas (Fase 1–2)
 

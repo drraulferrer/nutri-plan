@@ -1,0 +1,26 @@
+slug: tortitas-de-arroz-con-tomate
+name: Tortitas de arroz con tomate
+description: Desayuno salado sin gluten, listo en tres minutos.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno, tentempie]
+tags: [rapida, sin_cocinar, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: tortitas-arroz, quantity: 4, unit: ud }
+  - { ingredient: tomate, quantity: 1, unit: ud }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: oregano, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Ralla el tomate y escúrrelo un poco.
+  - Repártelo sobre las tortitas de arroz justo antes de comer.
+  - Riega con el aceite y añade sal y orégano.
+substitutions:
+  - { ingredient: tomate, with: aguacate, note: machacado }
+tip: Monta las tortitas al momento; si esperan, se ablandan.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

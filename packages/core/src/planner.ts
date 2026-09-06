@@ -30,13 +30,18 @@ const BUDGET_ALLOWS: Record<Preferences['budget'], ReadonlySet<Recipe['cost_leve
 };
 const BATCH_REUSE_PROBABILITY = 0.6;
 const MIN_CANDIDATES = 3;
+/** Un yogur con fruta puede ser desayuno un día y tentempié otro (docs/01 RF-11). */
+const LIGHT_MEALS: ReadonlySet<MealType> = new Set<MealType>(['desayuno', 'tentempie']);
 
 interface Context {
   input: PlannerInput;
   candidates: readonly Recipe[];
   slots: MenuSlot[];
   warnings: PlannerWarning[];
-  used: Set<string>;
+  /** En qué comidas se ha usado ya cada receta. */
+  usedIn: Map<string, Set<MealType>>;
+  /** En qué días aparece ya cada receta, para no repetirla el mismo día. */
+  usedDays: Map<string, Set<number>>;
   batchAllowed: Set<string>;
   proteinCount: Map<string, number>;
   chosenIngredients: Set<string>;
@@ -111,10 +116,16 @@ function score(recipe: Recipe, day: number, meal: MealType, ctx: Context): numbe
   );
 }
 
-function available(ctx: Context, meal: MealType, exclude: ReadonlySet<string> = new Set()): Recipe[] {
-  return candidatesFor(ctx.candidates, meal).filter(
-    (r) => (!ctx.used.has(r.slug) || ctx.batchAllowed.has(r.slug)) && !exclude.has(r.slug),
-  );
+function available(ctx: Context, meal: MealType, day: number, exclude: ReadonlySet<string> = new Set()): Recipe[] {
+  return candidatesFor(ctx.candidates, meal).filter((r) => {
+    if (exclude.has(r.slug)) return false;
+    if (ctx.usedDays.get(r.slug)?.has(day)) return false;
+    const usedIn = ctx.usedIn.get(r.slug);
+    if (!usedIn) return true;
+    if (ctx.batchAllowed.has(r.slug)) return true;
+    // Desayuno y tentempié comparten repertorio: se permite una aparición en cada uno.
+    return LIGHT_MEALS.has(meal) && [...usedIn].every((m) => LIGHT_MEALS.has(m) && m !== meal);
+  });
 }
 
 function rank(recipes: readonly Recipe[], day: number, meal: MealType, ctx: Context): Recipe[] {
@@ -145,7 +156,8 @@ export function softWarnings(recipe: Recipe, day: number, meal: MealType, prefs:
 function commit(ctx: Context, index: number, recipe: Recipe, alternatives: string[]): void {
   const slot = ctx.slots[index]!;
   ctx.slots[index] = { ...slot, recipe_slug: recipe.slug, alternatives };
-  ctx.used.add(recipe.slug);
+  ctx.usedIn.set(recipe.slug, new Set([...(ctx.usedIn.get(recipe.slug) ?? []), slot.meal]));
+  ctx.usedDays.set(recipe.slug, new Set([...(ctx.usedDays.get(recipe.slug) ?? []), slot.day_index]));
   ctx.batchAllowed.delete(recipe.slug);
   const key = `${slot.meal}:${recipe.protein_group}`;
   ctx.proteinCount.set(key, (ctx.proteinCount.get(key) ?? 0) + 1);
@@ -161,7 +173,7 @@ function scheduleBatchReuse(ctx: Context, fromIndex: number, recipe: Recipe): vo
   const reuse = recipe.meal_types.includes('cena') ? recipe : undefined;
   const pair = recipe.pairs_with
     .map((slug) => ctx.input.catalog.recipes.get(slug))
-    .find((r) => r && ctx.candidates.includes(r) && r.meal_types.includes('cena') && !ctx.used.has(r.slug));
+    .find((r) => r && ctx.candidates.includes(r) && r.meal_types.includes('cena') && !ctx.usedIn.has(r.slug));
   const target = pair ?? reuse;
   if (!target) return;
   for (const offset of [1, 2]) {
@@ -178,7 +190,7 @@ function scheduleBatchReuse(ctx: Context, fromIndex: number, recipe: Recipe): vo
 function fillSlot(ctx: Context, index: number, exclude: ReadonlySet<string> = new Set()): void {
   const slot = ctx.slots[index]!;
   if (slot.recipe_slug || slot.is_locked) return;
-  const pool = available(ctx, slot.meal, exclude);
+  const pool = available(ctx, slot.meal, slot.day_index, exclude);
   if (pool.length === 0) {
     ctx.warnings.push({ day_index: slot.day_index, meal: slot.meal, type: 'no_candidates', detail: 'sin recetas compatibles' });
     return;
@@ -196,7 +208,8 @@ function createContext(input: PlannerInput, slots: MenuSlot[]): Context {
     candidates,
     slots,
     warnings: [],
-    used: new Set(),
+    usedIn: new Map(),
+    usedDays: new Map(),
     batchAllowed: new Set(),
     proteinCount: new Map(),
     chosenIngredients: new Set(),
@@ -211,7 +224,8 @@ function createContext(input: PlannerInput, slots: MenuSlot[]): Context {
     .forEach((s) => {
       const r = input.catalog.recipes.get(s.recipe_slug!);
       if (!r) return;
-      ctx.used.add(r.slug);
+      ctx.usedIn.set(r.slug, new Set([...(ctx.usedIn.get(r.slug) ?? []), s.meal]));
+      ctx.usedDays.set(r.slug, new Set([...(ctx.usedDays.get(r.slug) ?? []), s.day_index]));
       ctx.proteinCount.set(`${s.meal}:${r.protein_group}`, (ctx.proteinCount.get(`${s.meal}:${r.protein_group}`) ?? 0) + 1);
       r.ingredients.forEach((l) => ctx.chosenIngredients.add(l.ingredient));
     });

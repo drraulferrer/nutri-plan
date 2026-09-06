@@ -12,6 +12,7 @@ const filled = (menu: Menu) => menu.slots.filter((s) => s.recipe_slug);
 
 describe('planMenu', () => {
   it('rellena 7 días × 3 comidas sin repetir recetas (salvo batch)', () => {
+    // Sin tentempiés: desayuno, comida y cena no comparten repertorio.
     const menu = plan();
     expect(menu.slots).toHaveLength(21);
     expect(filled(menu)).toHaveLength(21);
@@ -27,6 +28,24 @@ describe('planMenu', () => {
     const menu = plan({ days: 5, include_snacks: true });
     expect(menu.slots).toHaveLength(20);
     expect(menu.slots.filter((s) => s.meal === 'tentempie')).toHaveLength(5);
+  });
+
+  it('una receta puede ser desayuno y tentempié, pero nunca dos veces el mismo día', () => {
+    const menu = plan({ days: 7, include_snacks: true });
+    const porDia = new Map<number, string[]>();
+    const porComida = new Map<string, Set<string>>();
+    for (const s of filled(menu)) {
+      porDia.set(s.day_index, [...(porDia.get(s.day_index) ?? []), s.recipe_slug!]);
+      porComida.set(s.recipe_slug!, new Set([...(porComida.get(s.recipe_slug!) ?? []), s.meal]));
+    }
+    for (const [dia, slugs] of porDia) expect(new Set(slugs).size, `día ${dia}`).toBe(slugs.length);
+    for (const [slug, comidas] of porComida) {
+      const recipe = CATALOG.recipes.get(slug)!;
+      if (recipe.batch_reuse) continue;
+      // Fuera de batch, solo se admite repetir entre desayuno y tentempié.
+      const repetida = [...comidas].length > 1;
+      if (repetida) expect([...comidas].every((m) => m === 'desayuno' || m === 'tentempie'), slug).toBe(true);
+    }
   });
 
   it('es determinista con la misma semilla y varía con otra', () => {

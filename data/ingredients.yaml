@@ -80,3 +80,4 @@
 - { slug: tortitas-arroz, name: Tortitas de arroz, aliases: [tortitas de maíz], category: despensa, default_unit: ud, package_size: 12, package_label: paquete de 12, indivisible: true, is_perishable: false }
 - { slug: sardinas, name: Sardinas, aliases: [sardinas frescas], category: proteinas, default_unit: g, package_size: 400, package_label: bandeja de 400 g, allergens: [pescado] }
 - { slug: berenjena, name: Berenjena, aliases: [berenjenas], category: verduras_fruta, default_unit: ud, grams_per_unit: 250 }
+- { slug: naranja, name: Naranja, aliases: [naranjas], category: verduras_fruta, default_unit: ud, indivisible: true }

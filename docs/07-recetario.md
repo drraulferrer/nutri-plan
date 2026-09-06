@@ -5,11 +5,11 @@ El recetario es el activo más importante de la v1: la calidad del menú y de la
 
 ## Distribución (55 recetas)
 
-> **Estado 2026-09-06:** las 55 están escritas. 52 son borradores con la etiqueta `revisar`
-> pendientes de revisión por el autor. Comprobado que el planificador llena la semana completa
-> (7 días con tentempiés) para los perfiles general, vegetariano y de tiempo/presupuesto ajustado.
-> Con **vegano**, **sin gluten** o **alergia a huevo y lácteos** aún quedan huecos vacíos en
-> desayunos y tentempiés: harían falta unas 6 recetas más veganas y sin gluten para esos huecos.
+> **Estado 2026-09-06:** **61 recetas escritas** (55 del objetivo + 6 veganas y sin gluten para
+> desayunos y tentempiés). 58 son borradores con la etiqueta `revisar` pendientes de revisión por
+> el autor. Comprobado que el planificador llena la semana completa (7 días con tentempiés, 28
+> huecos) en los seis perfiles de prueba: general, vegetariano, vegano, sin gluten, alergia a
+> huevo y lácteos, y tiempo/presupuesto ajustado.
 
 | Bloque | Nº | Criterios |
 |---|---|---|

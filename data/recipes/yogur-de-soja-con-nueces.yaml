@@ -1,0 +1,25 @@
+slug: yogur-de-soja-con-nueces
+name: Yogur de soja con nueces
+description: Yogur vegetal con nueces y manzana. Vegano y sin gluten.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno, tentempie]
+tags: [rapida, sin_cocinar, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: [soja, frutos_cascara]
+cost_level: medio
+protein_group: ninguno
+ingredients:
+  - { ingredient: yogur-soja, quantity: 2, unit: ud }
+  - { ingredient: nueces, quantity: 30, unit: g }
+  - { ingredient: manzana, quantity: 1, unit: ud }
+  - { ingredient: canela, quantity: 1, unit: pizca, optional: true }
+steps:
+  - Reparte el yogur de soja en dos boles.
+  - Añade la manzana en dados y las nueces troceadas.
+  - Termina con canela.
+substitutions:
+  - { ingredient: yogur-soja, with: yogur-natural, note: versión con lácteos }
+  - { ingredient: nueces, with: crema-cacahuete }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

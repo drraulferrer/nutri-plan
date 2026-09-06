@@ -1,0 +1,25 @@
+slug: bol-de-copos-de-maiz-con-fruta
+name: Bol de copos de maíz con fruta
+description: Desayuno vegano y sin gluten con yogur de soja y fruta fresca.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno, tentempie]
+tags: [rapida, sin_cocinar, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: [soja]
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: yogur-soja, quantity: 2, unit: ud }
+  - { ingredient: copos-maiz-sin-gluten, quantity: 60, unit: g }
+  - { ingredient: platano, quantity: 1, unit: ud }
+  - { ingredient: canela, quantity: 1, unit: pizca, optional: true }
+steps:
+  - Reparte el yogur de soja en dos boles.
+  - Añade los copos de maíz por encima para que queden crujientes.
+  - Termina con el plátano en rodajas y la canela.
+substitutions:
+  - { ingredient: yogur-soja, with: yogur-natural, note: versión con lácteos }
+  - { ingredient: platano, with: manzana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

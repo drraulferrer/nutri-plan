@@ -39,7 +39,7 @@ Formato: `RF-xx` · prioridad **M** (imprescindible en v1) / **S** (deseable en 
 | ID | Requisito | Pri |
 |---|---|---|
 | RF-10 | Generar un menú de 5 o 7 días con desayuno, comida y cena (y tentempié si está activo) a partir de las preferencias y del recetario. | M |
-| RF-11 | Ningún plato se repite en la semana, salvo recetas de batch cooking marcadas para reutilizarse (máximo 2 apariciones, en días distintos). | M |
+| RF-11 | Ningún plato se repite en la semana, con dos excepciones: las recetas de batch cooking marcadas para reutilizarse (máximo 2 apariciones) y las que sirven de **desayuno y tentempié**, que pueden aparecer una vez en cada uno. Nunca dos veces el mismo día. | M |
 | RF-12 | El menú respeta **siempre** alergias, estilo de alimentación e ingredientes que no gustan (restricciones duras). Tiempo y presupuesto son restricciones blandas: se intentan cumplir y se avisa si no se puede. | M |
 | RF-13 | Cada plato ofrece hasta 2 **alternativas** de la misma comida con distinta proteína principal ("si no tienes pollo: garbanzos / tofu"). | M |
 | RF-14 | Regenerar **una comida**, **un día entero** o **la semana completa**. Al regenerar, los platos marcados como favoritos o "bloqueados" no cambian. | M |

@@ -1,0 +1,26 @@
+slug: aguacate-con-tomate-y-limon
+name: Aguacate con tomate y limón
+description: Bol frío sin pan, vegano y sin gluten. Vale de desayuno salado.
+servings_base: 2
+time_min: 8
+meal_types: [desayuno, tentempie]
+tags: [rapida, sin_cocinar, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: medio
+protein_group: ninguno
+ingredients:
+  - { ingredient: aguacate, quantity: 1, unit: ud }
+  - { ingredient: tomate, quantity: 2, unit: ud }
+  - { ingredient: limon, quantity: 0.5, unit: ud }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: oregano, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Corta el aguacate y el tomate en dados.
+  - Alíñalos con el zumo de limón, el aceite y la sal.
+  - Termina con orégano.
+substitutions:
+  - { ingredient: aguacate, with: garbanzos-cocidos, note: para más proteína }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

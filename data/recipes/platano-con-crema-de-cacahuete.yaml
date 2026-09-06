@@ -1,0 +1,23 @@
+slug: platano-con-crema-de-cacahuete
+name: Plátano con crema de cacahuete
+description: Tentempié saciante, vegano y sin gluten.
+servings_base: 2
+time_min: 3
+meal_types: [tentempie, desayuno]
+tags: [rapida, sin_cocinar, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: [cacahuetes]
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: platano, quantity: 2, unit: ud }
+  - { ingredient: crema-cacahuete, quantity: 30, unit: g }
+  - { ingredient: canela, quantity: 1, unit: pizca, optional: true }
+steps:
+  - Corta los plátanos por la mitad a lo largo.
+  - Unta la crema de cacahuete por encima.
+  - Espolvorea la canela si te gusta.
+substitutions:
+  - { ingredient: crema-cacahuete, with: nueces, note: picadas, si hay alergia a cacahuetes }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0
