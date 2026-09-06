@@ -48,9 +48,13 @@ export function timingSafeEqual(a: string, b: string): boolean {
   return diff === 0;
 }
 
-export function dataCheckString(params: URLSearchParams): string {
+/**
+ * Cadena de comprobación. Para el HMAC del bot se excluye solo `hash` (el campo `signature`
+ * SÍ forma parte del hash); para la firma Ed25519 de Telegram se excluyen `hash` y `signature`.
+ */
+export function dataCheckString(params: URLSearchParams, exclude: readonly string[] = ['hash']): string {
   return [...params.entries()]
-    .filter(([k]) => k !== 'hash' && k !== 'signature')
+    .filter(([k]) => !exclude.includes(k))
     .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
     .map(([k, v]) => `${k}=${v}`)
     .join('\n');
@@ -103,4 +107,38 @@ export function initDataFromHeader(authorization: string | null | undefined): st
   if (!authorization) return null;
   const match = /^tma\s+(.+)$/i.exec(authorization.trim());
   return match?.[1] ?? null;
+}
+
+/** Clave pública Ed25519 de Telegram (producción) para validar `signature` sin el token del bot. */
+const TELEGRAM_PUBLIC_KEY_HEX = 'e7bf03a2fa4602af4580703d88dda5bb59f32ed8b02a56c187fe7d34caed242d';
+
+function fromHex(hex: string): Uint8Array<ArrayBuffer> {
+  const out = new Uint8Array(new ArrayBuffer(hex.length / 2));
+  for (let i = 0; i < out.length; i += 1) out[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+  return out;
+}
+
+function fromBase64Url(s: string): Uint8Array<ArrayBuffer> {
+  const b64 = s.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - (s.length % 4)) % 4);
+  const bin = atob(b64);
+  const out = new Uint8Array(new ArrayBuffer(bin.length));
+  for (let i = 0; i < bin.length; i += 1) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+/**
+ * Valida la firma Ed25519 de Telegram para un `bot_id` concreto (docs/03 §4, "validación de
+ * terceros"). Devuelve true solo si initData fue emitido para ese bot.
+ */
+export async function verifyTelegramSignature(rawInitData: string, botId: string): Promise<boolean> {
+  const params = new URLSearchParams(rawInitData);
+  const signature = params.get('signature');
+  if (!signature) return false;
+  const message = `${botId}:WebAppData\n${dataCheckString(params, ['hash', 'signature'])}`;
+  try {
+    const key = await crypto.subtle.importKey('raw', fromHex(TELEGRAM_PUBLIC_KEY_HEX), { name: 'Ed25519' }, false, ['verify']);
+    return await crypto.subtle.verify('Ed25519', key, fromBase64Url(signature), encoder.encode(message));
+  } catch {
+    return false;
+  }
 }

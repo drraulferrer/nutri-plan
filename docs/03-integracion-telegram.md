@@ -73,8 +73,7 @@ export async function verifyInitData(raw: string, botToken: string, maxAgeSec = 
   const params = new URLSearchParams(raw);
   const hash = params.get('hash');
   if (!hash) throw new AuthError('missing_hash');
-  params.delete('hash');
-  params.delete('signature');                       // Ed25519, no participa en el HMAC
+  params.delete('hash');                            // solo se excluye `hash`; `signature` SÍ entra en el HMAC
 
   const dataCheckString = [...params.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
@@ -101,8 +100,8 @@ Reglas:
   (Telegram regenera `initData` en cada apertura). Se muestra "Sesión caducada · vuelve a abrir
   Nutri Plan".
 - `bot_id` no se necesita para HMAC; sí para la validación Ed25519 con clave pública de Telegram
-  (`e7bf03a2…242d` en producción), que permitiría validar sin el token del bot. **No se usa en
-  v1**: el backend tiene el token.
+  (`e7bf03a2…242d` en producción), cuya cadena de comprobación excluye `hash` **y** `signature`.
+  El backend la usa solo como diagnóstico (`verifyTelegramSignature`) cuando falla el HMAC.
 - Las peticiones sin cabecera o con fallo devuelven `401` con `{ error: 'unauthorized' }` y
   el frontend muestra la pantalla "Abre Nutri Plan desde Telegram".
 - El identificador de usuario que se guarda es `telegram_user_id` (bigint). No se guardan

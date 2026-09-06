@@ -29,10 +29,15 @@ Deno.test('initData válido devuelve el usuario', async () => {
   assertEquals(user.startParam, 'lista');
 });
 
-Deno.test('el campo signature (Ed25519) se ignora en el HMAC', async () => {
-  const raw = (await signed(baseFields())) + '&signature=abcdef';
-  const user = await verifyInitData(raw, TOKEN, opts);
+Deno.test('el campo signature (Ed25519) forma parte del HMAC', async () => {
+  // Firmado con signature incluido (como hace Telegram desde Bot API 8) → válido
+  const withSig = await signed({ ...baseFields(), signature: 'abcdef' });
+  const user = await verifyInitData(withSig, TOKEN, opts);
   assertEquals(user.telegramUserId, 42n);
+  // Añadir signature después de firmar → el hash ya no coincide
+  const appended = (await signed(baseFields())) + '&signature=abcdef';
+  const err = await assertRejects(() => verifyInitData(appended, TOKEN, opts), AuthError);
+  assertEquals(err.code, 'bad_hash');
 });
 
 Deno.test('hash alterado → bad_hash', async () => {

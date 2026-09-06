@@ -7,7 +7,7 @@ import { StatePatchSchema } from '../_shared/core/schemas.ts';
 import { buildShoppingList } from '../_shared/core/shopping.ts';
 import type { Catalog } from '../_shared/core/types.ts';
 import { generateWithAi, type AiPlanner } from './ai.ts';
-import { AuthError, initDataFromHeader, verifyInitData, type VerifiedUser } from './auth.ts';
+import { AuthError, initDataFromHeader, toHex, verifyInitData, verifyTelegramSignature, type VerifiedUser } from './auth.ts';
 import { registerBotRoutes } from './bot-routes.ts';
 import type { Store } from './store.ts';
 
@@ -94,8 +94,8 @@ export function createApp(store: Store, env: ApiEnv) {
     return fail('internal', 'Algo ha fallado en el servidor');
   });
 
-  app.get('/health', () =>
-    ok({
+  app.get('/health', async (c) => {
+    const base: Record<string, unknown> = {
       service: 'nutri-plan-api',
       phase: 4,
       ai: Boolean(env.ai),
@@ -106,8 +106,25 @@ export function createApp(store: Store, env: ApiEnv) {
         : /^\d{5,12}:[A-Za-z0-9_-]{35}$/.test(env.botToken)
           ? 'ok'
           : 'malformed',
-    }),
-  );
+    };
+    // ?check=bot: pregunta a Telegram a qué bot pertenece el token (solo el @username, dato público).
+    if (c.req.query('check') === 'bot' && env.botToken) {
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${env.botToken}/getMe`);
+        const json = (await res.json()) as { ok: boolean; result?: { username?: string }; error_code?: number };
+        base['bot_username'] = json.ok ? (json.result?.username ?? '?') : `telegram error ${json.error_code ?? res.status}`;
+      } catch {
+        base['bot_username'] = 'unreachable';
+      }
+    }
+    // ?echo=1: huella SHA-256 y longitud de la cabecera Authorization tal como llega (para detectar alteraciones en tránsito).
+    if (c.req.query('echo') === '1') {
+      const auth = c.req.header('Authorization') ?? '';
+      const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(auth));
+      base['auth_header'] = { length: auth.length, sha256: toHex(digest).slice(0, 16) };
+    }
+    return ok(base);
+  });
 
   app.get('/catalog', async (c) => {
     const rows = await store.loadCatalog();
@@ -124,7 +141,12 @@ export function createApp(store: Store, env: ApiEnv) {
       user = await verifyInitData(raw, env.botToken, { now });
     } catch (e) {
       const reason = e instanceof AuthError ? e.code : 'error';
-      console.warn('[auth] initData rechazado:', reason);
+      // Diagnóstico sin datos personales: claves presentes, longitud y antigüedad de auth_date.
+      const p = new URLSearchParams(raw);
+      const age = Math.round(now() / 1000 - Number(p.get('auth_date') ?? 0));
+      const botId = env.botToken.split(':')[0] ?? '';
+      const issuedForThisBot = await verifyTelegramSignature(raw, botId);
+      console.warn('[auth] initData rechazado:', reason, JSON.stringify({ keys: [...p.keys()].sort(), length: raw.length, age_sec: age, bot_id: botId, ed25519_for_this_bot: issuedForThisBot }));
       if (reason === 'expired')
         return fail('expired', 'Sesión caducada · vuelve a abrir Nutri Plan', { reason });
       return fail('unauthorized', 'Abre Nutri Plan desde Telegram', { reason });
