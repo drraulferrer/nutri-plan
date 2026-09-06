@@ -1,0 +1,25 @@
+slug: pan-con-tomate-y-jamon
+name: Pan con tomate y jamón
+description: Desayuno de bar, en casa y en cinco minutos.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno]
+tags: [rapida, revisar]
+styles: [mediterraneo, sin_lactosa]
+allergens: [gluten]
+cost_level: medio
+protein_group: ninguno
+ingredients:
+  - { ingredient: pan, quantity: 2, unit: rebanada }
+  - { ingredient: tomate, quantity: 1, unit: ud }
+  - { ingredient: jamon-serrano, quantity: 60, unit: g }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Tuesta el pan y frota o reparte el tomate rallado.
+  - Riega con el aceite y una pizca de sal.
+  - Coloca el jamón por encima.
+substitutions:
+  - { ingredient: jamon-serrano, with: queso-fresco, note: versión vegetariana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

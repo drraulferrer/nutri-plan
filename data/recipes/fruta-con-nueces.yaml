@@ -1,0 +1,21 @@
+slug: fruta-con-nueces
+name: Fruta con nueces
+description: "El tentempié más simple: fruta de temporada y un puñado de nueces."
+servings_base: 2
+time_min: 2
+meal_types: [tentempie, desayuno]
+tags: [rapida, sin_cocinar, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: [frutos_cascara]
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: manzana, quantity: 2, unit: ud }
+  - { ingredient: nueces, quantity: 40, unit: g }
+steps:
+  - Lava y corta la fruta.
+  - Acompaña con las nueces.
+substitutions:
+  - { ingredient: manzana, with: platano }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

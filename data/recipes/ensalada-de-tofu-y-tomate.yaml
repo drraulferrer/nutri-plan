@@ -1,0 +1,28 @@
+slug: ensalada-de-tofu-y-tomate
+name: Ensalada de tofu y tomate
+description: Tofu marinado en frío con tomate, pepino y aceitunas.
+servings_base: 2
+time_min: 15
+meal_types: [cena]
+tags: [rapida, sin_cocinar, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: [soja]
+cost_level: medio
+protein_group: tofu
+ingredients:
+  - { ingredient: tofu, quantity: 200, unit: g }
+  - { ingredient: tomate, quantity: 2, unit: ud }
+  - { ingredient: pepino, quantity: 0.5, unit: ud }
+  - { ingredient: aceitunas, quantity: 40, unit: g, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: vinagre, quantity: 1, unit: cda }
+  - { ingredient: oregano, quantity: 1, unit: pizca }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Corta el tofu en dados y alíñalo con aceite, vinagre, orégano y sal. Deja reposar 10 minutos.
+  - Añade el tomate y el pepino en trozos.
+  - Termina con las aceitunas.
+substitutions:
+  - { ingredient: tofu, with: queso-fresco, note: versión vegetariana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

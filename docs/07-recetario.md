@@ -5,6 +5,12 @@ El recetario es el activo más importante de la v1: la calidad del menú y de la
 
 ## Distribución (55 recetas)
 
+> **Estado 2026-09-06:** las 55 están escritas. 52 son borradores con la etiqueta `revisar`
+> pendientes de revisión por el autor. Comprobado que el planificador llena la semana completa
+> (7 días con tentempiés) para los perfiles general, vegetariano y de tiempo/presupuesto ajustado.
+> Con **vegano**, **sin gluten** o **alergia a huevo y lácteos** aún quedan huecos vacíos en
+> desayunos y tentempiés: harían falta unas 6 recetas más veganas y sin gluten para esos huecos.
+
 | Bloque | Nº | Criterios |
 |---|---|---|
 | Comidas de diario | 15 | ≤ 30 min, `meal_types: [comida, cena]`, coste bajo/medio, al menos 5 vegetarianas |
@@ -13,6 +19,7 @@ El recetario es el activo más importante de la v1: la calidad del menú y de la
 | Vegetarianas | 10 | `styles ⊇ {vegetariano}`, al menos 4 veganas, proteína vegetal identificable (legumbre, tofu, huevo, lácteo) |
 | Aprovechamiento | 5 | Reutilizan restos típicos del recetario: arroz cocido, legumbre cocida, verdura asada, pan duro, pollo asado |
 | Desayunos | 5 | ≤ 10 min, `meal_types: [desayuno]`, al menos 2 sin lácteos y 1 sin gluten |
+| Tentempiés | 5 | ≤ 10 min, `meal_types` incluye `tentempie`; muchos coinciden con desayunos |
 
 Además, para que el planificador funcione bien con restricciones combinadas, hay **mínimos
 transversales** (pueden solaparse con los bloques):
@@ -22,7 +29,10 @@ transversales** (pueden solaparse con los bloques):
 - ≥ 8 recetas veganas.
 - ≥ 6 recetas por cada `protein_group`: legumbre, huevo, pollo, pescado, tofu/soja, lácteo.
 - ≥ 20 recetas con `cost_level: bajo`.
-- Ningún ingrediente principal aparece en más de 8 recetas (evitar menús monótonos).
+- Ningún ingrediente **protagonista** (el que da nombre al plato) en más de 8 recetas. Las bases de
+  sofrito y despensa (cebolla, tomate, ajo, zanahoria, patata, huevo como acompañante) quedan fuera
+  de este límite: en cocina casera española aparecen en la mayoría de los platos y el planificador
+  ya evita la monotonía penalizando repetir la misma proteína.
 
 ## Formato: un fichero YAML por receta
 

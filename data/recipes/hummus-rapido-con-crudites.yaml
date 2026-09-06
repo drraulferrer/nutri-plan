@@ -1,0 +1,30 @@
+slug: hummus-rapido-con-crudites
+name: Hummus rápido con crudités
+description: Puré de garbanzos con limón y comino, con palitos de verdura.
+servings_base: 2
+time_min: 10
+meal_types: [tentempie, cena]
+tags: [rapida, sin_cocinar, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: legumbre
+ingredients:
+  - { ingredient: garbanzos-cocidos, quantity: 400, unit: g }
+  - { ingredient: limon, quantity: 0.5, unit: ud }
+  - { ingredient: ajo, quantity: 1, unit: diente }
+  - { ingredient: comino, quantity: 1, unit: pizca }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: zanahoria, quantity: 2, unit: ud }
+  - { ingredient: pepino, quantity: 1, unit: ud }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Escurre y enjuaga los garbanzos.
+  - Tritura con el ajo, el zumo de limón, el comino, el aceite, la sal y un chorrito de agua hasta que quede cremoso.
+  - Corta la zanahoria y el pepino en bastones y sirve al lado.
+substitutions:
+  - { ingredient: garbanzos-cocidos, with: alubias-cocidas }
+  - { ingredient: pepino, with: pimiento-rojo }
+tip: Aguanta 3 días en la nevera en un bote cerrado.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

@@ -1,0 +1,25 @@
+slug: huevo-cocido-con-tomate
+name: Huevo cocido con tomate
+description: Tentempié salado con proteína, listo si dejas huevos cocidos hechos.
+servings_base: 2
+time_min: 12
+meal_types: [tentempie, cena]
+tags: [rapida, economica, revisar]
+styles: [mediterraneo, vegetariano, sin_gluten, sin_lactosa]
+allergens: [huevos]
+cost_level: bajo
+protein_group: huevo
+ingredients:
+  - { ingredient: huevos, quantity: 2, unit: ud }
+  - { ingredient: tomate, quantity: 1, unit: ud }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cdta }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Cuece los huevos 10 minutos y enfríalos en agua.
+  - Pélalos y córtalos por la mitad con el tomate en rodajas.
+  - Aliña con aceite y sal.
+substitutions:
+  - { ingredient: tomate, with: aguacate }
+tip: Cuece media docena de golpe y tienes tentempiés para varios días.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

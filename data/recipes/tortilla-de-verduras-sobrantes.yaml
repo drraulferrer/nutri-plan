@@ -1,0 +1,26 @@
+slug: tortilla-de-verduras-sobrantes
+name: Tortilla de verduras sobrantes
+description: Aprovecha el pisto, el estofado o cualquier verdura que quedó.
+servings_base: 2
+time_min: 15
+meal_types: [comida, cena]
+tags: [rapida, aprovechamiento, economica, sin_horno, revisar]
+styles: [mediterraneo, vegetariano, sin_gluten, sin_lactosa]
+allergens: [huevos]
+cost_level: bajo
+protein_group: huevo
+ingredients:
+  - { ingredient: huevos, quantity: 4, unit: ud }
+  - { ingredient: calabacin, quantity: 1, unit: ud, note: o las verduras que te sobraron }
+  - { ingredient: cebolla, quantity: 0.5, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Escurre bien las verduras que te sobraron; si están crudas, saltéalas 5 minutos.
+  - Bate los huevos con sal y mézclalos con la verdura.
+  - Cuaja la tortilla a fuego medio, 3 minutos por cada lado.
+substitutions:
+  - { ingredient: calabacin, with: espinacas }
+  - { ingredient: calabacin, with: patata, note: si te sobró tortilla o patata cocida }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

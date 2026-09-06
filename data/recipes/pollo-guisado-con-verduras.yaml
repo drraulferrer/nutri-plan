@@ -1,0 +1,33 @@
+slug: pollo-guisado-con-verduras
+name: Pollo guisado con verduras
+description: Guiso de pollo con zanahoria y patata. Rinde para dos comidas.
+servings_base: 2
+time_min: 50
+active_time_min: 15
+meal_types: [comida]
+tags: [batch, una_olla, revisar]
+styles: [mediterraneo, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: medio
+protein_group: pollo
+batch_reuse: true
+pairs_with: [ensalada-de-pollo-asado]
+ingredients:
+  - { ingredient: pollo-muslos, quantity: 600, unit: g }
+  - { ingredient: patata, quantity: 400, unit: g }
+  - { ingredient: zanahoria, quantity: 2, unit: ud }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: tomate-triturado, quantity: 200, unit: g }
+  - { ingredient: ajo, quantity: 2, unit: diente }
+  - { ingredient: laurel, quantity: 1, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Dora el pollo en la olla con el aceite y resérvalo.
+  - Sofríe la cebolla, la zanahoria y el ajo 8 minutos; añade el tomate y el laurel.
+  - Devuelve el pollo con la patata en trozos y agua hasta casi cubrir; cuece 30 minutos a fuego suave.
+substitutions:
+  - { ingredient: pollo-muslos, with: pollo, note: pechuga, reduce a 20 minutos }
+tip: El pollo sobrante deshuesado sirve para la ensalada del día siguiente.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

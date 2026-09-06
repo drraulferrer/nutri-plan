@@ -1,0 +1,28 @@
+slug: tofu-al-curry-con-arroz
+name: Tofu al curry con arroz
+description: Tofu con cebolla, tomate y curry, sobre arroz blanco.
+servings_base: 2
+time_min: 30
+meal_types: [comida]
+tags: [una_olla, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: [soja]
+cost_level: medio
+protein_group: tofu
+ingredients:
+  - { ingredient: tofu, quantity: 250, unit: g }
+  - { ingredient: arroz, quantity: 160, unit: g }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: tomate-triturado, quantity: 200, unit: g }
+  - { ingredient: curry, quantity: 1, unit: cda }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Cuece el arroz.
+  - Dora el tofu en dados 5 minutos y resérvalo.
+  - Sofríe la cebolla, añade el curry y el tomate y cocina 8 minutos. Devuelve el tofu y da un hervor.
+substitutions:
+  - { ingredient: tofu, with: garbanzos-cocidos }
+  - { ingredient: arroz, with: cuscus }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

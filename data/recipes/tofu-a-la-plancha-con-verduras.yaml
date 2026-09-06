@@ -1,0 +1,28 @@
+slug: tofu-a-la-plancha-con-verduras
+name: Tofu a la plancha
+description: Tofu dorado con pimiento y calabacín, sin complicaciones.
+servings_base: 2
+time_min: 20
+meal_types: [comida, cena]
+tags: [rapida, sin_horno, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: [soja]
+cost_level: medio
+protein_group: tofu
+ingredients:
+  - { ingredient: tofu, quantity: 250, unit: g }
+  - { ingredient: pimiento-rojo, quantity: 1, unit: ud }
+  - { ingredient: calabacin, quantity: 1, unit: ud }
+  - { ingredient: ajo, quantity: 1, unit: diente }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: pimenton-dulce, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Escurre y seca el tofu; córtalo en lonchas gruesas y sálalo.
+  - Dóralo en la sartén con la mitad del aceite, 4 minutos por cada lado.
+  - Saltea las verduras en tiras con el resto del aceite y el ajo, 8 minutos. Sirve junto al tofu.
+substitutions:
+  - { ingredient: tofu, with: queso-fresco, note: a la plancha, versión vegetariana }
+  - { ingredient: calabacin, with: berenjena }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

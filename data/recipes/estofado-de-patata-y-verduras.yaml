@@ -1,0 +1,33 @@
+slug: estofado-de-patata-y-verduras
+name: Estofado de patata
+description: Patata guisada con pimiento y zanahoria, de las de cuchara.
+servings_base: 2
+time_min: 40
+active_time_min: 15
+meal_types: [comida, cena]
+tags: [batch, economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: ninguno
+batch_reuse: true
+ingredients:
+  - { ingredient: patata, quantity: 600, unit: g }
+  - { ingredient: zanahoria, quantity: 2, unit: ud }
+  - { ingredient: pimiento-verde, quantity: 1, unit: ud }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: tomate-triturado, quantity: 200, unit: g }
+  - { ingredient: ajo, quantity: 2, unit: diente }
+  - { ingredient: pimenton-dulce, quantity: 1, unit: cdta }
+  - { ingredient: laurel, quantity: 1, unit: ud, optional: true }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe la cebolla, el pimiento, la zanahoria y el ajo 8 minutos.
+  - Añade el pimentón y el tomate; cocina 5 minutos.
+  - Incorpora la patata cascada, el laurel y agua hasta cubrir; cuece 25 minutos.
+substitutions:
+  - { ingredient: patata, with: garbanzos-cocidos, note: añádelos al final }
+tip: Con un huevo cocido encima queda un plato completo.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

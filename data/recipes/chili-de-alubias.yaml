@@ -1,0 +1,33 @@
+slug: chili-de-alubias
+name: Chili de alubias
+description: Alubias con pimiento, tomate y comino. Para toda la semana.
+servings_base: 2
+time_min: 35
+active_time_min: 15
+meal_types: [comida, cena]
+tags: [batch, economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: legumbre
+batch_reuse: true
+ingredients:
+  - { ingredient: alubias-cocidas, quantity: 500, unit: g }
+  - { ingredient: pimiento-rojo, quantity: 1, unit: ud }
+  - { ingredient: pimiento-verde, quantity: 1, unit: ud }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: tomate-triturado, quantity: 400, unit: g }
+  - { ingredient: maiz, quantity: 150, unit: g, optional: true }
+  - { ingredient: comino, quantity: 1, unit: cdta }
+  - { ingredient: pimenton-dulce, quantity: 1, unit: cdta }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe la cebolla y los pimientos en dados 8 minutos.
+  - Añade el comino y el pimentón, remueve, e incorpora el tomate; cocina 10 minutos.
+  - Suma las alubias y el maíz; cocina 10 minutos más y rectifica de sal.
+substitutions:
+  - { ingredient: alubias-cocidas, with: lentejas-pardinas, note: cocidas }
+tip: Sirve con arroz o con tortillas de trigo para cambiar de plato.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

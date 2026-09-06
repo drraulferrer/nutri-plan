@@ -1,0 +1,25 @@
+slug: batido-de-platano-y-bebida-de-avena
+name: Batido de plátano y avena
+description: Batido vegetal con plátano, ideal para llevar.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno, tentempie]
+tags: [rapida, sin_cocinar, economica, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_lactosa]
+allergens: [gluten]
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: bebida-avena, quantity: 400, unit: ml }
+  - { ingredient: platano, quantity: 2, unit: ud }
+  - { ingredient: avena-copos, quantity: 30, unit: g }
+  - { ingredient: canela, quantity: 1, unit: pizca, optional: true }
+steps:
+  - Pela los plátanos y trocéalos.
+  - Tritura con la bebida de avena y los copos hasta que quede fino.
+  - Sirve frío, con canela si quieres.
+substitutions:
+  - { ingredient: bebida-avena, with: leche, note: versión con lácteos }
+  - { ingredient: platano, with: manzana }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

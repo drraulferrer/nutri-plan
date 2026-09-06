@@ -1,0 +1,23 @@
+slug: tortitas-de-arroz-con-aguacate
+name: Tortitas de arroz con aguacate
+description: Crujiente y sin gluten, listo en cinco minutos.
+servings_base: 2
+time_min: 5
+meal_types: [tentempie]
+tags: [rapida, sin_cocinar, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: tortitas-arroz, quantity: 4, unit: ud }
+  - { ingredient: aguacate, quantity: 1, unit: ud }
+  - { ingredient: limon, quantity: 0.5, unit: ud, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Machaca el aguacate con sal y unas gotas de limón.
+  - Repártelo sobre las tortitas de arroz.
+substitutions:
+  - { ingredient: aguacate, with: tomate, note: rallado }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

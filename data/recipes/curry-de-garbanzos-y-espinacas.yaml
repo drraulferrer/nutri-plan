@@ -1,0 +1,32 @@
+slug: curry-de-garbanzos-y-espinacas
+name: Curry de garbanzos
+description: Garbanzos con espinacas, tomate y curry. Mejora al día siguiente.
+servings_base: 2
+time_min: 30
+active_time_min: 15
+meal_types: [comida, cena]
+tags: [batch, economica, una_olla, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_gluten, sin_lactosa]
+allergens: []
+cost_level: bajo
+protein_group: legumbre
+batch_reuse: true
+ingredients:
+  - { ingredient: garbanzos-cocidos, quantity: 500, unit: g }
+  - { ingredient: espinacas, quantity: 300, unit: g }
+  - { ingredient: tomate-triturado, quantity: 300, unit: g }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: ajo, quantity: 2, unit: diente }
+  - { ingredient: curry, quantity: 1, unit: cda }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe la cebolla y el ajo picados 6 minutos.
+  - Añade el curry, remueve 30 segundos e incorpora el tomate; cocina 10 minutos.
+  - Suma los garbanzos escurridos y las espinacas; cocina 8 minutos más.
+substitutions:
+  - { ingredient: garbanzos-cocidos, with: alubias-cocidas }
+  - { ingredient: espinacas, with: acelgas }
+tip: Haz doble y congela la mitad en porciones.
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

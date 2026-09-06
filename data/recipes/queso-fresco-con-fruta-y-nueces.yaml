@@ -1,0 +1,25 @@
+slug: queso-fresco-con-fruta-y-nueces
+name: Queso fresco con fruta
+description: Queso fresco con manzana y nueces. Sin gluten y sin cocinar.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno, tentempie]
+tags: [rapida, sin_cocinar, sin_gluten, revisar]
+styles: [mediterraneo, vegetariano, sin_gluten]
+allergens: [lacteos, frutos_cascara]
+cost_level: medio
+protein_group: lacteo
+ingredients:
+  - { ingredient: queso-fresco, quantity: 200, unit: g }
+  - { ingredient: manzana, quantity: 1, unit: ud }
+  - { ingredient: nueces, quantity: 30, unit: g }
+  - { ingredient: aceite-oliva, quantity: 1, unit: cdta, optional: true }
+steps:
+  - Corta el queso fresco en dados y repártelo en dos boles.
+  - Añade la manzana en trozos y las nueces.
+  - Un hilo de aceite si te gusta el contraste salado.
+substitutions:
+  - { ingredient: queso-fresco, with: yogur-soja, note: versión sin lácteos }
+  - { ingredient: manzana, with: platano }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

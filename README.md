@@ -4,8 +4,8 @@ Mini App de Telegram para **@Nutri_RF_Bot**: menú semanal, lista de compra y re
 tienes en casa. La app organiza; Nutri, en el chat, personaliza y conversa.
 
 **Estado:** Fases 1–4 codificadas (Mini App, backend Supabase, generación con IA y puente con el bot); despliegue del backend pendiente · especificación v1.0 en
-[`docs/`](docs/00-decisiones.md). Recetario: 36 recetas, 33 de ellas borradores marcados con la
-etiqueta `revisar` pendientes de revisión por el autor.
+[`docs/`](docs/00-decisiones.md). Recetario: **55 recetas** (52 borradores con la etiqueta `revisar`,
+pendientes de revisión por el autor) y 69 ingredientes.
 
 | Función | Resumen |
 |---|---|

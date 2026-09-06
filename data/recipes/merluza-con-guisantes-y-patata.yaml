@@ -1,0 +1,29 @@
+slug: merluza-con-guisantes-y-patata
+name: Merluza con guisantes
+description: Merluza guisada con patata y guisantes en una sola cazuela.
+servings_base: 2
+time_min: 30
+meal_types: [comida, cena]
+tags: [una_olla, sin_horno, revisar]
+styles: [mediterraneo, sin_gluten, sin_lactosa]
+allergens: [pescado]
+cost_level: medio
+protein_group: pescado
+ingredients:
+  - { ingredient: merluza, quantity: 400, unit: g }
+  - { ingredient: patata, quantity: 400, unit: g }
+  - { ingredient: guisantes, quantity: 200, unit: g }
+  - { ingredient: cebolla, quantity: 1, unit: ud }
+  - { ingredient: ajo, quantity: 2, unit: diente }
+  - { ingredient: aceite-oliva, quantity: 2, unit: cda }
+  - { ingredient: perejil, quantity: 1, unit: pizca, optional: true }
+  - { ingredient: sal, quantity: 1, unit: pizca }
+steps:
+  - Sofríe la cebolla y el ajo picados 5 minutos.
+  - Añade la patata en rodajas y agua hasta cubrir; cuece 15 minutos.
+  - Incorpora los guisantes y la merluza; cocina 6 minutos más y termina con perejil.
+substitutions:
+  - { ingredient: merluza, with: salmon }
+  - { ingredient: guisantes, with: judias-verdes }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0

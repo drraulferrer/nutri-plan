@@ -1,0 +1,24 @@
+slug: tostada-de-crema-de-cacahuete-y-platano
+name: Tostada de cacahuete y plátano
+description: Pan tostado con crema de cacahuete y rodajas de plátano.
+servings_base: 2
+time_min: 5
+meal_types: [desayuno, tentempie]
+tags: [rapida, revisar]
+styles: [mediterraneo, vegetariano, vegano, sin_lactosa]
+allergens: [gluten, cacahuetes]
+cost_level: bajo
+protein_group: ninguno
+ingredients:
+  - { ingredient: pan, quantity: 2, unit: rebanada }
+  - { ingredient: crema-cacahuete, quantity: 30, unit: g }
+  - { ingredient: platano, quantity: 1, unit: ud }
+  - { ingredient: canela, quantity: 1, unit: pizca, optional: true }
+steps:
+  - Tuesta el pan.
+  - Unta la crema de cacahuete mientras está caliente.
+  - Reparte el plátano en rodajas por encima.
+substitutions:
+  - { ingredient: crema-cacahuete, with: aguacate, note: si hay alergia a cacahuetes }
+author: Borrador para revisión
+license: CC-BY-NC-SA-4.0
