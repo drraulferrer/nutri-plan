@@ -18,6 +18,7 @@ export const initialState: AppState = {
   pantry: [],
   favorites: [],
   sync: 'local',
+  syncDetail: null,
 };
 
 function applyPersisted(state: AppState, p: Partial<Persisted>): AppState {
@@ -78,8 +79,10 @@ export function reducer(state: AppState, action: Action): AppState {
     /** Estado que llega del servidor (sesión o menú generado allí). */
     case 'state/replace':
       return applyPersisted(state, action.persisted);
-    case 'sync/status':
-      return state.sync === action.status ? state : { ...state, sync: action.status };
+    case 'sync/status': {
+      const detail = action.detail === undefined ? state.syncDetail : action.detail;
+      return state.sync === action.status && state.syncDetail === detail ? state : { ...state, sync: action.status, syncDetail: detail };
+    }
 
     case 'prefs/save': {
       const next = { ...state, prefs: action.prefs };

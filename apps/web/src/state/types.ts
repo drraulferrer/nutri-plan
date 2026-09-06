@@ -12,6 +12,8 @@ export interface AppState {
   pantry: string[];
   favorites: string[];
   sync: SyncStatus;
+  /** Motivo del último rechazo de sesión o de la ausencia de API, para diagnóstico en Inicio. */
+  syncDetail: string | null;
 }
 
 export interface Persisted {
@@ -28,7 +30,7 @@ export type SyncStatus = 'local' | 'syncing' | 'synced' | 'pending' | 'offline';
 export type Action =
   | { type: 'loaded'; catalog: Catalog; persisted: Partial<Persisted> }
   | { type: 'state/replace'; persisted: Partial<Persisted> }
-  | { type: 'sync/status'; status: SyncStatus }
+  | { type: 'sync/status'; status: SyncStatus; detail?: string | null }
   | { type: 'load-failed'; message: string }
   | { type: 'prefs/save'; prefs: Preferences }
   | { type: 'menu/generate'; seed: string; weekStart: string }

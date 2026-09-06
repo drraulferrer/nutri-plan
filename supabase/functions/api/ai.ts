@@ -24,7 +24,11 @@ export interface AiUsage {
 export interface AiPlanner {
   readonly model: string;
   /** Devuelve el JSON crudo de la herramienta `plan_menu` y el uso de tokens. */
-  plan(system: string, user: string, signal: AbortSignal): Promise<{ raw: unknown; usage: AiUsage }>;
+  plan(
+    system: string,
+    user: string,
+    signal: AbortSignal,
+  ): Promise<{ raw: unknown; usage: AiUsage }>;
 }
 
 export type AiOutcome = 'ok' | 'retry_ok' | 'fallback' | 'error';
@@ -50,7 +54,10 @@ export interface AiGenerateResult {
 const DEFAULT_TIMEOUT_MS = 12_000;
 
 /** Llama al modelo (con un reintento explicando los errores) y cae a reglas si no hay plan válido. */
-export async function generateWithAi(planner: AiPlanner, input: AiGenerateInput): Promise<AiGenerateResult> {
+export async function generateWithAi(
+  planner: AiPlanner,
+  input: AiGenerateInput,
+): Promise<AiGenerateResult> {
   const usage: AiUsage = { input_tokens: 0, output_tokens: 0 };
   const candidates = buildAiCandidates(input.catalog, input.preferences);
   const controller = new AbortController();
@@ -76,7 +83,13 @@ export async function generateWithAi(planner: AiPlanner, input: AiGenerateInput)
       const plan: AiPlan = parsed.data;
       errors = validateAiPlan(plan, input.preferences, input.catalog);
       if (errors.length === 0) {
-        const menu = aiPlanToMenu({ plan, preferences: input.preferences, catalog: input.catalog, weekStart: input.weekStart, seed: input.seed });
+        const menu = aiPlanToMenu({
+          plan,
+          preferences: input.preferences,
+          catalog: input.catalog,
+          weekStart: input.weekStart,
+          seed: input.seed,
+        });
         return {
           menu: { ...menu, warnings: slotWarnings(menu.slots, input.preferences, input.catalog) },
           outcome: attempt === 0 ? 'ok' : 'retry_ok',
@@ -102,7 +115,15 @@ export async function generateWithAi(planner: AiPlanner, input: AiGenerateInput)
   return {
     menu: {
       ...fallback,
-      warnings: [...fallback.warnings, { day_index: -1, meal: 'comida', type: 'ia_fallback', detail: errors[0]?.slice(0, 120) ?? 'sin plan válido' }],
+      warnings: [
+        ...fallback.warnings,
+        {
+          day_index: -1,
+          meal: 'comida',
+          type: 'ia_fallback',
+          detail: errors[0]?.slice(0, 120) ?? 'sin plan válido',
+        },
+      ],
     },
     outcome: 'fallback',
     usage,
@@ -124,7 +145,11 @@ export class ClaudePlanner implements AiPlanner {
     return new ClaudePlanner(key, Deno.env.get('ANTHROPIC_MODEL') || 'claude-sonnet-5');
   }
 
-  async plan(system: string, user: string, signal: AbortSignal): Promise<{ raw: unknown; usage: AiUsage }> {
+  async plan(
+    system: string,
+    user: string,
+    signal: AbortSignal,
+  ): Promise<{ raw: unknown; usage: AiUsage }> {
     const res = await this.fetchImpl('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       signal,
@@ -150,6 +175,12 @@ export class ClaudePlanner implements AiPlanner {
     };
     const tool = body.content.find((c) => c.type === 'tool_use' && c.name === AI_TOOL_SCHEMA.name);
     if (!tool) throw new Error('La respuesta no contiene el plan');
-    return { raw: tool.input, usage: { input_tokens: body.usage?.input_tokens ?? 0, output_tokens: body.usage?.output_tokens ?? 0 } };
+    return {
+      raw: tool.input,
+      usage: {
+        input_tokens: body.usage?.input_tokens ?? 0,
+        output_tokens: body.usage?.output_tokens ?? 0,
+      },
+    };
   }
 }

@@ -29,6 +29,8 @@ export class ApiError extends Error {
     public readonly code: string,
     public readonly status: number,
     message: string,
+    /** Detalle de diagnóstico que devuelve el servidor (p. ej. `bad_hash`), sin datos sensibles. */
+    public readonly reason?: string,
   ) {
     super(message);
     this.name = 'ApiError';
@@ -71,9 +73,9 @@ export function createApiClient({ baseUrl, initData, fetchImpl, clientVersion = 
       body: body === undefined ? undefined : JSON.stringify(body),
     });
     if (res.status === 204) return undefined as T;
-    const json = (await res.json().catch(() => null)) as { ok: boolean; data?: T; error?: { code: string; message: string } } | null;
+    const json = (await res.json().catch(() => null)) as { ok: boolean; data?: T; error?: { code: string; message: string; reason?: string } } | null;
     if (!res.ok || !json?.ok) {
-      throw new ApiError(json?.error?.code ?? 'http_error', res.status, json?.error?.message ?? `HTTP ${res.status}`);
+      throw new ApiError(json?.error?.code ?? 'http_error', res.status, json?.error?.message ?? `HTTP ${res.status}`, json?.error?.reason);
     }
     return json.data as T;
   }

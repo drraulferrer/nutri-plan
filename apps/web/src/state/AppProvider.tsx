@@ -56,8 +56,11 @@ export function AppProvider({ app, isReal, botUsername, apiBaseUrl, children }: 
         const [catalog, persisted] = await Promise.all([loadCatalog(), loadPersisted(stores.cloud, stores.local)]);
         if (cancelled) return;
         dispatch({ type: 'loaded', catalog, persisted });
-        if (!api) return;
-        dispatch({ type: 'sync/status', status: 'syncing' });
+        if (!api) {
+          dispatch({ type: 'sync/status', status: 'local', detail: !apiBaseUrl ? 'sin API configurada' : !isReal ? 'fuera de Telegram' : null });
+          return;
+        }
+        dispatch({ type: 'sync/status', status: 'syncing', detail: null });
         const session = await api.session();
         if (cancelled) return;
         const merge = mergeOnStart(persisted, session.state);
@@ -74,17 +77,17 @@ export function AppProvider({ app, isReal, botUsername, apiBaseUrl, children }: 
         if (!stateRef.current.loaded) {
           dispatch({ type: 'load-failed', message: e instanceof Error ? e.message : String(e) });
         } else if (e instanceof ApiError && e.isAuth) {
-          dispatch({ type: 'sync/status', status: 'local' });
+          dispatch({ type: 'sync/status', status: 'local', detail: `sesión rechazada: ${e.reason ?? e.code}` });
         } else {
           sessionReady.current = true;
-          dispatch({ type: 'sync/status', status: 'offline' });
+          dispatch({ type: 'sync/status', status: 'offline', detail: e instanceof Error ? e.message.slice(0, 80) : null });
         }
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [stores, api]);
+  }, [stores, api, apiBaseUrl, isReal]);
 
   // ── Persistencia local (caché offline) ──
   const { loaded, prefs, menu, list, listPeople, pantry, favorites } = state;

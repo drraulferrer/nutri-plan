@@ -52,7 +52,10 @@ export const ok = (data: unknown, status = 200) => Response.json({ ok: true, dat
 
 export async function loadCatalogFromStore(store: Store): Promise<Catalog> {
   const rows = await store.loadCatalog();
-  return buildCatalog(rows.ingredients, rows.recipes.map((data, i) => ({ file: `db[${i}]`, data }))).catalog;
+  return buildCatalog(
+    rows.ingredients,
+    rows.recipes.map((data, i) => ({ file: `db[${i}]`, data })),
+  ).catalog;
 }
 
 const GenerateBody = z.object({
@@ -91,7 +94,20 @@ export function createApp(store: Store, env: ApiEnv) {
     return fail('internal', 'Algo ha fallado en el servidor');
   });
 
-  app.get('/health', () => ok({ service: 'nutri-plan-api', phase: 4, ai: Boolean(env.ai), bot: Boolean(env.botSecret) }));
+  app.get('/health', () =>
+    ok({
+      service: 'nutri-plan-api',
+      phase: 4,
+      ai: Boolean(env.ai),
+      bot: Boolean(env.botSecret),
+      // Solo la forma del token (dígitos:35 caracteres), nunca su valor: detecta espacios o comillas al pegarlo.
+      bot_token: !env.botToken
+        ? 'missing'
+        : /^\d{5,12}:[A-Za-z0-9_-]{35}$/.test(env.botToken)
+          ? 'ok'
+          : 'malformed',
+    }),
+  );
 
   app.get('/catalog', async (c) => {
     const rows = await store.loadCatalog();
@@ -107,11 +123,17 @@ export function createApp(store: Store, env: ApiEnv) {
     try {
       user = await verifyInitData(raw, env.botToken, { now });
     } catch (e) {
-      if (e instanceof AuthError && e.code === 'expired')
-        return fail('expired', 'Sesión caducada · vuelve a abrir Nutri Plan');
-      return fail('unauthorized', 'Abre Nutri Plan desde Telegram');
+      const reason = e instanceof AuthError ? e.code : 'error';
+      console.warn('[auth] initData rechazado:', reason);
+      if (reason === 'expired')
+        return fail('expired', 'Sesión caducada · vuelve a abrir Nutri Plan', { reason });
+      return fail('unauthorized', 'Abre Nutri Plan desde Telegram', { reason });
     }
-    const count = await store.bumpRateLimit(user.telegramUserId, RATE_GENERAL.bucket, windowStart(now(), RATE_GENERAL.windowSec));
+    const count = await store.bumpRateLimit(
+      user.telegramUserId,
+      RATE_GENERAL.bucket,
+      windowStart(now(), RATE_GENERAL.windowSec),
+    );
     if (count > RATE_GENERAL.limit)
       return fail('rate_limited', 'Demasiadas peticiones', { retry_after: RATE_GENERAL.windowSec });
     const profile = await store.upsertProfile(user.telegramUserId, user.languageCode);
@@ -122,7 +144,11 @@ export function createApp(store: Store, env: ApiEnv) {
 
   app.post('/me/session', async (c) => {
     const state = await store.getState(c.get('profileId'));
-    return ok({ profile: { id: c.get('profileId') }, start_param: c.get('user').startParam ?? null, state });
+    return ok({
+      profile: { id: c.get('profileId') },
+      start_param: c.get('user').startParam ?? null,
+      state,
+    });
   });
 
   app.get('/me/state', async (c) => ok(await store.getState(c.get('profileId'))));
@@ -131,22 +157,35 @@ export function createApp(store: Store, env: ApiEnv) {
     const parsed = StatePatchSchema.safeParse(await c.req.json().catch(() => null));
     if (!parsed.success)
       return fail('validation', 'Datos no válidos', { details: parsed.error.issues.slice(0, 10) });
-    if (parsed.data.preferences && parsed.data.preferences.allergens.length > 0 && !parsed.data.preferences.allergens_confirmed) {
-      return fail('validation', 'Confirma tus alergias antes de guardar', { details: [{ path: ['preferences', 'allergens_confirmed'] }] });
+    if (
+      parsed.data.preferences &&
+      parsed.data.preferences.allergens.length > 0 &&
+      !parsed.data.preferences.allergens_confirmed
+    ) {
+      return fail('validation', 'Confirma tus alergias antes de guardar', {
+        details: [{ path: ['preferences', 'allergens_confirmed'] }],
+      });
     }
     return ok(await store.putState(c.get('profileId'), parsed.data));
   });
 
   app.post('/me/menus/generate', async (c) => {
     const user = c.get('user');
-    const count = await store.bumpRateLimit(user.telegramUserId, RATE_GENERATE.bucket, windowStart(now(), RATE_GENERATE.windowSec));
+    const count = await store.bumpRateLimit(
+      user.telegramUserId,
+      RATE_GENERATE.bucket,
+      windowStart(now(), RATE_GENERATE.windowSec),
+    );
     if (count > RATE_GENERATE.limit)
-      return fail('rate_limited', 'Espera un minuto antes de generar otro menú', { retry_after: RATE_GENERATE.windowSec });
+      return fail('rate_limited', 'Espera un minuto antes de generar otro menú', {
+        retry_after: RATE_GENERATE.windowSec,
+      });
     const body = GenerateBody.safeParse(await c.req.json().catch(() => ({})));
     if (!body.success) return fail('validation', 'Datos no válidos');
     const profileId = c.get('profileId');
     const state = await store.getState(profileId);
-    if (!state.preferences) return fail('no_preferences', 'Guarda tus preferencias antes de generar el menú');
+    if (!state.preferences)
+      return fail('no_preferences', 'Guarda tus preferencias antes de generar el menú');
 
     const catalog = await loadCatalogFromStore(store);
     const input = {
@@ -156,21 +195,37 @@ export function createApp(store: Store, env: ApiEnv) {
       seed: body.data.seed ?? crypto.randomUUID().slice(0, 8),
       favorites: state.favorites,
       pantry: state.pantry,
-      recentRecipes: state.menu?.slots.map((s) => s.recipe_slug).filter((s): s is string => Boolean(s)) ?? [],
+      recentRecipes:
+        state.menu?.slots.map((s) => s.recipe_slug).filter((s): s is string => Boolean(s)) ?? [],
     };
     const source = body.data.source ?? (state.preferences.use_ai === false ? 'reglas' : 'ia');
     let menu = null;
     let menuSource: 'reglas' | 'ia' = 'reglas';
     if (source === 'ia' && env.ai) {
       const result = await generateWithAi(env.ai, input);
-      await store.recordAiUsage(profileId, { model: env.ai.model, ...result.usage, outcome: result.outcome });
+      await store.recordAiUsage(profileId, {
+        model: env.ai.model,
+        ...result.usage,
+        outcome: result.outcome,
+      });
       menu = result.menu;
       menuSource = result.outcome === 'fallback' ? 'reglas' : 'ia';
     } else {
       menu = planMenu(input);
     }
-    const shoppingList = buildShoppingList({ slots: menu.slots, catalog, people: state.preferences.people, pantry: state.pantry });
-    return ok(await store.putState(profileId, { menu, shopping_list: shoppingList, menu_source: menuSource }));
+    const shoppingList = buildShoppingList({
+      slots: menu.slots,
+      catalog,
+      people: state.preferences.people,
+      pantry: state.pantry,
+    });
+    return ok(
+      await store.putState(profileId, {
+        menu,
+        shopping_list: shoppingList,
+        menu_source: menuSource,
+      }),
+    );
   });
 
   app.post('/me/events', async (c) => {

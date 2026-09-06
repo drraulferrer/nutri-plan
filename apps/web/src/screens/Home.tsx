@@ -29,7 +29,7 @@ export function Home() {
         <button type="button" className="btn btn-primary inline" onClick={() => nav.push({ name: 'prefs', firstRun: true })}>
           {es.home.start}
         </button>
-        <Footnote onOpenChat={nutri.openChat} sync={state.sync} />
+        <Footnote onOpenChat={nutri.openChat} sync={state.sync} detail={state.syncDetail} />
       </main>
     );
   }
@@ -79,14 +79,14 @@ export function Home() {
           </button>
         ))}
       </nav>
-      <Footnote onOpenChat={nutri.openChat} sync={state.sync} />
+      <Footnote onOpenChat={nutri.openChat} sync={state.sync} detail={state.syncDetail} />
     </main>
   );
 }
 
 const SYNC_ICON: Record<string, string> = { local: '📱', syncing: '⏳', synced: '☁️', pending: '⏳', offline: '📡' };
 
-function Footnote({ onOpenChat, sync }: { onOpenChat: () => void; sync: string }) {
+function Footnote({ onOpenChat, sync, detail }: { onOpenChat: () => void; sync: string; detail: string | null }) {
   return (
     <p className="footnote">
       {es.app.tagline}{' '}
@@ -96,6 +96,7 @@ function Footnote({ onOpenChat, sync }: { onOpenChat: () => void; sync: string }
       <br />
       <span className="sync-status" data-sync={sync}>
         {SYNC_ICON[sync]} {es.sync[sync]}
+        {detail && ` · ${detail}`}
       </span>
     </p>
   );

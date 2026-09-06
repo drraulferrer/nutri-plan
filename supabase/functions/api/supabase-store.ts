@@ -122,7 +122,8 @@ export class SupabaseStore implements Store {
   async putState(profileId: string, patch: StatePatch): Promise<UserState> {
     const now = new Date().toISOString();
     if (patch.preferences) await this.savePreferences(profileId, patch.preferences, now);
-    if (patch.menu !== undefined) await this.saveMenu(profileId, patch.menu, now, patch.menu_source);
+    if (patch.menu !== undefined)
+      await this.saveMenu(profileId, patch.menu, now, patch.menu_source);
     if (patch.shopping_list !== undefined)
       await this.saveShoppingList(profileId, patch.shopping_list, now);
     if (patch.pantry)
@@ -168,7 +169,12 @@ export class SupabaseStore implements Store {
     if (error) fail('recordAiUsage', error);
   }
 
-  private async saveMenu(profileId: string, menu: Menu | null, now: string, source?: 'reglas' | 'ia'): Promise<void> {
+  private async saveMenu(
+    profileId: string,
+    menu: Menu | null,
+    now: string,
+    source?: 'reglas' | 'ia',
+  ): Promise<void> {
     const retire = await this.db
       .from('menus')
       .update({ is_current: false, updated_at: now })
@@ -176,22 +182,20 @@ export class SupabaseStore implements Store {
       .eq('is_current', true);
     if (retire.error) fail('saveMenu.retire', retire.error);
     if (!menu) return;
-    const { error } = await this.db
-      .from('menus')
-      .upsert(
-        {
-          profile_id: profileId,
-          week_start: menu.week_start,
-          days: menu.days,
-          people: menu.people,
-          seed: menu.seed,
-          data: menu,
-          is_current: true,
-          updated_at: now,
-          ...(source ? { source } : {}),
-        },
-        { onConflict: 'profile_id,week_start' },
-      );
+    const { error } = await this.db.from('menus').upsert(
+      {
+        profile_id: profileId,
+        week_start: menu.week_start,
+        days: menu.days,
+        people: menu.people,
+        seed: menu.seed,
+        data: menu,
+        is_current: true,
+        updated_at: now,
+        ...(source ? { source } : {}),
+      },
+      { onConflict: 'profile_id,week_start' },
+    );
     if (error) fail('saveMenu', error);
   }
 

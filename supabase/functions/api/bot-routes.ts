@@ -27,7 +27,12 @@ function summarizeMenu(menu: Menu, catalog: Catalog) {
       day_index: d,
       day: DAY_NAMES[d],
       meals: Object.fromEntries(
-        menu.slots.filter((s) => s.day_index === d).map((s) => [s.meal, { recipe: s.recipe_slug, name: name(s.recipe_slug), locked: s.is_locked }]),
+        menu.slots
+          .filter((s) => s.day_index === d)
+          .map((s) => [
+            s.meal,
+            { recipe: s.recipe_slug, name: name(s.recipe_slug), locked: s.is_locked },
+          ]),
       ),
     })),
   };
@@ -42,7 +47,11 @@ export function buildBotContext(state: UserState, catalog: Catalog) {
     preferences: state.preferences,
     menu: state.menu ? summarizeMenu(state.menu, catalog) : null,
     shopping: list
-      ? { total: activeItems(list).length, checked: activeItems(list).filter((i) => i.checked).length, pending: pending.slice(0, 12).map((i) => i.name) }
+      ? {
+          total: activeItems(list).length,
+          checked: activeItems(list).filter((i) => i.checked).length,
+          pending: pending.slice(0, 12).map((i) => i.name),
+        }
       : null,
     pantry: state.pantry.map(ingredientName),
     favorites: state.favorites.map((s) => catalog.recipes.get(s)?.name ?? s),
@@ -52,20 +61,29 @@ export function buildBotContext(state: UserState, catalog: Catalog) {
 export function registerBotRoutes(app: Hono<Vars>, store: Store, env: { botSecret: string }) {
   app.use('/bot/*', async (c, next) => {
     const provided = c.req.header('X-Bot-Secret') ?? '';
-    if (!env.botSecret || !provided || !timingSafeEqual(provided, env.botSecret)) return fail('forbidden', 'No autorizado');
+    if (!env.botSecret || !provided || !timingSafeEqual(provided, env.botSecret))
+      return fail('forbidden', 'No autorizado');
     await next();
   });
 
-  const withUser = async (raw: string, handler: (profileId: string, state: UserState, catalog: Catalog) => Promise<Response>) => {
+  const withUser = async (
+    raw: string,
+    handler: (profileId: string, state: UserState, catalog: Catalog) => Promise<Response>,
+  ) => {
     const id = TelegramId.safeParse(raw);
     if (!id.success) return fail('validation', 'telegram_user_id no válido');
     const profile = await store.findProfile(BigInt(id.data));
     if (!profile) return fail('not_found', 'Este usuario aún no ha abierto Nutri Plan');
-    const [state, catalog] = await Promise.all([store.getState(profile.id), loadCatalogFromStore(store)]);
+    const [state, catalog] = await Promise.all([
+      store.getState(profile.id),
+      loadCatalogFromStore(store),
+    ]);
     return handler(profile.id, state, catalog);
   };
 
-  app.get('/bot/context/:tg', (c) => withUser(c.req.param('tg'), async (_id, state, catalog) => ok(buildBotContext(state, catalog))));
+  app.get('/bot/context/:tg', (c) =>
+    withUser(c.req.param('tg'), async (_id, state, catalog) => ok(buildBotContext(state, catalog))),
+  );
 
   app.get('/bot/context/:tg/slots/:day/:meal', (c) =>
     withUser(c.req.param('tg'), async (_id, state, catalog) => {
@@ -77,7 +95,15 @@ export function registerBotRoutes(app: Hono<Vars>, store: Store, env: { botSecre
       return ok({
         slot,
         recipe: recipe ?? null,
-        alternatives: slot.alternatives.map((a) => catalog.recipes.get(a)).filter(Boolean).map((r) => ({ slug: r!.slug, name: r!.name, time_min: r!.time_min, protein_group: r!.protein_group })),
+        alternatives: slot.alternatives
+          .map((a) => catalog.recipes.get(a))
+          .filter(Boolean)
+          .map((r) => ({
+            slug: r!.slug,
+            name: r!.name,
+            time_min: r!.time_min,
+            protein_group: r!.protein_group,
+          })),
       });
     }),
   );
@@ -96,17 +122,34 @@ export function registerBotRoutes(app: Hono<Vars>, store: Store, env: { botSecre
       if (slug) {
         const recipe = catalog.recipes.get(slug);
         if (!recipe) return fail('validation', 'Receta desconocida');
-        if (!recipe.meal_types.includes(meal as MealType)) return fail('validation', `La receta no sirve para ${meal}`);
-        if (!passesHardConstraints(recipe, state.preferences)) return fail('validation', 'La receta choca con las alergias o el estilo del usuario');
+        if (!recipe.meal_types.includes(meal as MealType))
+          return fail('validation', `La receta no sirve para ${meal}`);
+        if (!passesHardConstraints(recipe, state.preferences))
+          return fail('validation', 'La receta choca con las alergias o el estilo del usuario');
       }
       const menu: Menu = {
         ...state.menu,
-        slots: state.menu.slots.map((s) => (s.day_index === day && s.meal === meal ? { ...s, recipe_slug: slug, alternatives: s.alternatives.filter((a) => a !== slug) } : s)),
+        slots: state.menu.slots.map((s) =>
+          s.day_index === day && s.meal === meal
+            ? { ...s, recipe_slug: slug, alternatives: s.alternatives.filter((a) => a !== slug) }
+            : s,
+        ),
       };
-      const shoppingList = buildShoppingList({ slots: menu.slots, catalog, people: state.shopping_list?.people ?? state.preferences.people, pantry: state.pantry, previous: state.shopping_list ?? undefined });
+      const shoppingList = buildShoppingList({
+        slots: menu.slots,
+        catalog,
+        people: state.shopping_list?.people ?? state.preferences.people,
+        pantry: state.pantry,
+        previous: state.shopping_list ?? undefined,
+      });
       const next = await store.putState(profileId, { menu, shopping_list: shoppingList });
-      const delta = state.shopping_list ? diffShoppingLists(state.shopping_list, shoppingList) : { added: shoppingList.items.map((i) => i.ingredient), removed: [], changed: [] };
-      return ok({ slot: next.menu?.slots.find((s) => s.day_index === day && s.meal === meal) ?? null, shopping_list_delta: delta });
+      const delta = state.shopping_list
+        ? diffShoppingLists(state.shopping_list, shoppingList)
+        : { added: shoppingList.items.map((i) => i.ingredient), removed: [], changed: [] };
+      return ok({
+        slot: next.menu?.slots.find((s) => s.day_index === day && s.meal === meal) ?? null,
+        shopping_list_delta: delta,
+      });
     }),
   );
 
