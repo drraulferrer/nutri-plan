@@ -48,6 +48,30 @@ export function AppProvider({ app, isReal, botUsername, apiBaseUrl, children }: 
   const stateRef = useRef(state);
   stateRef.current = state;
 
+  // ── Subida al servidor con reintento ──
+  const push = useCallback(async () => {
+    if (!api || !sessionReady.current) return;
+    const patch = stateToPatch(stateRef.current);
+    const fingerprint = patchFingerprint(patch);
+    if (fingerprint === remoteFingerprint.current) {
+      dispatch({ type: 'sync/status', status: 'synced' });
+      return;
+    }
+    try {
+      dispatch({ type: 'sync/status', status: 'syncing' });
+      await api.putState(patch);
+      remoteFingerprint.current = fingerprint;
+      dispatch({ type: 'sync/status', status: patchFingerprint(stateToPatch(stateRef.current)) === fingerprint ? 'synced' : 'pending' });
+    } catch (e: unknown) {
+      if (e instanceof ApiError && e.isAuth) {
+        sessionReady.current = false;
+        dispatch({ type: 'sync/status', status: 'local' });
+        return;
+      }
+      dispatch({ type: 'sync/status', status: 'offline', detail: e instanceof Error ? e.message.slice(0, 80) : null });
+    }
+  }, [api]);
+
   // ── Arranque: catálogo + datos locales, después sesión con el servidor ──
   useEffect(() => {
     let cancelled = false;
@@ -71,7 +95,8 @@ export function AppProvider({ app, isReal, botUsername, apiBaseUrl, children }: 
           remoteFingerprint.current = patchFingerprint(stateToPatch(stateRef.current));
         }
         sessionReady.current = true;
-        dispatch({ type: 'sync/status', status: merge.pushLocal ? 'pending' : 'synced' });
+        dispatch({ type: 'sync/status', status: merge.pushLocal ? 'pending' : 'synced', detail: null });
+        if (merge.pushLocal) void push();
       } catch (e: unknown) {
         if (cancelled) return;
         if (!stateRef.current.loaded) {
@@ -87,7 +112,7 @@ export function AppProvider({ app, isReal, botUsername, apiBaseUrl, children }: 
     return () => {
       cancelled = true;
     };
-  }, [stores, api, apiBaseUrl, isReal]);
+  }, [stores, api, apiBaseUrl, isReal, push]);
 
   // ── Persistencia local (caché offline) ──
   const { loaded, prefs, menu, list, listPeople, pantry, favorites } = state;
@@ -98,30 +123,6 @@ export function AppProvider({ app, isReal, botUsername, apiBaseUrl, children }: 
       void savePersisted(stores.cloud, stores.local, stateRef.current).catch((e: unknown) => console.warn('[persist]', e));
     }, 250);
   }, [loaded, prefs, menu, list, listPeople, pantry, favorites, stores]);
-
-  // ── Subida al servidor con reintento ──
-  const push = useCallback(async () => {
-    if (!api || !sessionReady.current) return;
-    const patch = stateToPatch(stateRef.current);
-    const fingerprint = patchFingerprint(patch);
-    if (fingerprint === remoteFingerprint.current) {
-      dispatch({ type: 'sync/status', status: 'synced' });
-      return;
-    }
-    try {
-      dispatch({ type: 'sync/status', status: 'syncing' });
-      await api.putState(patch);
-      remoteFingerprint.current = fingerprint;
-      dispatch({ type: 'sync/status', status: patchFingerprint(stateToPatch(stateRef.current)) === fingerprint ? 'synced' : 'pending' });
-    } catch (e: unknown) {
-      if (e instanceof ApiError && e.isAuth) {
-        sessionReady.current = false;
-        dispatch({ type: 'sync/status', status: 'local' });
-        return;
-      }
-      dispatch({ type: 'sync/status', status: 'offline' });
-    }
-  }, [api]);
 
   useEffect(() => {
     if (!loaded || !api) return;
