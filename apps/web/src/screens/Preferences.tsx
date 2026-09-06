@@ -18,7 +18,6 @@ import { Toggle } from '../components/Toggle';
 import { ALLERGEN_OPTIONS, COOK_TIME_OPTIONS, STYLE_OPTIONS, es } from '../i18n/es';
 import { useNav } from '../navigation/NavProvider';
 import { useApp } from '../state/AppProvider';
-import { newSeed } from '../state/selectors';
 import { useBottomButtons } from '../tg/BottomBar';
 import { createNutriBridge } from '../tg/nutri';
 
@@ -34,7 +33,7 @@ function menuAffected(a: Prefs, b: Prefs): boolean {
 }
 
 export function Preferences({ firstRun = false }: { firstRun?: boolean }) {
-  const { state, dispatch, app, botUsername, clearAll } = useApp();
+  const { state, dispatch, app, botUsername, clearAll, generateMenu } = useApp();
   const nav = useNav();
   const nutri = useMemo(() => createNutriBridge(app, botUsername), [app, botUsername]);
   const saved = state.prefs;
@@ -71,7 +70,7 @@ export function Preferences({ firstRun = false }: { firstRun?: boolean }) {
     const leave = () => (firstRun ? nav.replace({ name: 'menu' }) : nav.pop());
     if (!affected) return leave();
     app.showConfirm(es.prefs.regenerateAsk, (ok) => {
-      if (ok) dispatch({ type: 'menu/regenerate', seed: newSeed(), scope: { scope: 'week' } });
+      if (ok) void generateMenu();
       leave();
     });
   };

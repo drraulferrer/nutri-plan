@@ -98,10 +98,13 @@ export function WeekMenu() {
   const sheetRecipe = sheetSlot ? recipeOf(catalog, sheetSlot) : undefined;
   const close = () => setSheet({ kind: 'none' });
 
+  // La semana completa se planifica en el servidor (IA si está activa); un día o un hueco, en local.
   const regenerateWeek = () =>
     app.showConfirm(es.menu.regenerateWeekConfirm, (ok) => {
       close();
-      if (ok) dispatch({ type: 'menu/regenerate', seed: newSeed(), scope: { scope: 'week' } });
+      if (!ok) return;
+      setGenerating(true);
+      void generateMenu().finally(() => setGenerating(false));
     });
 
   return (
@@ -125,6 +128,7 @@ export function WeekMenu() {
         ))}
       </nav>
 
+      {generating && <Banner tone="info">⏳ {prefs.use_ai === false || state.sync === 'local' ? es.menu.generating : es.menu.generatingAi}</Banner>}
       {safety[0] && <Banner tone="warning">{es.menu.safetyNote(SAFETY_LABELS[safety[0]])}</Banner>}
       {fewRecipes && <Banner tone="info">{es.menu.fewRecipes}</Banner>}
       {menu.notes && <Banner tone="success">💬 {menu.notes}</Banner>}
