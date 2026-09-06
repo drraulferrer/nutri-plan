@@ -42,7 +42,7 @@ DoD:
 cobertura.
 
 Entregables:
-- [x] Migraciones (doc 05 revisado, T-15); RLS; seed del catálogo (`npm run catalog:sql`). Proyecto Supabase: pendiente de hueco en la capa gratuita (2 proyectos activos).
+- [x] Proyecto Supabase `nutri-plan` (org vulpex-order, eu-west-1), migración aplicada, RLS, catálogo cargado, función `api` desplegada y `VITE_API_BASE_URL` fijado en GitHub. Pendiente: `BOT_TOKEN` en secretos (lo pone el propietario).
 - [x] Edge Function `api` con `verifyInitData`, límites de peticiones, rutas del doc 06, CORS. 17 tests en Deno.
 - [x] Cliente de API + sincronización con caché local y reintento (doc 06 §Sincronización).
 - [x] Favoritos y despensa sincronizados. Historial de menús: la tabla lo conserva (`is_current`), la pantalla llega después.
